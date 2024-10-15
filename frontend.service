@@ -1,13 +1,25 @@
 [Unit]
-Description=WebServer on NUXT
+Description=Nuxt.js Application
 After=network.target
 
 [Service]
+# Указываем пользователя и группу, под которыми будет запущено приложение
 User=root
+Group=default
+
+# Путь к директории с Nuxt-приложением
 WorkingDirectory=/root/frontend
-ExecStart=/root/frontend/ node .output/server/index.mjs
+
+# Команда для запуска Nuxt-приложения
+ExecStart=node .output/server/index.mjs
+
+# Перезапускать приложение в случае ошибки
 Restart=always
+
+# Log
+StandardOutput=syslog
+StandardError=syslog
+SyslogIdentifier=nuxt-app
 
 [Install]
 WantedBy=multi-user.target
-

@@ -5,7 +5,7 @@
             <div class="header-bar__inner">
                <NuxtLink to="/dealer" class="header-bar__item">
                   <div class="i-circle-orange"></div>
-                  <div class="color-orange">Дилерам</div>
+                  <div class="color-orange">Дилерам test</div>
                </NuxtLink>
                <div class="header-bar__item phone-orange">
                   <div class="i-phone-orange"></div>

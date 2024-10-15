@@ -116,7 +116,7 @@ onMounted(() => {
 })
 
 
-onBeforeUnmount(() => {
+onBeforeRouteLeave(() => {
    $(document).ready(function () {
       slider.slick('unslick');
    });

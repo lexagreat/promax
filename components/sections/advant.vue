@@ -163,7 +163,7 @@ onMounted(() => {
       draggable: false,
    });
 })
-onBeforeUnmount(() => {
+onBeforeRouteLeave(() => {
    $(document).ready(function () {
       slider.slick('unslick');
       slider2.slick('unslick');

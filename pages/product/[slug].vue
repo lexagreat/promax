@@ -1,30 +1,24 @@
 <template>
    <main class="main">
 
-      <div class="breadcrumbs">
-         <div class="container">
-            <div class="breadcrumbs__inner">
-               <NuxtLink to="#" class="breadcrumbs__item">Паркет</NuxtLink>
-               <span class="breadcrumbs__sep"><span class="i-breadcrumbs-sep"></span></span>
-               <NuxtLink to="#" class="breadcrumbs__item">Паркет с рисунками</NuxtLink>
-               <span class="breadcrumbs__sep"><span class="i-breadcrumbs-sep"></span></span>
-               <span class="breadcrumbs__item">Рисунки карандашом «Print»</span>
-            </div>
-         </div>
-      </div>
+      <AppBreadcrumbs :path="path" />
 
       <div class="singleprod">
          <div class="container">
             <div class="singleprod__inner">
                <div class="singleprod-first">
 
-                  <div class="singleprod-char__title-mob">Рисунки карандашом «Print»</div>
+                  <div class="singleprod-char__title-mob">{{ data.title }}</div>
 
-                  <SectionsProductSlider />
+                  <SectionsProductSlider :images="data.images" />
 
                   <div class="singleprod-char">
-                     <h1 class="singleprod-char__title">Рисунки карандашом «Print»</h1>
+                     <h1 class="singleprod-char__title">{{ data.title }}</h1>
                      <div class="singleprod-char__list">
+                        <div class="singleprod-char__list-item">
+                           <span>Артикул</span>
+                           <span>{{ data.artikul }}</span>
+                        </div>
                         <div class="singleprod-char__list-item">
                            <span>Код товара</span>
                            <span>12345</span>
@@ -40,10 +34,6 @@
                         <div class="singleprod-char__list-item">
                            <span>Страна производства</span>
                            <span>Франция</span>
-                        </div>
-                        <div class="singleprod-char__list-item">
-                           <span>Артикул</span>
-                           <span>1010101</span>
                         </div>
                         <div class="singleprod-char__list-item">
                            <span>Коллекция</span>
@@ -140,9 +130,11 @@
                               <span class="singleprod__issample-text">есть образец</span>
                            </div>
                            <div class="singleprod-bar__price-text">Цена:</div>
-                           <div class="singleprod__regular-price"><span>7 500</span><span>руб. за м²</span></div>
+                           <div class="singleprod__regular-price"><span>{{ data.price }}</span><span>руб. за м²</span>
+                           </div>
                            <div class="singleprod-bar__price-text">Цена за упаковку:</div>
-                           <div class="singleprod__pack-price"><span>7 500</span><span>руб. за уп.</span></div>
+                           <div class="singleprod__pack-price"><span>{{ data.price }}</span><span>руб. за уп.</span>
+                           </div>
 
                            <div class="products__item-bottom-frst">
                               <div class="products__item-addtocart-btn" @click="isPopupOpen = true"><span
@@ -316,4 +308,20 @@
 </template>
 <script setup>
 const isPopupOpen = ref(false)
+const route = useRoute()
+let data = await useBaseFetch('/products/' + route.params.slug)
+data = data[0]
+console.log(data);
+
+
+const path = ref([
+   {
+      name: 'Каталог',
+      to: "/catalog"
+   },
+   {
+      name: data.title,
+      to: '/product/' + route.params.slug
+   }
+])
 </script>

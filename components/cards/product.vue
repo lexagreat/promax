@@ -22,7 +22,7 @@
          </div>
       </div>
       <h2 class="products__item-title">
-         <NuxtLink :to="'/product/' + product?.id">{{ product?.title }}</NuxtLink>
+         <NuxtLink :to="'/product/' + product?.slug">{{ product?.title }}</NuxtLink>
       </h2>
       <div class="products__item-info">
          <div class="products__item-info-item _article">{{ product?.artikul }}</div> |

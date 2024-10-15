@@ -23,7 +23,3 @@ logs
 .env.*
 !.env.example
 
-
-docker.sh
-server.sh
-DockerFile

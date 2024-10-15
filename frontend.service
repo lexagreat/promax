@@ -1,0 +1,13 @@
+[Unit]
+Description=WebServer on NUXT
+After=network.target
+
+[Service]
+User=root
+WorkingDirectory=/root/frontend
+ExecStart=/root/frontend/node .output/server/index.mjs
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
+

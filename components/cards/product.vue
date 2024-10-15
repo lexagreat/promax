@@ -1,0 +1,94 @@
+<template>
+   <div class="products__item" :data-product-id="id">
+      <div class="products__item-slider-wrapper">
+         <div class="products__item-discount"></div>
+         <div class="products__item-slider">
+            <div class="products__item-slider-item" v-for="image in product?.images">
+               <img loading="lazy" :src="image" alt="products-item">
+            </div>
+
+         </div>
+         <div class="products__item-slider-dots">
+            <span class="products__item-slider-dots-item _bgred"></span>
+            <span class="products__item-slider-dots-item _bgblack"></span>
+            <span class="products__item-slider-dots-item _bgwhite"></span>
+            <span class="products__item-slider-dots-item _bgblue"></span>
+            <span class="products__item-slider-dots-item _bggreen"></span>
+            <span class="products__item-slider-dots-item _bgred"></span>
+            <span class="products__item-slider-dots-item _bgblack"></span>
+            <span class="products__item-slider-dots-item _bgwhite"></span>
+            <span class="products__item-slider-dots-item _bgblue"></span>
+            <span class="products__item-slider-dots-item _bggreen"></span>
+         </div>
+      </div>
+      <h2 class="products__item-title">
+         <NuxtLink :to="'/product/' + product?.id">{{ product?.title }}</NuxtLink>
+      </h2>
+      <div class="products__item-info">
+         <div class="products__item-info-item _article">{{ product?.artikul }}</div> |
+         <div class="products__item-info-item _description">{{ product?.description }}</div>
+      </div>
+      <div class="products__item-size">
+         <span class="i-size-gray"></span>
+         <span>632 х 158 мм</span>
+      </div>
+      <div class="products__item-char">
+         <div class="products__item-char-item">
+            <span class="products__item-char-item-lbl">Порода</span>
+            <span class="products__item-char-item-val">дуб</span>
+         </div>
+         <div class="products__item-char-item">
+            <span class="products__item-char-item-lbl">Угол</span>
+            <span class="products__item-char-item-val">45 гр.</span>
+         </div>
+         <div class="products__item-char-item">
+            <span class="products__item-char-item-lbl">Полосность</span>
+            <span class="products__item-char-item-val">французская</span>
+         </div>
+         <div class="products__item-char-item">
+            <span class="products__item-char-item-lbl">Толщина</span>
+            <span class="products__item-char-item-val">14 мм</span>
+         </div>
+      </div>
+      <div class="products__item-bottom">
+         <div class="products__item-bottom-frst">
+            <div class="products__item-wishlist-btn _active"><span class="i-wishlist-active"></span>
+            </div>
+            <div class="products__item-addtocart-btn _active"><span class="i-addtocart"></span><span
+                  class="products__item-addtocart-btn-txt">В
+                  корзину</span>
+            </div>
+            <div class="products__item-price">
+               <span class="products__item-price-val">{{ product?.price }}</span>
+               <span class="products__item-price-in">руб. за м²</span>
+            </div>
+         </div>
+         <div class="products__item-issample">
+            <span class="i-issample-gray"></span>
+            <span class="products__item-issample-text">есть образец</span>
+         </div>
+      </div>
+   </div>
+
+</template>
+<script setup>
+const props = defineProps({
+   id: String,
+   product: Object
+})
+let slider;
+onMounted(() => {
+   slider = $(`[data-product-id='${props.id}'] .products__item-slider`).slick({
+      infinite: true,
+      slidesToShow: 1,
+      slidesToScroll: 1,
+      arrows: false,
+      dots: true,
+   });
+})
+onBeforeRouteLeave(() => {
+   $(document).ready(function () {
+      slider.slick('unslick');
+   });
+})
+</script>

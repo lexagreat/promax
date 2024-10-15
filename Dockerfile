@@ -20,7 +20,7 @@ RUN npm prune
 # run
 FROM base
 
-COPY --from=build /web/.output /web/.output
+COPY --from=build /frontend/.output /frontend/.output
 # Optional, only needed if you rely on unbundled dependencies
 # COPY --from=build /src/node_modules /src/node_modules
 

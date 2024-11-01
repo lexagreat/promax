@@ -12,59 +12,14 @@
                <div class="ourserv__prev"><span class="i-ourserv-prev"></span></div>
                <div class="ourserv__slider">
 
-                  <div class="ourserv__slider-item">
+                  <div class="ourserv__slider-item" v-for="item in services">
                      <div class="ourserv__slider-item-inner">
-                        <img loading="lazy" src="@/assets/img/ourserv/ourserv-1.webp" alt="ourserv">
+                        <img loading="lazy" :src="item.image" alt="ourserv">
                         <div class="ourserv__slider-item-desc">
                            <div class="ourserv__slider-item-desc-title">
-                              Укладка<br> художественного<br> паркета
+                              {{ item.title }}
                            </div>
-                           <NuxtLink to="#" class="ourserv__slider-item-desc-btn">
-                              <span class="ourserv__slider-item-desc-btn-name">Подробнее</span>
-                              <span class="i-ourserv-more"></span>
-                           </NuxtLink>
-                        </div>
-                     </div>
-                  </div>
-
-                  <div class="ourserv__slider-item">
-                     <div class="ourserv__slider-item-inner">
-                        <img loading="lazy" src="@/assets/img/ourserv/ourserv-2.webp" alt="ourserv">
-                        <div class="ourserv__slider-item-desc">
-                           <div class="ourserv__slider-item-desc-title">
-                              Шлифовка<br> художественного<br> паркета
-                           </div>
-                           <NuxtLink to="#" class="ourserv__slider-item-desc-btn">
-                              <span class="ourserv__slider-item-desc-btn-name">Подробнее</span>
-                              <span class="i-ourserv-more"></span>
-                           </NuxtLink>
-                        </div>
-                     </div>
-                  </div>
-
-                  <div class="ourserv__slider-item">
-                     <div class="ourserv__slider-item-inner">
-                        <img loading="lazy" src="@/assets/img/ourserv/ourserv-3.webp" alt="ourserv">
-                        <div class="ourserv__slider-item-desc">
-                           <div class="ourserv__slider-item-desc-title">
-                              Оборудование, которое<br> мы применяем
-                           </div>
-                           <NuxtLink to="#" class="ourserv__slider-item-desc-btn">
-                              <span class="ourserv__slider-item-desc-btn-name">Подробнее</span>
-                              <span class="i-ourserv-more"></span>
-                           </NuxtLink>
-                        </div>
-                     </div>
-                  </div>
-
-                  <div class="ourserv__slider-item">
-                     <div class="ourserv__slider-item-inner">
-                        <img loading="lazy" src="@/assets/img/ourserv/ourserv-2.webp" alt="ourserv">
-                        <div class="ourserv__slider-item-desc">
-                           <div class="ourserv__slider-item-desc-title">
-                              Шлифовка<br> художественного<br> паркета
-                           </div>
-                           <NuxtLink to="#" class="ourserv__slider-item-desc-btn">
+                           <NuxtLink :to="'/services/' + item.slug" class="ourserv__slider-item-desc-btn">
                               <span class="ourserv__slider-item-desc-btn-name">Подробнее</span>
                               <span class="i-ourserv-more"></span>
                            </NuxtLink>
@@ -121,4 +76,9 @@ onBeforeRouteLeave(() => {
       slider.slick('unslick');
    });
 })
+
+
+let services = await useBaseFetch("/blog/services")
+console.log(services);
+
 </script>

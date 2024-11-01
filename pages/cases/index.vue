@@ -12,117 +12,38 @@
 
                            <div class="howwork__list">
 
-                              <div class="howwork__item">
+                              <!-- <div class="howwork__item">
                                  <div class="howwork__item-poster">
                                     <img loading="lazy" src="@/assets/img/howwork/howwork-1.webp" alt="howwork">
                                  </div>
                                  <div class="howwork__item-video-popup">
                                     <div class="howwork__item-video-close"></div>
                                     <div class="howwork__item-video-inner">
-                                       <!-- place for video frame -->
+                                       place for video frame
                                     </div>
                                  </div>
                                  <h3 class="howwork__item-title">Грунтовка | Нанесение<br> двухкомпонентной<br>
                                     грунтовки
                                     на
                                     растворителе</h3>
-                              </div>
-
-                              <div class="howwork__item">
+                              </div> -->
+                              <div class="howwork__item" v-for="item in youtube.items">
                                  <div class="howwork__item-poster">
-                                    <img loading="lazy" src="@/assets/img/howwork/howwork-2.webp" alt="howwork">
+                                    <!-- <img loading="lazy" src="@/assets/img/howwork/howwork-1.webp" alt="howwork"> -->
                                  </div>
                                  <div class="howwork__item-video-popup">
                                     <div class="howwork__item-video-close"></div>
-                                    <div class="howwork__item-video-inner">
-                                       <!-- place for video frame -->
+                                    <div class="howwork__item-video-inner" v-html="item.iframe">
                                     </div>
                                  </div>
-                                 <h3 class="howwork__item-title">Ремонт паркета</h3>
+                                 <h3 class="howwork__item-title">{{ item.title }}</h3>
                               </div>
 
-                              <div class="howwork__item">
-                                 <div class="howwork__item-poster">
-                                    <img loading="lazy" src="@/assets/img/howwork/howwork-3.webp" alt="howwork">
-                                 </div>
-                                 <div class="howwork__item-video-popup">
-                                    <div class="howwork__item-video-close"></div>
-                                    <div class="howwork__item-video-inner">
-                                       <!-- place for video frame -->
-                                    </div>
-                                 </div>
-                                 <h3 class="howwork__item-title">Монтаж чернового пола</h3>
-                              </div>
-
-                              <div class="howwork__item">
-                                 <div class="howwork__item-poster">
-                                    <img loading="lazy" src="@/assets/img/howwork/howwork-4.webp" alt="howwork">
-                                 </div>
-                                 <div class="howwork__item-video-popup">
-                                    <div class="howwork__item-video-close"></div>
-                                    <div class="howwork__item-video-inner">
-                                       <!-- place for video frame -->
-                                    </div>
-                                 </div>
-                                 <h3 class="howwork__item-title">Монтаж художественной<br> розетки</h3>
-                              </div>
-
-                              <div class="howwork__item">
-                                 <div class="howwork__item-poster">
-                                    <img loading="lazy" src="@/assets/img/howwork/howwork-5.webp" alt="howwork">
-                                 </div>
-                                 <div class="howwork__item-video-popup">
-                                    <div class="howwork__item-video-close"></div>
-                                    <div class="howwork__item-video-inner">
-                                       <!-- place for video frame -->
-                                    </div>
-                                 </div>
-                                 <h3 class="howwork__item-title">Инженерная доска.<br> Укладка паркета Гринлайн</h3>
-                              </div>
-
-                              <div class="howwork__item">
-                                 <div class="howwork__item-poster">
-                                    <img loading="lazy" src="@/assets/img/howwork/howwork-6.webp" alt="howwork">
-                                 </div>
-                                 <div class="howwork__item-video-popup">
-                                    <div class="howwork__item-video-close"></div>
-                                    <div class="howwork__item-video-inner">
-                                       <!-- place for video frame -->
-                                    </div>
-                                 </div>
-                                 <h3 class="howwork__item-title">Французская елка.<br> Паркет в интерьере</h3>
-                              </div>
-
-                              <div class="howwork__item">
-                                 <div class="howwork__item-poster">
-                                    <img loading="lazy" src="@/assets/img/howwork/howwork-7.webp" alt="howwork">
-                                 </div>
-                                 <div class="howwork__item-video-popup">
-                                    <div class="howwork__item-video-close"></div>
-                                    <div class="howwork__item-video-inner">
-                                       <!-- place for video frame -->
-                                    </div>
-                                 </div>
-                                 <h3 class="howwork__item-title">Паркет. Штучный паркет и<br> инженерная доска</h3>
-                              </div>
-
-                              <div class="howwork__item">
-                                 <div class="howwork__item-poster">
-                                    <img loading="lazy" src="@/assets/img/howwork/howwork-8.webp" alt="howwork">
-                                 </div>
-                                 <div class="howwork__item-video-popup">
-                                    <div class="howwork__item-video-close"></div>
-                                    <div class="howwork__item-video-inner">
-                                       <!-- place for video frame -->
-                                    </div>
-                                 </div>
-                                 <h3 class="howwork__item-title">Заливка полов.<br> Подготовка основания</h3>
-                              </div>
 
                            </div>
-                           <NuxtLink to="#" class="howwork__btn_youtube">
+                           <NuxtLink :to="youtube.link" class="howwork__btn_youtube">
                               <span class="i-youtube"></span>
-                              <span>YouTube канал</span>
+                              <span>{{ youtube.title }}</span>
                            </NuxtLink>
                         </div>
                      </div>
@@ -133,117 +54,22 @@
 
                            <div class="howwork__list">
 
-                              <div class="howwork__item">
+                              <div class="howwork__item" v-for="item in tg.items">
                                  <div class="howwork__item-poster">
-                                    <img loading="lazy" src="@/assets/img/howwork/howwork-1.webp" alt="howwork">
+                                    <!-- <img loading="lazy" src="@/assets/img/howwork/howwork-1.webp" alt="howwork"> -->
                                  </div>
                                  <div class="howwork__item-video-popup">
                                     <div class="howwork__item-video-close"></div>
-                                    <div class="howwork__item-video-inner">
-                                       <!-- place for video frame -->
+                                    <div class="howwork__item-video-inner" v-html="item.iframe">
                                     </div>
                                  </div>
-                                 <h3 class="howwork__item-title">Грунтовка | Нанесение<br> двухкомпонентной<br>
-                                    грунтовки
-                                    на
-                                    растворителе</h3>
-                              </div>
-
-                              <div class="howwork__item">
-                                 <div class="howwork__item-poster">
-                                    <img loading="lazy" src="@/assets/img/howwork/howwork-2.webp" alt="howwork">
-                                 </div>
-                                 <div class="howwork__item-video-popup">
-                                    <div class="howwork__item-video-close"></div>
-                                    <div class="howwork__item-video-inner">
-                                       <!-- place for video frame -->
-                                    </div>
-                                 </div>
-                                 <h3 class="howwork__item-title">Ремонт паркета</h3>
-                              </div>
-
-                              <div class="howwork__item">
-                                 <div class="howwork__item-poster">
-                                    <img loading="lazy" src="@/assets/img/howwork/howwork-3.webp" alt="howwork">
-                                 </div>
-                                 <div class="howwork__item-video-popup">
-                                    <div class="howwork__item-video-close"></div>
-                                    <div class="howwork__item-video-inner">
-                                       <!-- place for video frame -->
-                                    </div>
-                                 </div>
-                                 <h3 class="howwork__item-title">Монтаж чернового пола</h3>
-                              </div>
-
-                              <div class="howwork__item">
-                                 <div class="howwork__item-poster">
-                                    <img loading="lazy" src="@/assets/img/howwork/howwork-4.webp" alt="howwork">
-                                 </div>
-                                 <div class="howwork__item-video-popup">
-                                    <div class="howwork__item-video-close"></div>
-                                    <div class="howwork__item-video-inner">
-                                       <!-- place for video frame -->
-                                    </div>
-                                 </div>
-                                 <h3 class="howwork__item-title">Монтаж художественной<br> розетки</h3>
-                              </div>
-
-                              <div class="howwork__item">
-                                 <div class="howwork__item-poster">
-                                    <img loading="lazy" src="@/assets/img/howwork/howwork-5.webp" alt="howwork">
-                                 </div>
-                                 <div class="howwork__item-video-popup">
-                                    <div class="howwork__item-video-close"></div>
-                                    <div class="howwork__item-video-inner">
-                                       <!-- place for video frame -->
-                                    </div>
-                                 </div>
-                                 <h3 class="howwork__item-title">Инженерная доска.<br> Укладка паркета Гринлайн</h3>
-                              </div>
-
-                              <div class="howwork__item">
-                                 <div class="howwork__item-poster">
-                                    <img loading="lazy" src="@/assets/img/howwork/howwork-6.webp" alt="howwork">
-                                 </div>
-                                 <div class="howwork__item-video-popup">
-                                    <div class="howwork__item-video-close"></div>
-                                    <div class="howwork__item-video-inner">
-                                       <!-- place for video frame -->
-                                    </div>
-                                 </div>
-                                 <h3 class="howwork__item-title">Французская елка.<br> Паркет в интерьере</h3>
-                              </div>
-
-                              <div class="howwork__item">
-                                 <div class="howwork__item-poster">
-                                    <img loading="lazy" src="@/assets/img/howwork/howwork-7.webp" alt="howwork">
-                                 </div>
-                                 <div class="howwork__item-video-popup">
-                                    <div class="howwork__item-video-close"></div>
-                                    <div class="howwork__item-video-inner">
-                                       <!-- place for video frame -->
-                                    </div>
-                                 </div>
-                                 <h3 class="howwork__item-title">Паркет. Штучный паркет и<br> инженерная доска</h3>
-                              </div>
-
-                              <div class="howwork__item">
-                                 <div class="howwork__item-poster">
-                                    <img loading="lazy" src="@/assets/img/howwork/howwork-8.webp" alt="howwork">
-                                 </div>
-                                 <div class="howwork__item-video-popup">
-                                    <div class="howwork__item-video-close"></div>
-                                    <div class="howwork__item-video-inner">
-                                       <!-- place for video frame -->
-                                    </div>
-                                 </div>
-                                 <h3 class="howwork__item-title">Заливка полов.<br> Подготовка основания</h3>
+                                 <h3 class="howwork__item-title">{{ item.title }}</h3>
                               </div>
 
                            </div>
-                           <NuxtLink to="#" class="howwork__btn_telegram">
+                           <NuxtLink :to="tg.link" class="howwork__btn_telegram">
                               <span class="i-telegram"></span>
-                              <span>Telegram канал</span>
+                              <span>{{ tg.title }}</span>
                            </NuxtLink>
                         </div>
                      </div>
@@ -254,117 +80,21 @@
 
                            <div class="howwork__list">
 
-                              <div class="howwork__item">
+                              <div class="howwork__item" v-for="item in inst.items">
                                  <div class="howwork__item-poster">
-                                    <img loading="lazy" src="@/assets/img/howwork/howwork-1.webp" alt="howwork">
+                                    <!-- <img loading="lazy" src="@/assets/img/howwork/howwork-1.webp" alt="howwork"> -->
                                  </div>
                                  <div class="howwork__item-video-popup">
                                     <div class="howwork__item-video-close"></div>
-                                    <div class="howwork__item-video-inner">
-                                       <!-- place for video frame -->
+                                    <div class="howwork__item-video-inner" v-html="item.iframe">
                                     </div>
                                  </div>
-                                 <h3 class="howwork__item-title">Грунтовка | Нанесение<br> двухкомпонентной<br>
-                                    грунтовки
-                                    на
-                                    растворителе</h3>
+                                 <h3 class="howwork__item-title">{{ item.title }}</h3>
                               </div>
-
-                              <div class="howwork__item">
-                                 <div class="howwork__item-poster">
-                                    <img loading="lazy" src="@/assets/img/howwork/howwork-2.webp" alt="howwork">
-                                 </div>
-                                 <div class="howwork__item-video-popup">
-                                    <div class="howwork__item-video-close"></div>
-                                    <div class="howwork__item-video-inner">
-                                       <!-- place for video frame -->
-                                    </div>
-                                 </div>
-                                 <h3 class="howwork__item-title">Ремонт паркета</h3>
-                              </div>
-
-                              <div class="howwork__item">
-                                 <div class="howwork__item-poster">
-                                    <img loading="lazy" src="@/assets/img/howwork/howwork-3.webp" alt="howwork">
-                                 </div>
-                                 <div class="howwork__item-video-popup">
-                                    <div class="howwork__item-video-close"></div>
-                                    <div class="howwork__item-video-inner">
-                                       <!-- place for video frame -->
-                                    </div>
-                                 </div>
-                                 <h3 class="howwork__item-title">Монтаж чернового пола</h3>
-                              </div>
-
-                              <div class="howwork__item">
-                                 <div class="howwork__item-poster">
-                                    <img loading="lazy" src="@/assets/img/howwork/howwork-4.webp" alt="howwork">
-                                 </div>
-                                 <div class="howwork__item-video-popup">
-                                    <div class="howwork__item-video-close"></div>
-                                    <div class="howwork__item-video-inner">
-                                       <!-- place for video frame -->
-                                    </div>
-                                 </div>
-                                 <h3 class="howwork__item-title">Монтаж художественной<br> розетки</h3>
-                              </div>
-
-                              <div class="howwork__item">
-                                 <div class="howwork__item-poster">
-                                    <img loading="lazy" src="@/assets/img/howwork/howwork-5.webp" alt="howwork">
-                                 </div>
-                                 <div class="howwork__item-video-popup">
-                                    <div class="howwork__item-video-close"></div>
-                                    <div class="howwork__item-video-inner">
-                                       <!-- place for video frame -->
-                                    </div>
-                                 </div>
-                                 <h3 class="howwork__item-title">Инженерная доска.<br> Укладка паркета Гринлайн</h3>
-                              </div>
-
-                              <div class="howwork__item">
-                                 <div class="howwork__item-poster">
-                                    <img loading="lazy" src="@/assets/img/howwork/howwork-6.webp" alt="howwork">
-                                 </div>
-                                 <div class="howwork__item-video-popup">
-                                    <div class="howwork__item-video-close"></div>
-                                    <div class="howwork__item-video-inner">
-                                       <!-- place for video frame -->
-                                    </div>
-                                 </div>
-                                 <h3 class="howwork__item-title">Французская елка.<br> Паркет в интерьере</h3>
-                              </div>
-
-                              <div class="howwork__item">
-                                 <div class="howwork__item-poster">
-                                    <img loading="lazy" src="@/assets/img/howwork/howwork-7.webp" alt="howwork">
-                                 </div>
-                                 <div class="howwork__item-video-popup">
-                                    <div class="howwork__item-video-close"></div>
-                                    <div class="howwork__item-video-inner">
-                                       <!-- place for video frame -->
-                                    </div>
-                                 </div>
-                                 <h3 class="howwork__item-title">Паркет. Штучный паркет и<br> инженерная доска</h3>
-                              </div>
-
-                              <div class="howwork__item">
-                                 <div class="howwork__item-poster">
-                                    <img loading="lazy" src="@/assets/img/howwork/howwork-8.webp" alt="howwork">
-                                 </div>
-                                 <div class="howwork__item-video-popup">
-                                    <div class="howwork__item-video-close"></div>
-                                    <div class="howwork__item-video-inner">
-                                       <!-- place for video frame -->
-                                    </div>
-                                 </div>
-                                 <h3 class="howwork__item-title">Заливка полов.<br> Подготовка основания</h3>
-                              </div>
-
                            </div>
-                           <NuxtLink to="#" class="howwork__btn_instagram">
+                           <NuxtLink :to="tg.link" class="howwork__btn_instagram">
                               <span class="i-instagram"></span>
-                              <span>Instagram канал</span>
+                              <span>{{ inst.title }}</span>
                            </NuxtLink>
                         </div>
                      </div>
@@ -376,4 +106,10 @@
       </div>
    </main>
 </template>
-<script setup></script>
+<script setup>
+let cases = await useBaseFetch("/blog/cases")
+let youtube = ref(cases[0].youtube)
+let tg = ref(cases[0].tg)
+let inst = ref(cases[0].inst)
+console.log(cases[0]);
+</script>

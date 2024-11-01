@@ -15,7 +15,11 @@
                   <div class="singleprod-char">
                      <h1 class="singleprod-char__title">{{ data.title }}</h1>
                      <div class="singleprod-char__list">
-                        <div class="singleprod-char__list-item">
+                        <div class="singleprod-char__list-item" v-for="item in chars" :key="item">
+                           <span>{{ item.key }}</span>
+                           <span>{{ item.value }}</span>
+                        </div>
+                        <!-- <div class="singleprod-char__list-item">
                            <span>Артикул</span>
                            <span>{{ data.artikul }}</span>
                         </div>
@@ -118,13 +122,15 @@
                         <div class="singleprod-char__list-item">
                            <span>Способ укладки (рекомендация) </span>
                            <span></span>
-                        </div>
+                        </div> -->
                      </div>
                   </div>
                   <div class="singleprod-bar">
                      <form class="singleprod-bar__item">
                         <div class="singleprod-bar__price">
-                           <div class="singleprod__tag">Тренд 2024</div>
+                           <div class="singleprod__tag" v-if="data.is_hit">Хит продаж</div>
+                           <div class="singleprod__tag" v-else-if="data.is_best">Лучшее предложение</div>
+                           <div class="singleprod__tag" v-else-if="data.is_trend">Тренд 2024</div>
                            <div class="singleprod__issample">
                               <span class="i-issample-yellow"></span>
                               <span class="singleprod__issample-text">есть образец</span>
@@ -309,8 +315,7 @@
 <script setup>
 const isPopupOpen = ref(false)
 const route = useRoute()
-let data = await useBaseFetch('/products/' + route.params.slug)
-data = data[0]
+let data = await useBaseFetch('/catalog/product/' + route.params.slug)
 console.log(data);
 
 
@@ -324,4 +329,15 @@ const path = ref([
       to: '/product/' + route.params.slug
    }
 ])
+
+const chars = ref([])
+
+for (let key in data.detail_chars) {
+   let title = key[0].toUpperCase + key
+   let obj = {
+      key: key.charAt(0).toUpperCase() + key.slice(1),
+      value: data.detail_chars[key]
+   }
+   chars.value.push(obj)
+}
 </script>

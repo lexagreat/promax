@@ -2,10 +2,9 @@
    <main class="main">
       <div class="singleserv">
          <div class="singleserv__inner">
-            <h1>Укладка паркета в Санкт-Петербурге</h1>
+            <h1>{{ data.title }}</h1>
             <div class="singleserv__desc">
-               Укладка штучного паркета, технология укладки паркетной и инженерной доски. Укладка модульного паркета и
-               французской елочки.
+               {{ data.subtitle }}
             </div>
 
             <div class="singleserv__pop-wrp">
@@ -230,5 +229,10 @@
 </template>
 <script setup>
 const isPopupOpen = ref(false)
+let route = useRoute()
+let slug = route.params.slug
 
+
+let data = await useBaseFetch(`/blog/service/${slug}`)
+console.log(data);
 </script>

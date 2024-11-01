@@ -85,23 +85,23 @@ export const makeFilters = () => {
 };
 export const makeCatalogFilters = () => {
    makeFilters();
-   initializeRangeSlider(
-      ".filterbar__param_3",
-      ".filterbar-block__range-input",
-      ".filterbar__param_3_min",
-      ".filterbar__param_3_max",
-      ".filterbar-block__range-radio input[type=radio]"
-   );
-   initializeRangeSlider(
-      ".filterbar__width",
-      ".sizes-width-range",
-      ".sizes-width-from",
-      ".sizes-width-to"
-   );
-   initializeRangeSlider(
-      ".filterbar__length",
-      ".sizes-length-range",
-      ".sizes-length-from",
-      ".sizes-length-to"
-   );
+   // initializeRangeSlider(
+   //    ".filterbar__param_3",
+   //    ".filterbar-block__range-input",
+   //    ".filterbar__param_3_min",
+   //    ".filterbar__param_3_max",
+   //    ".filterbar-block__range-radio input[type=radio]"
+   // );
+   // initializeRangeSlider(
+   //    ".filterbar__width",
+   //    ".sizes-width-range",
+   //    ".sizes-width-from",
+   //    ".sizes-width-to"
+   // );
+   // initializeRangeSlider(
+   //    ".filterbar__length",
+   //    ".sizes-length-range",
+   //    ".sizes-length-from",
+   //    ".sizes-length-to"
+   // );
 };

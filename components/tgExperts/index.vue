@@ -9,7 +9,7 @@
                      @promaks_experts</NuxtLink>
                </div>
             </div>
-            <NuxtLink to="#" class="tgexperts-btn _btn">
+            <NuxtLink to="/cases" class="tgexperts-btn _btn">
                <span class="tgexperts-btn__txt">ВСЕ КЕЙСЫ</span>
                <span class="i-tgexperts-arrow"></span>
             </NuxtLink>

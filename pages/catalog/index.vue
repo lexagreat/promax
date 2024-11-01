@@ -3,9 +3,10 @@
       <div class="breadcrumbs">
          <div class="container">
             <div class="breadcrumbs__inner">
-               <NuxtLink to="#" class="breadcrumbs__item">Паркет</NuxtLink>
-               <span class="breadcrumbs__sep"><span class="i-breadcrumbs-sep"></span></span>
-               <span class="breadcrumbs__item">Паркет с рисунками</span>
+               <span class="breadcrumbs__item">{{ categoryName }}</span>
+               <span class="breadcrumbs__sep" v-if="subcategoryName.length"><span
+                     class="i-breadcrumbs-sep"></span></span>
+               <span class="breadcrumbs__item" v-if="subcategoryName.length">{{ subcategoryName }}</span>
             </div>
          </div>
       </div>
@@ -30,105 +31,34 @@
                               <li>
                                  <span data-cat-name="categoriya">Категория</span>
                                  <ul>
-                                    <li>
-                                       <span data-cat-name="parket">Паркет</span>
+                                    <li v-for="category in categories" :key="category">
+                                       <span @click="setCategory(category.id, category.title)">{{ category.title
+                                          }}</span>
                                        <ul>
-                                          <li><span data-cat-name="parketnaya-doska">Паркетная доска</span></li>
-                                          <li><span>Инженерная доска</span></li>
-                                          <li><span>Шпонированные полы</span></li>
-                                          <li><span>Паркет Елочка Фр</span></li>
-                                          <li><span>Паркет елочка английская</span></li>
-                                          <li><span>Паркет Ромбы</span></li>
-                                          <li><span>Массивная доска</span></li>
-                                          <li><span>Паркет для ванной комнаты</span></li>
-                                          <li><span>Модульный паркет</span></li>
-                                          <li><span>Геометрический паркет</span></li>
-                                          <li><span>Паркет с рисунками</span></li>
-                                          <li><span>Паркет с гравировкой/печатью</span></li>
-                                          <li><span>Торцевой паркет</span></li>
-                                          <li><span>Индустриальный паркет</span></li>
-                                          <li><span>Штучный паркет</span></li>
-                                          <li><span>Спортивный паркет</span></li>
+                                          <li v-for="sub in category.sub_categories" :key="sub"
+                                             @click="setSubcategory(sub.id, sub.title)">
+                                             <span>{{ sub.title }}</span>
+                                          </li>
                                        </ul>
                                     </li>
-                                    <li>
-                                       <span>SPC / ПВХ</span>
-                                       <ul>
-                                          <li><span>Индустриальный паркет</span></li>
-                                          <li><span>Штучный паркет</span></li>
-                                          <li><span>Спортивный паркет</span></li>
-                                       </ul>
-                                    </li>
-                                    <li>
-                                       <span>Ламинат</span>
-                                       <ul>
-                                          <li><span>Модульный паркет</span></li>
-                                          <li><span>Геометрический паркет</span></li>
-                                          <li><span>Паркет с рисунками</span></li>
-                                          <li><span>Паркет с гравировкой/печатью</span></li>
-                                          <li><span>Торцевой паркет</span></li>
-                                       </ul>
-                                    </li>
-                                    <li>
-                                       <span>Пробковые покрытия</span>
-                                       <ul>
-                                          <li><span>Паркет елочка английская</span></li>
-                                          <li><span>Паркет Ромбы</span></li>
-                                          <li><span>Массивная доска</span></li>
-                                          <li><span>Паркет для ванной комнаты</span></li>
-                                       </ul>
-                                    </li>
-                                    <li>
-                                       <span>Стеновые панели</span>
-                                       <ul>
-                                          <li><span>Паркет Елочка Фр</span></li>
-                                          <li><span>Паркет елочка английская</span></li>
-                                          <li><span>Паркет Ромбы</span></li>
-                                       </ul>
-                                    </li>
-                                    <li>
-                                       <span>Плинтуса и пороги</span>
-                                       <ul>
-                                          <li><span>Массивная доска</span></li>
-                                          <li><span>Паркет для ванной комнаты</span></li>
-                                       </ul>
-                                    </li>
-                                    <li>
-                                       <span>Химия (масла и краски)</span>
-                                       <ul>
-                                          <li><span>Массивная доска</span></li>
-                                          <li><span>Спортивный паркет</span></li>
-                                       </ul>
-                                    </li>
-                                    <li><span>Терраса и Фасады</span></li>
-                                    <li><span>Сопутствующие материалы</span></li>
-                                    <li>
-                                       <span>Абразивы</span>
-                                       <ul>
-                                          <li><span>Модульный паркет</span></li>
-                                          <li><span>Геометрический паркет</span></li>
-                                          <li><span>Паркет с рисунками</span></li>
-                                          <li><span>Паркет с гравировкой/печатью</span></li>
-                                          <li><span>Торцевой паркет</span></li>
-                                       </ul>
-                                    </li>
+
                                  </ul>
                               </li>
                            </ul>
                         </div>
                         <div class="filterbar__param_2">
                            <label class="_active" for="trend">
-                              <input type="checkbox" name="trend" id="trend" checked>
+                              <input type="radio" name="catalogRadio" id="trend" checked v-model="radio" value="trend">
                               <div class="filterbar__checkbox-input"><span></span></div>
                               <div class="filterbar__label">Тренд 2024</div>
                            </label>
                            <label for="hitsales">
-                              <input type="checkbox" name="hitsales" id="hitsales">
+                              <input type="radio" name="catalogRadio" id="hitsales" v-model="radio" value="hit">
                               <div class="filterbar__checkbox-input"><span></span></div>
                               <div class="filterbar__label">Хит продаж</div>
                            </label>
                            <label for="bestoffer">
-                              <input type="checkbox" name="bestoffer" id="bestoffer">
+                              <input type="radio" name="catalogRadio" id="bestoffer" v-model="radio" value="best">
                               <div class="filterbar__checkbox-input"><span></span></div>
                               <div class="filterbar__label">Лучшее предложение</div>
                            </label>
@@ -144,38 +74,45 @@
                                     </span>
                                  </div>
                                  <div class="filterbar-block__range">
-                                    <div class="filterbar-block__range-input"></div>
+                                    <div class="range-slider">
+                                       <MultiRangeSlider :ruler="false" :min="priceMin" :max="priceMax" :step="100"
+                                          :minValue="priceMinValue" :maxValue="priceMaxValue" @input="UpdatePrices" />
+                                    </div>
                                     <div class="filterbar-block__range-num">
                                        <div class="filterbar-block__range-num-from">
                                           <span>от</span>
-                                          <input class="filterbar__param_3_min" type="number" value="100" data-min="100"
+                                          <input class="filterbar__param_3_min" type="number" v-model="priceMinValue"
                                              name="price-from">
                                        </div>
                                        <div class="filterbar-block__range-num-to">
                                           <span>до</span>
-                                          <input class="filterbar__param_3_max" type="number" value="10000"
-                                             data-max="10000" name="price-to">
+                                          <input class="filterbar__param_3_max" type="number" v-model="priceMaxValue"
+                                             name="price-to">
                                        </div>
                                     </div>
+
                                     <div class="filterbar-block__range-radio">
-                                       <label for="price-radio-1" class="filterbar-block__range-radio-item">
-                                          <input type="radio" name="price-radio" id="price-radio-1" value="0-1000">
+                                       <label for="price-radio-1" class="filterbar-block__range-radio-item"
+                                          @click="setPrices(0, 1000)">
+                                          <input type="radio" name="price-radio" id="price-radio-1">
                                           <div class="filterbar-block__radio-input"><span></span></div>
                                           <div class="filterbar-block__label">до 1000 ₽</div>
                                        </label>
-                                       <label for="price-radio-2" class="filterbar-block__range-radio-item">
-                                          <input type="radio" name="price-radio" id="price-radio-2" value="1000-2000">
+                                       <label for="price-radio-2" class="filterbar-block__range-radio-item"
+                                          @click="setPrices(1000, 2000)">
+                                          <input type="radio" name="price-radio" id="price-radio-2">
                                           <div class="filterbar-block__radio-input"><span></span></div>
                                           <div class="filterbar-block__label">1 000 – 2 000 ₽</div>
                                        </label>
-                                       <label for="price-radio-3" class="filterbar-block__range-radio-item">
-                                          <input type="radio" name="price-radio" id="price-radio-3" value="2000-10000">
+                                       <label for="price-radio-3" class="filterbar-block__range-radio-item"
+                                          @click="setPrices(2000)">
+                                          <input type="radio" name="price-radio" id="price-radio-3">
                                           <div class="filterbar-block__radio-input"><span></span></div>
                                           <div class="filterbar-block__label">2 000 ₽ и дороже</div>
                                        </label>
-                                       <label for="price-radio-4" class="filterbar-block__range-radio-item">
-                                          <input type="radio" name="price-radio" id="price-radio-4" value="100-10000"
-                                             checked>
+                                       <label for="price-radio-4" class="filterbar-block__range-radio-item"
+                                          @click="setPrices()">
+                                          <input type="radio" name="price-radio" id="price-radio-4" checked>
                                           <div class="filterbar-block__radio-input"><span></span></div>
                                           <div class="filterbar-block__label">Неважно</div>
                                        </label>
@@ -197,19 +134,20 @@
 
                                  <div class="filterbar-block__range filterbar__width">
                                     <div class="filterbar-block__range-title">Ширина</div>
-                                    <div class="filterbar-block__range-input sizes-width-range">
-                                       <!-- <input type="range" value="" name="sizes-width-range"> -->
+                                    <div class="range-slider">
+                                       <MultiRangeSlider :ruler="false" :min="widthMin" :max="widthMax" :step="1"
+                                          :minValue="widthMinValue" :maxValue="widthMaxValue" @input="UpdateWidth" />
                                     </div>
 
                                     <div class="filterbar-block__range-num">
                                        <div class="filterbar-block__range-num-from">
                                           <span>от</span>
-                                          <input type="number" value="100" name="sizes-width-from" data-min="100"
+                                          <input type="number" v-model="widthMinValue" name="sizes-width-from"
                                              class="sizes-width-from">
                                        </div>
                                        <div class="filterbar-block__range-num-to">
                                           <span>до</span>
-                                          <input type="number" value="1000" name="sizes-width-to" data-max="1000"
+                                          <input type="number" v-model="widthMaxValue" name="sizes-width-to"
                                              class="sizes-width-to">
                                        </div>
                                     </div>
@@ -217,19 +155,21 @@
 
                                  <div class="filterbar-block__range filterbar__length">
                                     <div class="filterbar-block__range-title">Длина</div>
-                                    <div class="filterbar-block__range-input sizes-length-range">
-                                       <!-- <input type="range" value="" name="sizes-length-range"> -->
+                                    <div class="range-slider">
+                                       <MultiRangeSlider :ruler="false" :min="lengthMin" :max="lengthMax" :step="1"
+                                          :minValue="lengthMinValue" :maxValue="lengthMaxValue" @input="UpdateLength" />
                                     </div>
+
                                     <div class="filterbar-block__range-num">
                                        <div class="filterbar-block__range-num-from">
                                           <span>от</span>
-                                          <input type="number" value="100" name="sizes-length-from"
-                                             class="sizes-length-from" data-min="100">
+                                          <input type="number" v-model="lengthMinValue" name="sizes-length-from"
+                                             class="sizes-length-from">
                                        </div>
                                        <div class="filterbar-block__range-num-to">
                                           <span>до</span>
-                                          <input type="number" value="10000" name="sizes-length-to"
-                                             class="sizes-length-to" data-max="10000">
+                                          <input type="number" v-model="lengthMaxValue" name="sizes-length-to"
+                                             class="sizes-length-to">
                                        </div>
                                     </div>
                                  </div>
@@ -248,7 +188,8 @@
                <div class="filterout">
 
                   <div class="prodtabs__main products products_ld_3">
-                     <CardsProduct v-for="(item, index) in 6" :key="index" :id="'catalogpageitem' + index" />
+                     <CardsProduct v-for="(item, index) in products" :key="index" :product="item"
+                        :id="'catalogpageitem' + index" />
 
                   </div>
                </div>
@@ -258,9 +199,148 @@
    </main>
 </template>
 <script setup>
+import MultiRangeSlider from "multi-range-slider-vue";
 import { makeCatalogFilters } from '~/utils/makeCatalogFilters'
+
+
+
 onMounted(() => {
    makeCatalogFilters()
 })
 
+const categoryName = ref("Паркет")
+const subcategoryName = ref("")
+
+const checkedCategory = ref(1)
+const checkedSubcategory = ref(0)
+const categories = ref([])
+const products = ref([])
+
+const radio = ref("trend")
+
+const priceMin = ref(0)
+const priceMax = ref(10000)
+const priceMinValue = ref(priceMin.value)
+const priceMaxValue = ref(priceMax.value)
+const UpdatePrices = (e) => {
+   priceMinValue.value = e.minValue
+   priceMaxValue.value = e.maxValue
+}
+
+const widthMin = ref(0)
+const widthMax = ref(1000)
+const widthMinValue = ref(widthMin.value)
+const widthMaxValue = ref(widthMax.value)
+const UpdateWidth = (e) => {
+   widthMinValue.value = e.minValue
+   widthMaxValue.value = e.maxValue
+}
+const lengthMin = ref(0)
+const lengthMax = ref(1000)
+const lengthMinValue = ref(lengthMin.value)
+const lengthMaxValue = ref(lengthMax.value)
+const UpdateLength = (e) => {
+   lengthMinValue.value = e.minValue
+   lengthMaxValue.value = e.maxValue
+}
+
+const setPrices = (min, max) => {
+   if (min || min == 0) {
+      priceMinValue.value = min
+   } else {
+      priceMinValue.value = priceMin.value
+   }
+   if (max) {
+      priceMaxValue.value = max
+   } else {
+      priceMaxValue.value = priceMax.value
+   }
+}
+const setSizes = () => {
+   widthMaxValue.value = widthMax.value
+   widthMinValue.value = widthMin.value
+   lengthMaxValue.value = lengthMax.value
+   lengthMinValue.value = lengthMin.value
+}
+categories.value = await useBaseFetch("/catalog/categories-list")
+
+const getData = async (subCat = "") => {
+   getProducts(subCat)
+   getPricesAndSizes(subCat)
+}
+const setCategory = async (id, title) => {
+   checkedCategory.value = id;
+   await getData()
+
+   categoryName.value = title
+}
+const setSubcategory = async (id, title) => {
+   checkedSubcategory.value = id;
+   subcategoryName.value = title
+}
+
+const getPricesAndSizes = async (subCat = "") => {
+   let res = await useBaseFetch(`/catalog/prices-and-sizes?categoryId=${checkedCategory.value}&subCategoryId=${subCat}`)
+   priceMin.value = Number(res.prices.min)
+   priceMax.value = Number(res.prices.max)
+   widthMin.value = Number(res.width.min)
+   widthMax.value = Number(res.width.max)
+   lengthMin.value = Number(res["length"].min)
+   lengthMax.value = Number(res["length"].max)
+   setPrices()
+   setSizes()
+}
+
+const getProducts = async (subCat = "") => {
+   let res = await useBaseFetch(`/catalog/products?categoryId=${checkedCategory.value}&subCategoryId=${subCat}&filter=${radio.value}&price_min=${priceMinValue.value}&price_max=${priceMaxValue.value}&width_min=${widthMinValue.value}&width_max=${widthMaxValue.value}&length_min=${lengthMinValue.value}&length_max=${lengthMaxValue.value}`)
+   products.value = res;
+}
+watch(checkedSubcategory, async (value) => {
+   await getData(value)
+})
+// Следим за изменениями в объекте filters
+watch(
+   radio,
+   async () => {
+      await getData(checkedSubcategory.value ? checkedSubcategory.value : "")
+   }
+);
+
+
+const ranges = computed(() => {
+   return {
+      priceMin: priceMinValue.value,
+      priceMax: priceMaxValue.value,
+      lengthMin: lengthMinValue.value,
+      lengthMax: lengthMinValue.value,
+      widthMax: widthMinValue.value,
+      widthMax: widthMaxValue.value,
+   }
+})
+watch(
+   checkedCategory,
+   () => {
+      checkedSubcategory.value = ""
+      subcategoryName.value = ""
+   },
+);
+watch(
+   ranges,
+   async () => {
+      await getProducts(checkedSubcategory.value ? checkedSubcategory.value : "")
+   },
+   {
+      deep: true
+   }
+);
+await getData()
+
 </script>
+
+
+
+<style lang="scss">
+.filterout {
+   flex: 1;
+}
+</style>

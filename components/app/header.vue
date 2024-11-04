@@ -66,10 +66,10 @@
                         <li class="has-children">
                            <NuxtLink to="/services">Все услуги</NuxtLink>
                            <ul>
-                              <li>
-                                 <NuxtLink to="/services/1">Укладка паркета</NuxtLink>
+                              <li v-for="item in services" :key="item">
+                                 <NuxtLink :to="'/services/' + item.slug">{{ item.title }}</NuxtLink>
                               </li>
-                              <li>
+                              <!-- <li>
                                  <NuxtLink to="/services/1">Циклевка</NuxtLink>
                               </li>
                               <li>
@@ -83,7 +83,7 @@
                               </li>
                               <li>
                                  <NuxtLink to="/services/1">Установка плинтуса</NuxtLink>
-                              </li>
+                              </li> -->
                            </ul>
                         </li>
                         <li>
@@ -111,6 +111,7 @@
 </template>
 <script setup>
 const isLogin = ref(true)
-
+let services = await useBaseFetch("/blog/services")
+console.log(services);
 
 </script>

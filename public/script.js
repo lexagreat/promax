@@ -110,32 +110,24 @@ $(document).ready(function () {
    //    $(".filterbar__inner").slideToggle();
    // });
 
-   $(".singleprod-tabs__ctrl-item").on("click", function () {
-      $(".singleprod-tabs__ctrl-item").removeClass("_active");
-      $(this).addClass("_active");
-      var index = $(this).index();
-      $(".singleprod-tabs__out-item").removeClass("_active");
-      $(".singleprod-tabs__out-item").eq(index).addClass("_active");
-   });
-
    // START counter
-   function updateCounter(element, increment) {
-      var $counterVal = $(element)
-         .closest(".add-prod-ctrl-sum-counter")
-         .find(".counter-val");
-      var currentValue = parseInt($counterVal.text(), 10);
-      var newValue = currentValue + increment;
-      if (newValue < 0) {
-         newValue = 0;
-      }
-      $counterVal.text(newValue);
-   }
-   $(".counter-minus").on("click", function () {
-      updateCounter(this, -1);
-   });
-   $(".counter-plus").on("click", function () {
-      updateCounter(this, 1);
-   });
+   // function updateCounter(element, increment) {
+   //    var $counterVal = $(element)
+   //       .closest(".add-prod-ctrl-sum-counter")
+   //       .find(".counter-val");
+   //    var currentValue = parseInt($counterVal.text(), 10);
+   //    var newValue = currentValue + increment;
+   //    if (newValue < 0) {
+   //       newValue = 0;
+   //    }
+   //    $counterVal.text(newValue);
+   // }
+   // $(".counter-minus").on("click", function () {
+   //    updateCounter(this, -1);
+   // });
+   // $(".counter-plus").on("click", function () {
+   //    updateCounter(this, 1);
+   // });
    // END counter
 
    // // START PopUp Added to cart

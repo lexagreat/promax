@@ -19,110 +19,6 @@
                            <span>{{ item.key }}</span>
                            <span>{{ item.value }}</span>
                         </div>
-                        <!-- <div class="singleprod-char__list-item">
-                           <span>Артикул</span>
-                           <span>{{ data.artikul }}</span>
-                        </div>
-                        <div class="singleprod-char__list-item">
-                           <span>Код товара</span>
-                           <span>12345</span>
-                        </div>
-                        <div class="singleprod-char__list-item">
-                           <span>Бренд</span>
-                           <span>Panaget</span>
-                        </div>
-                        <div class="singleprod-char__list-item">
-                           <span>Страна бренда</span>
-                           <span>Франция</span>
-                        </div>
-                        <div class="singleprod-char__list-item">
-                           <span>Страна производства</span>
-                           <span>Франция</span>
-                        </div>
-                        <div class="singleprod-char__list-item">
-                           <span>Коллекция</span>
-                           <span>Panaget Monolame</span>
-                        </div>
-                        <div class="singleprod-char__list-item">
-                           <span>Порода дерева</span>
-                           <span>Дуб</span>
-                        </div>
-                        <div class="singleprod-char__list-item">
-                           <span>Селекция</span>
-                           <span>Натур</span>
-                        </div>
-                        <div class="singleprod-char__list-item">
-                           <span>Длина доски</span>
-                           <span>800 / 1200 / 1500 мм</span>
-                        </div>
-                        <div class="singleprod-char__list-item">
-                           <span>Полосность</span>
-                           <span>однополосный</span>
-                        </div>
-                        <div class="singleprod-char__list-item">
-                           <span>Твёрдость по Бринеллю</span>
-                           <span>3.7</span>
-                        </div>
-                        <div class="singleprod-char__list-item">
-                           <span>Длина</span>
-                           <span>1210 мм</span>
-                        </div>
-                        <div class="singleprod-char__list-item">
-                           <span>Ширина</span>
-                           <span>139 мм</span>
-                        </div>
-                        <div class="singleprod-char__list-item">
-                           <span>Толщина</span>
-                           <span>12 мм</span>
-                        </div>
-                        <div class="singleprod-char__list-item">
-                           <span>Толщина верхнего слоя</span>
-                           <span>2.5 мм</span>
-                        </div>
-                        <div class="singleprod-char__list-item">
-                           <span>Площадь упаковки</span>
-                           <span>1.85 м2</span>
-                        </div>
-                        <div class="singleprod-char__list-item">
-                           <span>Досок в упаковке</span>
-                           <span>11 шт</span>
-                        </div>
-                        <div class="singleprod-char__list-item">
-                           <span>Вес упаковки</span>
-                           <span>18.3 кг</span>
-                        </div>
-                        <div class="singleprod-char__list-item">
-                           <span>Покрытие</span>
-                           <span>ультраматовый лак</span>
-                        </div>
-                        <div class="singleprod-char__list-item">
-                           <span>Фаска</span>
-                           <span>2v</span>
-                        </div>
-                        <div class="singleprod-char__list-item">
-                           <span>Тип соединения</span>
-                           <span>замок Unifit</span>
-                        </div>
-                        <div class="singleprod-char__list-item">
-                           <span>Совместимость с теплым полом</span>
-                           <span>да</span>
-                        </div>
-                        <div class="singleprod-char__list-item">
-                           <span>Гарантия</span>
-                           <span>30 лет</span>
-                        </div>
-                        <div class="singleprod-char__list-item">
-                           <span>Акция</span>
-                           <span>распродажа остатков</span>
-                        </div>
-                        <div class="singleprod-char__list-item">
-                           <span>Класс пожарной опасности</span>
-                           <span>КМ5</span>
-                        </div>
-                        <div class="singleprod-char__list-item">
-                           <span>Способ укладки (рекомендация) </span>
-                           <span></span>
-                        </div> -->
                      </div>
                   </div>
                   <div class="singleprod-bar">
@@ -143,7 +39,10 @@
                            </div>
 
                            <div class="products__item-bottom-frst">
-                              <div class="products__item-addtocart-btn" @click="isPopupOpen = true"><span
+                              <div class="products__item-addtocart-btn _active" v-if="inCart" @click="openPopup">
+                                 <span class="products__item-addtocart-btn-txt">В корзине</span>
+                              </div>
+                              <div class="products__item-addtocart-btn" v-else @click="openPopup"><span
                                     class="i-addtocart"></span><span class="products__item-addtocart-btn-txt">В
                                     корзину</span>
                               </div>
@@ -243,63 +142,11 @@
                         <div class="singleprod-tabs__ctrl-item">Паркетная химия</div>
                      </div>
                      <div class="singleprod-tabs__out">
-                        <div class="singleprod-tabs__out-item _active">
-                           <p>
-                              Современный художественный паркет, созданный по уникальной инновационной технологии.
-                              Для обработки дерева и создания дизайна используется ручной труд и эксклюзивное
-                              оборудование.
-                           </p>
-                           <p>
-                              Печать — это высокотехнологичный способ изготовления дизайнерского паркета. Изображения
-                              наносятся специальными чернилами, безопасными для здоровья и окружающей среды.
-                           </p>
-                           <p>
-                              Финишное покрытие: 2-х компонентное масло или 2-х компонентный лак.
-                           </p>
-                           <p>
-                              Соединение: шип-паз.
-                           </p>
-                           <p>
-                              Толщина ценного слоя: 4 мм.
-                           </p>
-                           <p>
-                              Основание доски: 11 мм березовая влагостойкая фанера.
-                           </p>
-                           <p>
-                              Виды сортировок: <br>
-                              Рустик — допускаются светлые и темные сучки выпавшие, шпаклеванные, диаметром не более 60
-                              мм,
-                              наклон волокон, прожилки, небольшие трещины усушки, заделанные шпаклевкой под цвет
-                              древесины
-                              и не портящие внешнего вида паркетных планок. Изменения окраски древесины, заболонь в виде
-                              полосы шириной до 20 мм. <br>
-                              Натур — классический сорт паркета без отбора по распилу, обладающий натуральным рисунком
-                              древесины. Перепад по тону допускается. Возможны живые — не выпавшие сучки диаметром
-                              не более
-                              20 мм. <br>
-                              Прайм — паркет высшего сорта тангенциального и смешанного распила, натуральный и ровный
-                              рисунок дерева. Заболони, сучки, пороки древесины и любые механические повреждения
-                              не допускаются.
-                           </p>
+                        <div class="singleprod-tabs__out-item _active" v-html="data.description">
                         </div>
-                        <div class="singleprod-tabs__out-item">
-                           <p>
-                              Lorem ipsum dolor, sit amet consectetur adipisicing elit. Saepe velit mollitia blanditiis
-                              ducimus ullam autem, deleniti exercitationem. Facere ad eum id sint, architecto quisquam
-                              quam, tempore in delectus, rerum quo.
-                           </p>
+                        <div class="singleprod-tabs__out-item" v-html="data.sposob_ukladki">
                         </div>
-                        <div class="singleprod-tabs__out-item">
-                           <p>
-                              Lorem ipsum dolor, sit amet consectetur adipisicing elit. Saepe velit mollitia blanditiis
-                              ducimus ullam autem, deleniti exercitationem. Facere ad eum id sint, architecto quisquam
-                              quam, tempore in delectus, rerum quo.
-                           </p>
-                           <p>
-                              Lorem ipsum dolor, sit amet consectetur adipisicing elit. Saepe velit mollitia blanditiis
-                              ducimus ullam autem, deleniti exercitationem. Facere ad eum id sint, architecto quisquam
-                              quam, tempore in delectus, rerum quo.
-                           </p>
+                        <div class="singleprod-tabs__out-item" v-html="data.parketnaya_himia">
                         </div>
                      </div>
                   </div>
@@ -309,16 +156,21 @@
       </div>
 
 
-      <PopupsCart :isOpen="isPopupOpen" @closePopup="isPopupOpen = false" />
+      <PopupsCart :product="data" :isOpen="isPopupOpen" @closePopup="isPopupOpen = false" />
    </main>
 </template>
 <script setup>
+import { makeTabs } from '~/utils/makeProductPage';
+import { isAlreadyInCart, addProductToCart } from '~/assets/js/cart';
 const isPopupOpen = ref(false)
 const route = useRoute()
 let data = await useBaseFetch('/catalog/product/' + route.params.slug)
 console.log(data);
-
-
+onMounted(() => {
+   makeTabs()
+   console.log(data.slug);
+})
+const inCart = ref(false)
 const path = ref([
    {
       name: 'Каталог',
@@ -340,4 +192,16 @@ for (let key in data.detail_chars) {
    }
    chars.value.push(obj)
 }
+const openPopup = () => {
+   isPopupOpen.value = true
+   inCart.value = true
+   if (!isAlreadyInCart(data.slug)) {
+      addProductToCart(data)
+   }
+}
+
+
+onMounted(() => {
+   inCart.value = isAlreadyInCart(data.slug)
+})
 </script>

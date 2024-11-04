@@ -44,55 +44,11 @@
                   </div>
                   <div class="singleserv__price-table-body">
 
-                     <div class="singleserv__price-table-item prices_btn">
-                        <div class="singleserv__price-table-serv">Настил паркетной доски и ламината на подложку
-                           перпендикулярно к стене</div>
+                     <div class="singleserv__price-table-item prices_btn" v-for="item in prices" :key="item">
+                        <div class="singleserv__price-table-serv">{{ item.name }}</div>
                         <div class="singleserv__price-table-icon-wrp">
-                           <div class="singleserv__price-table-price">650</div>
-                           <div class="singleserv__price-table-icon" @click="isPopupOpen = true"><span
-                                 class="i-singleserv-arrow"></span></div>
-                        </div>
-                     </div>
-                     <div class="singleserv__price-table-item prices_btn">
-                        <div class="singleserv__price-table-serv">Настил паркетной доски и ламината на подложку под
-                           углом к стене</div>
-                        <div class="singleserv__price-table-icon-wrp">
-                           <div class="singleserv__price-table-price">750</div>
-                           <div class="singleserv__price-table-icon" @click="isPopupOpen = true"><span
-                                 class="i-singleserv-arrow"></span></div>
-                        </div>
-                     </div>
-                     <div class="singleserv__price-table-item prices_btn">
-                        <div class="singleserv__price-table-serv">Настил паркетной доски /инженерной доски на клей к
-                           основанию</div>
-                        <div class="singleserv__price-table-icon-wrp">
-                           <div class="singleserv__price-table-price">1150</div>
-                           <div class="singleserv__price-table-icon" @click="isPopupOpen = true"><span
-                                 class="i-singleserv-arrow"></span></div>
-                        </div>
-                     </div>
-                     <div class="singleserv__price-table-item prices_btn">
-                        <div class="singleserv__price-table-serv">Настил штучного паркета «елка», «разбежка», «шашка»
-                        </div>
-                        <div class="singleserv__price-table-icon-wrp">
-                           <div class="singleserv__price-table-price">1300</div>
-                           <div class="singleserv__price-table-icon" @click="isPopupOpen = true"><span
-                                 class="i-singleserv-arrow"></span></div>
-                        </div>
-                     </div>
-                     <div class="singleserv__price-table-item prices_btn">
-                        <div class="singleserv__price-table-serv">Настил массивной доски на клей</div>
-                        <div class="singleserv__price-table-icon-wrp">
-                           <div class="singleserv__price-table-price">1300</div>
-                           <div class="singleserv__price-table-icon" @click="isPopupOpen = true"><span
-                                 class="i-singleserv-arrow"></span></div>
-                        </div>
-                     </div>
-                     <div class="singleserv__price-table-item prices_btn">
-                        <div class="singleserv__price-table-serv">Настил модульного паркета</div>
-                        <div class="singleserv__price-table-icon-wrp">
-                           <div class="singleserv__price-table-price">1500</div>
-                           <div class="singleserv__price-table-icon" @click="isPopupOpen = true"><span
+                           <div class="singleserv__price-table-price">{{ item.price }}</div>
+                           <div class="singleserv__price-table-icon" @click="openPopup(item.id)"><span
                                  class="i-singleserv-arrow"></span></div>
                         </div>
                      </div>
@@ -116,4 +72,11 @@
 </template>
 <script setup>
 const isPopupOpen = ref(false)
+const currentId = ref(0)
+const openPopup = (id) => {
+   currentId.value = id;
+   isPopupOpen.value = true
+}
+let prices = await useBaseFetch("/blog/services/prices")
+console.log(prices);
 </script>

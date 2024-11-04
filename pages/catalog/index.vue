@@ -270,6 +270,8 @@ const getData = async (subCat = "") => {
 }
 const setCategory = async (id, title) => {
    checkedCategory.value = id;
+   checkedSubcategory.value = ""
+   subcategoryName.value = ""
    await getData()
 
    categoryName.value = title
@@ -317,13 +319,6 @@ const ranges = computed(() => {
       widthMax: widthMaxValue.value,
    }
 })
-watch(
-   checkedCategory,
-   () => {
-      checkedSubcategory.value = ""
-      subcategoryName.value = ""
-   },
-);
 watch(
    ranges,
    async () => {

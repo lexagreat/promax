@@ -9,4 +9,8 @@
 @import "@/assets/scss/style";
 </style>
 <script setup>
+import { initCart } from './assets/js/cart';
+onMounted(() => {
+   initCart()
+})
 </script>

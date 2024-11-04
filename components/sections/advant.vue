@@ -9,116 +9,23 @@
          </div>
          <div class="advant__inner">
             <div class="advant__slider_1">
-               <div class="advant__slider_1__item">
+               <div class="advant__slider_1__item" v-for="item in data" :key="item">
                   <span class="i-advant-slider-before"></span>
-                  <img loading="lazy" src="@/assets/img/advant/advant_1.webp" alt="advant">
+                  <img loading="lazy" :src="item.image" alt="advant">
                   <span class="i-advant-slider-after"></span>
                </div>
-               <div class="advant__slider_1__item">
-                  <span class="i-advant-slider-before"></span>
-                  <img loading="lazy" src="@/assets/img/advant/advant_1.webp" alt="advant">
-                  <span class="i-advant-slider-after"></span>
-               </div>
-               <div class="advant__slider_1__item">
-                  <span class="i-advant-slider-before"></span>
-                  <img loading="lazy" src="@/assets/img/advant/advant_1.webp" alt="advant">
-                  <span class="i-advant-slider-after"></span>
-               </div>
-               <div class="advant__slider_1__item">
-                  <span class="i-advant-slider-before"></span>
-                  <img loading="lazy" src="@/assets/img/advant/advant_1.webp" alt="advant">
-                  <span class="i-advant-slider-after"></span>
-               </div>
-               <div class="advant__slider_1__item">
-                  <span class="i-advant-slider-before"></span>
-                  <img loading="lazy" src="@/assets/img/advant/advant_1.webp" alt="advant">
-                  <span class="i-advant-slider-after"></span>
-               </div>
-               <div class="advant__slider_1__item">
-                  <span class="i-advant-slider-before"></span>
-                  <img loading="lazy" src="@/assets/img/advant/advant_1.webp" alt="advant">
-                  <span class="i-advant-slider-after"></span>
-               </div>
-               <div class="advant__slider_1__item">
-                  <span class="i-advant-slider-before"></span>
-                  <img loading="lazy" src="@/assets/img/advant/advant_1.webp" alt="advant">
-                  <span class="i-advant-slider-after"></span>
-               </div>
-               <div class="advant__slider_1__item">
-                  <span class="i-advant-slider-before"></span>
-                  <img loading="lazy" src="@/assets/img/advant/advant_1.webp" alt="advant">
-                  <span class="i-advant-slider-after"></span>
-               </div>
+
             </div>
             <div class="advant__slider_control">
-               <span class="advant__slider_dot _active"></span>
-               <span class="advant__slider_dot"></span>
-               <span class="advant__slider_dot"></span>
-               <span class="advant__slider_dot"></span>
-               <span class="advant__slider_dot"></span>
-               <span class="advant__slider_dot"></span>
-               <span class="advant__slider_dot"></span>
-               <span class="advant__slider_dot"></span>
+               <span class="advant__slider_dot" v-for="item in data" :key="item"></span>
             </div>
             <div class="advant__slider_2__wrapper">
-               <div class="advant__slider_2__title">8 плюсов работы с нами</div>
+               <div class="advant__slider_2__title">{{ data.length }} плюсов работы с нами</div>
                <div class="advant__slider_2">
-                  <div class="advant__slider_2__item">
+                  <div class="advant__slider_2__item" v-for="item in data" :key="item">
                      <p>
-                        Мы ориентированы на качество,<br> соблюдение технологий,<br> сроки выполнения
-                        паркетных
-                        работ
+                        {{ item.text }}
                      </p>
-                  </div>
-                  <div class="advant__slider_2__item">
-                     <p>
-                        Мы ориентированы на качество,<br> соблюдение технологий,<br> сроки выполнения
-                        паркетных
-                        работ 2
-                     </p>
-                  </div>
-                  <div class="advant__slider_2__item">
-                     <p>
-                        Мы ориентированы на качество,<br> соблюдение технологий,<br> сроки выполнения
-                        паркетных
-                        работ 3
-                     </p>
-                  </div>
-                  <div class="advant__slider_2__item">
-                     <p>
-                        Мы ориентированы на качество,<br> соблюдение технологий,<br> сроки выполнения
-                        паркетных
-                        работ 4
-                     </p>
-                  </div>
-                  <div class="advant__slider_2__item">
-                     <p>
-                        Мы ориентированы на качество,<br> соблюдение технологий,<br> сроки выполнения
-                        паркетных
-                        работ 5
-                     </p>
-                  </div>
-                  <div class="advant__slider_2__item">
-                     <p>
-                        Мы ориентированы на качество,<br> соблюдение технологий,<br> сроки выполнения
-                        паркетных
-                        работ 6
-                     </p>
-                  </div>
-                  <div class="advant__slider_2__item">
-                     <p>
-                        Мы ориентированы на качество,<br> соблюдение технологий,<br> сроки выполнения
-                        паркетных
-                        работ 7
-                     </p>
-                  </div>
-                  <div class="advant__slider_2__item">
-                     <p>
-                        Мы ориентированы на качество,<br> соблюдение технологий,<br> сроки выполнения
-                        паркетных
-                        работ 8
-                     </p>
-
                   </div>
                </div>
             </div>
@@ -169,4 +76,8 @@ onBeforeRouteLeave(() => {
       slider2.slick('unslick');
    });
 })
+
+let data = await useBaseFetch("/blog/advantage")
+console.log(data);
+
 </script>

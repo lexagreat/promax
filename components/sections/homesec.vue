@@ -6,33 +6,19 @@
             <div class="homesec__top">
                <div class="homesec__top-left">
                   <div class="homesec__top-left-first">
-                     <h2 class="homesec-title">НАПОЛЬНЫЕ РАБОТЫ В СПБ</h2>
-                     <p class="homesec-desc">Вы выбираете, все остальное сделают профессионалы</p>
+                     <h2 class="homesec-title">{{ data.title }}</h2>
+                     <p class="homesec-desc">{{ data.subtitle }}</p>
                   </div>
                   <div class="homesec__top-left-sec">
                      <ul>
-                        <li>24/7</li>
-                        <li>от 350 руб/м2</li>
-                        <li>5 лет гарантии</li>
+                        <li v-for="item in data.items" :key="item">{{ item.name }}</li>
                      </ul>
                   </div>
                </div>
                <div class="homesec__top-right">
                   <div class="homesec__slider">
-                     <div class="homesec__slider-item">
-                        <img loading="lazy" src="@/assets/img/homesec/worker-laying.webp" alt="worker-laying">
-                     </div>
-                     <div class="homesec__slider-item">
-                        <img loading="lazy" src="@/assets/img/homesec/worker-laying.webp" alt="worker-laying">
-                     </div>
-                     <div class="homesec__slider-item">
-                        <img loading="lazy" src="@/assets/img/homesec/worker-laying.webp" alt="worker-laying">
-                     </div>
-                     <div class="homesec__slider-item">
-                        <img loading="lazy" src="@/assets/img/homesec/worker-laying.webp" alt="worker-laying">
-                     </div>
-                     <div class="homesec__slider-item">
-                        <img loading="lazy" src="@/assets/img/homesec/worker-laying.webp" alt="worker-laying">
+                     <div class="homesec__slider-item" v-for="item in data.images" :key="item">
+                        <img loading="lazy" :src="item" alt="worker-laying">
                      </div>
                   </div>
                   <div class="homesec__slider-dots"></div>
@@ -86,4 +72,18 @@ onBeforeRouteLeave(() => {
    });
 })
 
+
+
+let data = await useBaseFetch("/blog/floor_works")
+data = data[0]
+
 </script>
+
+
+<style lang="scss" scoped>
+.homesec__slider-item img {
+   width: 100%;
+   height: 100%;
+   object-fit: cover;
+}
+</style>

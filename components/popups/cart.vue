@@ -5,16 +5,17 @@
             <div class="added-main__label">Товар добавлен в корзину</div>
             <div class="added-main__product">
                <div class="added-main__product-img">
-                  <img src="@/assets/img/products/added-product-img.png" alt="Рисунки карандашом «Print»">
+                  <img :src="product.images[0]" alt="Рисунки карандашом «Print»">
                </div>
                <div class="added-main__product-info">
                   <div class="added-main__product-name">
                      <div class="added-main__product-name-cat">Дизайнерский паркет</div>
-                     <div class="added-main__product-name-title">Рисунки карандашом «Print»</div>
+                     <div class="added-main__product-name-title">{{ product.title }}</div>
                   </div>
                   <div class="added-main__product-price">
                      <div class="added-main__product-price-lbl">Цена:</div>
-                     <div class="added-main__product-price-val"><span>7 500</span> <span>руб. за м²</span></div>
+                     <div class="added-main__product-price-val"><span>{{ product.price }}</span> <span>руб. за м²</span>
+                     </div>
                   </div>
                   <div class="added-main__product-price-pack">
                      <div class="added-main__product-price-pack-lbl">Цена за упаковку:</div>
@@ -26,9 +27,9 @@
                      <div class="added-main__product-ctrl-sum-val"><span>20 000</span> <span>₽</span></div>
                      <div class="add-prod-ctrl-sum-right">
                         <div class="add-prod-ctrl-sum-counter">
-                           <span class="counter-minus"></span>
-                           <span class="counter-val">1</span>
-                           <span class="counter-plus"></span>
+                           <span class="counter-minus" @click="minus"></span>
+                           <span class="counter-val">{{ count }}</span>
+                           <span class="counter-plus" @click="plus"></span>
                         </div>
                         <div class="add-prod-ctrl-sum-pcs">уп.</div>
                      </div>
@@ -43,8 +44,8 @@
                         <div class="added-main__product-ctrl-cart-info-sum"><span>20 000</span> <span>₽</span></div>
                      </div>
                   </div>
-                  <a href="./cart.php" class="added-main__product-ctrl-btn"><span>Перейти в корзину</span><span
-                        class="i-cart-circle"></span></a>
+                  <NuxtLink href="/cart" class="added-main__product-ctrl-btn"><span>Перейти в корзину</span><span
+                        class="i-cart-circle"></span></NuxtLink>
                </div>
             </div>
             <div class="added-main__related">
@@ -120,15 +121,34 @@
             </div>
          </div>
       </div>
-      <div class="added__layer"></div>
+      <div class="added__layer popup__layer"></div>
    </AppPopup>
 </template>
 <script setup>
+import { minusProductCount, plusProductCount, getProductCount } from '~/assets/js/cart';
 const props = defineProps({
-   isOpen: Boolean
+   isOpen: Boolean,
+   product: Object
 })
 const emit = defineEmits(["closePopup"])
 const onClose = () => {
    emit('closePopup')
 }
+const count = ref(0)
+
+const plus = () => {
+   count.value++
+   plusProductCount(props.product.slug)
+}
+const minus = () => {
+   count.value--
+   minusProductCount(props.product.slug)
+}
+
+onMounted(() => {
+   count.value = getProductCount(props.product.slug)
+})
+
+
+
 </script>

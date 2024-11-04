@@ -1,6 +1,6 @@
 <template lang="">
    <div class="popup" :class="{ _active: isOpen }" @click="detectWhere">
-      <slot></slot>
+         <slot></slot>
    </div>
 </template>
 <script>
@@ -17,7 +17,7 @@ export default {
    },
    methods: {
       detectWhere(e) {
-         if (!e.target.closest(".modal__content")) {
+         if (e.target.closest(".popup__layer")) {
             this.$emit("closePopup");
          }
       },

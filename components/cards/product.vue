@@ -26,36 +26,25 @@
       </h2>
       <div class="products__item-info">
          <div class="products__item-info-item _article">{{ product?.artikul }}</div> |
-         <div class="products__item-info-item _description">{{ product?.description }}</div>
+         <div class="products__item-info-item _description" v-html="product?.description"></div>
       </div>
       <div class="products__item-size">
          <span class="i-size-gray"></span>
-         <span>632 х 158 мм</span>
+         <span>{{ product.width }} х {{ product.length }} мм</span>
       </div>
       <div class="products__item-char">
-         <div class="products__item-char-item">
-            <span class="products__item-char-item-lbl">Порода</span>
-            <span class="products__item-char-item-val">дуб</span>
-         </div>
-         <div class="products__item-char-item">
-            <span class="products__item-char-item-lbl">Угол</span>
-            <span class="products__item-char-item-val">45 гр.</span>
-         </div>
-         <div class="products__item-char-item">
-            <span class="products__item-char-item-lbl">Полосность</span>
-            <span class="products__item-char-item-val">французская</span>
-         </div>
-         <div class="products__item-char-item">
-            <span class="products__item-char-item-lbl">Толщина</span>
-            <span class="products__item-char-item-val">14 мм</span>
+         <div class="products__item-char-item" v-for="item in chars" :key="item">
+            <span class="products__item-char-item-lbl">{{ item.key }}</span>
+            <span class="products__item-char-item-val">{{ item.value }}</span>
          </div>
       </div>
       <div class="products__item-bottom">
          <div class="products__item-bottom-frst">
-            <div class="products__item-wishlist-btn _active"><span class="i-wishlist-active"></span>
+            <div class="products__item-wishlist-btn" :class="{ _active: isInFavor }"><span
+                  class="i-wishlist-active"></span>
             </div>
-            <div class="products__item-addtocart-btn _active"><span class="i-addtocart"></span><span
-                  class="products__item-addtocart-btn-txt">В
+            <div class="products__item-addtocart-btn" @click="addToCart" :class="{ _active: isInCart }"><span
+                  class="i-addtocart"></span><span class="products__item-addtocart-btn-txt">В
                   корзину</span>
             </div>
             <div class="products__item-price">
@@ -72,11 +61,18 @@
 
 </template>
 <script setup>
+import { addProductToCart, isAlreadyInCart } from '~/assets/js/cart';
 const props = defineProps({
    id: String,
    product: Object
 })
 let slider;
+const isInCart = ref(false)
+const isInFavor = ref(false)
+onBeforeUpdate(() => {
+   isInCart.value = isAlreadyInCart(props.product.slug);
+
+})
 onMounted(() => {
    slider = $(`[data-product-id='${props.id}'] .products__item-slider`).slick({
       infinite: true,
@@ -91,4 +87,33 @@ onBeforeRouteLeave(() => {
       slider.slick('unslick');
    });
 })
+
+const addToCart = () => {
+   addProductToCart(props.product)
+   isInCart.value = true
+}
+const chars = ref([])
+
+for (let key in props.product.detail_chars) {
+   let obj = {
+      key: key.charAt(0).toUpperCase() + key.slice(1),
+      value: props.product.detail_chars[key]
+   }
+   chars.value.push(obj)
+}
 </script>
+
+
+<style lang="scss">
+.products__item-info-item._description {
+   overflow: hidden;
+   white-space: nowrap;
+   text-overflow: ellipsis;
+
+   &>* {
+      margin: 0 !important;
+      font-size: unset;
+      line-height: unset;
+   }
+}
+</style>

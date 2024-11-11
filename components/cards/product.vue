@@ -93,13 +93,14 @@ const addToCart = () => {
    isInCart.value = true
 }
 const chars = ref([])
-
-for (let key in props.product.detail_chars) {
-   let obj = {
-      key: key.charAt(0).toUpperCase() + key.slice(1),
-      value: props.product.detail_chars[key]
+if (props.product.detail_chars) {
+   for (let key in props.product.detail_chars) {
+      let obj = {
+         key: key.charAt(0).toUpperCase() + key.slice(1),
+         value: props.product.detail_chars[key]
+      }
+      chars.value.push(obj)
    }
-   chars.value.push(obj)
 }
 </script>
 

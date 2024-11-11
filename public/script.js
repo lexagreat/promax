@@ -173,62 +173,62 @@ $(document).ready(function () {
    // // END popup single-ourserv
 
    // START popup Регистрация
-   $(".registration_btn").on("click", function () {
-      $(".registration_form").addClass("_active");
-      $("html").addClass("_hidden");
-      $(".login_form").removeClass("_active");
-   });
-   $(".registration__layer").on("click", function () {
-      $(".registration_form").removeClass("_active");
-      $("html").removeClass("_hidden");
-   });
+   // $(".registration_btn").on("click", function () {
+   //    $(".registration_form").addClass("_active");
+   //    $("html").addClass("_hidden");
+   //    $(".login_form").removeClass("_active");
+   // });
+   // $(".registration__layer").on("click", function () {
+   //    $(".registration_form").removeClass("_active");
+   //    $("html").removeClass("_hidden");
+   // });
    // END popup Регистрация
 
    // START popup Войти
-   $(".login_btn").on("click", function () {
-      $(".login_form").addClass("_active");
-      $("html").addClass("_hidden");
-      $(".registration_form").removeClass("_active");
-   });
-   $(".login__layer").on("click", function () {
-      $(".login_form").removeClass("_active");
-      $("html").removeClass("_hidden");
-   });
+   // $(".login_btn").on("click", function () {
+   //    $(".login_form").addClass("_active");
+   //    $("html").addClass("_hidden");
+   //    $(".registration_form").removeClass("_active");
+   // });
+   // $(".login__layer").on("click", function () {
+   //    $(".login_form").removeClass("_active");
+   //    $("html").removeClass("_hidden");
+   // });
    // END popup Войти
 
    // START popup Регистрация (ДЛЯ ДИЛЕРОВ)
-   $(".distr_registration_btn").on("click", function () {
-      $(".distr_registration_form").addClass("_active");
-      $("html").addClass("_hidden");
-      $(".distr_login_form").removeClass("_active");
-   });
-   $(".distr_registration__layer").on("click", function () {
-      $(".distr_registration_form").removeClass("_active");
-      $("html").removeClass("_hidden");
-   });
+   // $(".distr_registration_btn").on("click", function () {
+   //    $(".distr_registration_form").addClass("_active");
+   //    $("html").addClass("_hidden");
+   //    $(".distr_login_form").removeClass("_active");
+   // });
+   // $(".distr_registration__layer").on("click", function () {
+   //    $(".distr_registration_form").removeClass("_active");
+   //    $("html").removeClass("_hidden");
+   // });
    // END popup Регистрация (ДЛЯ ДИЛЕРОВ)
 
    // START popup Войти (ДЛЯ ДИЛЕРОВ)
-   $(".distr_login_btn").on("click", function () {
-      $(".distr_login_form").addClass("_active");
-      $("html").addClass("_hidden");
-      $(".distr_registration_form").removeClass("_active");
-   });
-   $(".distr_login__layer").on("click", function () {
-      $(".distr_login_form").removeClass("_active");
-      $("html").removeClass("_hidden");
-   });
-   // END popup Войти (ДЛЯ ДИЛЕРОВ)
+   // $(".distr_login_btn").on("click", function () {
+   //    $(".distr_login_form").addClass("_active");
+   //    $("html").addClass("_hidden");
+   //    $(".distr_registration_form").removeClass("_active");
+   // });
+   // $(".distr_login__layer").on("click", function () {
+   //    $(".distr_login_form").removeClass("_active");
+   //    $("html").removeClass("_hidden");
+   // });
+   // // END popup Войти (ДЛЯ ДИЛЕРОВ)
 
-   // START popup Заявка оформлена
-   $(".submitted_btn").on("click", function () {
-      $(".submitted_form").addClass("_active");
-      $("html").addClass("_hidden");
-   });
-   $(".submitted__layer").on("click", function () {
-      $(".submitted_form").removeClass("_active");
-      $("html").removeClass("_hidden");
-   });
+   // // START popup Заявка оформлена
+   // $(".submitted_btn").on("click", function () {
+   //    $(".submitted_form").addClass("_active");
+   //    $("html").addClass("_hidden");
+   // });
+   // $(".submitted__layer").on("click", function () {
+   //    $(".submitted_form").removeClass("_active");
+   //    $("html").removeClass("_hidden");
+   // });
    // END popup Заявка оформлена
 
    // // START popup prices
@@ -251,19 +251,19 @@ $(document).ready(function () {
    //    $(".accountb-tabs-body__item").eq(index).addClass("_active");
    // });
 
-   // $(".accountb-main__second-edit").on("click", function () {
-   //    $(this).addClass("_active");
-   //    $(".accountb-main__second-item-val").addClass("_active");
-   //    $("input#prof-save").addClass("_active");
-   //    $(".accountb-main__second-item-val input").attr("readonly", false);
-   // });
-   // $("input#prof-save").on("click", function (event) {
-   //    event.preventDefault();
-   //    $(".accountb-main__second-edit").removeClass("_active");
-   //    $(".accountb-main__second-item-val").removeClass("_active");
-   //    $("input#prof-save").removeClass("_active");
-   //    $(".accountb-main__second-item-val input").attr("readonly", true);
-   // });
+   $(".accountb-main__second-edit").on("click", function () {
+      $(this).addClass("_active");
+      $(".accountb-main__second-item-val").addClass("_active");
+      $("input#prof-save").addClass("_active");
+      $(".accountb-main__second-item-val input").attr("readonly", false);
+   });
+   $("input#prof-save").on("click", function (event) {
+      event.preventDefault();
+      $(".accountb-main__second-edit").removeClass("_active");
+      $(".accountb-main__second-item-val").removeClass("_active");
+      $("input#prof-save").removeClass("_active");
+      $(".accountb-main__second-item-val input").attr("readonly", true);
+   });
 
    // $(".accountb-tabs-body__item .products__item-wishlist-btn span").on(
    //    "click",
@@ -319,56 +319,56 @@ $(document).ready(function () {
    // END Валидация
 
    // START PopUp Цены
-   $(".download-file-input").on("change", function () {
-      const $this = $(this);
-      const fileName = $this[0].files.length
-         ? $this[0].files[0].name
-         : "Загрузить фото";
-      const fileIcon = $this.siblings(".file-icon");
-      const fileText = $this.siblings(".file-text");
+   // $(".download-file-input").on("change", function () {
+   //    const $this = $(this);
+   //    const fileName = $this[0].files.length
+   //       ? $this[0].files[0].name
+   //       : "Загрузить фото";
+   //    const fileIcon = $this.siblings(".file-icon");
+   //    const fileText = $this.siblings(".file-text");
 
-      if ($this[0].files.length) {
-         fileIcon.css("background-image", 'url("@/assets/img/file-icon.svg")');
-         $(".download-info__btn").addClass("active");
-         $(".download-info").addClass("active");
-      } else {
-         fileIcon.css(
-            "background-image",
-            'url("@/assets/img/upload-icon.svg")'
-         );
-         $(".download-info__btn").removeClass("active");
-         $(".download-info").removeClass("active");
-      }
+   //    if ($this[0].files.length) {
+   //       fileIcon.css("background-image", 'url("@/assets/img/file-icon.svg")');
+   //       $(".download-info__btn").addClass("active");
+   //       $(".download-info").addClass("active");
+   //    } else {
+   //       fileIcon.css(
+   //          "background-image",
+   //          'url("@/assets/img/upload-icon.svg")'
+   //       );
+   //       $(".download-info__btn").removeClass("active");
+   //       $(".download-info").removeClass("active");
+   //    }
 
-      fileText.text(fileName);
-   });
+   //    fileText.text(fileName);
+   // });
 
-   $(".popup-form-reset").on("click", function () {
-      $(".download-file-input").each(function () {
-         $(this).val("");
-         $(this)
-            .siblings(".file-icon")
-            .css("background-image", 'url("@/assets/img/upload-icon.svg")');
-         $(this).siblings(".file-text").text("Загрузить фото");
-         $(".download-info__btn").removeClass("active");
-         $(".download-info").removeClass("active");
-      });
-      $(".popup-form-submit").removeClass("active");
-   });
+   // $(".popup-form-reset").on("click", function () {
+   //    $(".download-file-input").each(function () {
+   //       $(this).val("");
+   //       $(this)
+   //          .siblings(".file-icon")
+   //          .css("background-image", 'url("@/assets/img/upload-icon.svg")');
+   //       $(this).siblings(".file-text").text("Загрузить фото");
+   //       $(".download-info__btn").removeClass("active");
+   //       $(".download-info").removeClass("active");
+   //    });
+   //    $(".popup-form-submit").removeClass("active");
+   // });
 
-   $('.popup-form__split label[for^="age"] input').on(
-      "focus input blur",
-      function () {
-         var $input = $(this);
-         var $icon = $input.siblings(".singleserv__price-table-icon");
+   // $('.popup-form__split label[for^="age"] input').on(
+   //    "focus input blur",
+   //    function () {
+   //       var $input = $(this);
+   //       var $icon = $input.siblings(".singleserv__price-table-icon");
 
-         if ($input.is(":focus") || $input.val().trim() !== "") {
-            $icon.addClass("active");
-         } else {
-            $icon.removeClass("active");
-         }
-      }
-   );
+   //       if ($input.is(":focus") || $input.val().trim() !== "") {
+   //          $icon.addClass("active");
+   //       } else {
+   //          $icon.removeClass("active");
+   //       }
+   //    }
+   // );
    // END PopUp Цены
    // START filters
    // function initializeRangeSlider(

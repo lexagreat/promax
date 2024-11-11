@@ -42,14 +42,14 @@
                         <span class="header-btns__lbl">Статус заказа</span>
                      </NuxtLink>
 
-                     <NuxtLink to="/account" class="header-btns__item" v-if="isLogin">
+                     <NuxtLink to="/account" class="header-btns__item" v-if="store.isLogin">
                         <span class="i-log-in__logged"><img src="@/assets/img/default-log-in.svg" alt="Иван"></span>
                         <span class="header-btns__lbl"><b>Иван</b></span>
                      </NuxtLink>
-                     <NuxtLink to="/" class="header-btns__item" v-else>
+                     <button @click="openLogin = true" class="header-btns__item" v-else>
                         <span class="i-log-in"></span>
                         <span class="header-btns__lbl">Войти</span>
-                     </NuxtLink>
+                     </button>
 
                      <NuxtLink to="/cart" class="header-btns__item">
                         <span class="i-cart"></span>
@@ -107,11 +107,23 @@
             </div>
          </div>
       </div>
+      <PopupsRegistration :isOpen="openReg" @closePopup="openReg = false" @success="onSuccessLogin" />
+      <PopupsLogin :isOpen="openLogin" @closePopup="openLogin = false" @openRegModal="openReg = true"
+         @success="onSuccessLogin" />
    </header>
 </template>
 <script setup>
-const isLogin = ref(true)
+import { useAccountStore } from '~/store/accountStore';
+let store = useAccountStore()
+const router = useRouter()
+const openLogin = ref(false)
+const openReg = ref(false)
 let services = await useBaseFetch("/blog/services")
-console.log(services);
+const onSuccessLogin = () => {
+   router.push("/account")
+}
 
+onBeforeMount(() => {
+   store.initStore()
+})
 </script>

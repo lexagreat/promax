@@ -6072,6 +6072,7 @@ html._hidden {
 
 // START popup popup
 .popup {
+   pointer-events: none;
    position: fixed;
    z-index: -1;
    top: 0;
@@ -6084,6 +6085,7 @@ html._hidden {
 }
 
 .popup._active {
+   pointer-events: all;
    opacity: 1;
    z-index: 999999;
 }

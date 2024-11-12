@@ -165,10 +165,8 @@ import { isAlreadyInCart, addProductToCart } from '~/assets/js/cart';
 const isPopupOpen = ref(false)
 const route = useRoute()
 let data = await useBaseFetch('/catalog/product/' + route.params.slug)
-console.log(data);
 onMounted(() => {
    makeTabs()
-   console.log(data.slug);
 })
 const inCart = ref(false)
 const path = ref([

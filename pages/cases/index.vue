@@ -111,5 +111,4 @@ let cases = await useBaseFetch("/blog/cases")
 let youtube = ref(cases[0].youtube)
 let tg = ref(cases[0].tg)
 let inst = ref(cases[0].inst)
-console.log(cases[0]);
 </script>

@@ -83,6 +83,4 @@
 </template>
 <script setup>
 let services = await useBaseFetch("/blog/services")
-console.log(services);
-
 </script>

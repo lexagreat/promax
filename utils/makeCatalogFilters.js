@@ -24,8 +24,6 @@ export const initializeRangeSlider = (
       },
    });
    function updateSliderValues() {
-      console.log(minVal);
-      console.log(maxVal);
       var minValue = parseInt($minInput.val()) || minVal;
       var maxValue = parseInt($maxInput.val()) || maxVal;
       minValue = Math.max(minValue, $slider.slider("option", "min"));

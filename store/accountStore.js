@@ -10,7 +10,6 @@ export const useAccountStore = defineStore("useAccountStore", {
             body: data,
             method: "POST",
          });
-         console.log("reg", response);
          if (response.email) {
             let logres = await this.login(data);
             return logres;

@@ -78,6 +78,4 @@ onBeforeRouteLeave(() => {
 })
 
 let data = await useBaseFetch("/blog/advantage")
-console.log(data);
-
 </script>

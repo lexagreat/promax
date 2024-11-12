@@ -36,7 +36,6 @@
 const route = useRoute()
 let slug = route.params.slug;
 let data = await useBaseFetch(`/blog/${slug}`)
-console.log(data);
 </script>
 
 

@@ -78,5 +78,4 @@ const openPopup = (id) => {
    isPopupOpen.value = true
 }
 let prices = await useBaseFetch("/blog/services/prices")
-console.log(prices);
 </script>

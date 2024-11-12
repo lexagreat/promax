@@ -79,15 +79,19 @@ const onLog = async () => {
       password: password.value,
    }
    let res = await store.login(object)
-   console.log(res);
    if (res) {
       emit('success')
       emit('closePopup')
    }
 }
 const reset = () => {
-   email.value = ""
-   phone.value = ""
+   if (email.value) {
+      email.value = ""
+   }
+
+   if (password.value) {
+      password.value = ""
+   }
 }
 watch(email, (value) => {
    if (value) {

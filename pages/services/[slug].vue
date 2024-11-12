@@ -148,5 +148,4 @@ let slug = route.params.slug
 
 
 let data = await useBaseFetch(`/blog/service/${slug}`)
-console.log(data);
 </script>

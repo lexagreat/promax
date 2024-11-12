@@ -48,7 +48,6 @@ const onRemove = () => {
    price.value = getFullPrice(getCart())
 }
 const onChangeCount = () => {
-   console.log('change');
    price.value = getFullPrice(getCart())
 }
 

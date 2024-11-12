@@ -79,6 +79,4 @@ onBeforeRouteLeave(() => {
 
 
 let services = await useBaseFetch("/blog/services")
-console.log(services);
-
 </script>

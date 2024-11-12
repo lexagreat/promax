@@ -32,7 +32,6 @@ async function setTab(slug) {
    if (slug == url.value) return
    url.value = slug
    let res = await useBaseFetch(base + url.value);
-   console.log(products.value);
    products.value = res.products
 
 }

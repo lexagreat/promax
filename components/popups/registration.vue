@@ -69,7 +69,11 @@ const check = ref(false)
 
 
 const onReg = async () => {
-   if (!check.value) return
+   console.log('onReg');
+   if (!check.value) {
+      console.log('no check.value');
+      return
+   }
    let errors = 0
    if (!isValidEmail(email.value)) {
       document.querySelector('#email_4').classList.add("error")
@@ -95,7 +99,6 @@ const onReg = async () => {
       password: password.value,
    }
    let res = await store.registr(object)
-   console.log(res);
    if (res) {
       emit('success')
       emit('closePopup')

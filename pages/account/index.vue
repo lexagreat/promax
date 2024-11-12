@@ -165,12 +165,10 @@ const phone = ref("")
 const name = ref("")
 onMounted(async () => {
    makeAccountEditing()
-   console.log(store.isLogin);
    if (!store.isLogin) {
       router.push("/")
    } else {
       let data = await store.getInfoAboutMe()
-      console.log("data", data);
       email.value = data.email
       phone.value = data.phone_number
    }

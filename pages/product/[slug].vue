@@ -181,14 +181,15 @@ const squareWithPercent = computed(() => {
 })
 
 const packageCount = computed(() => {
-   return Math.ceil(squareWithPercent.value / squaredMeters)
+   const res = Math.ceil(squareWithPercent.value / squaredMeters)
+   return res <= 0 ? 1 : res
 })
 
 const price = computed(() => {
    const priceForPackage = priceForMetr * squaredMeters
    return priceForPackage * packageCount.value
 })
-// const calcSquare = computed(() => calcWidth * calcHeight)
+
 onMounted(() => {
    makeTabs()
 })

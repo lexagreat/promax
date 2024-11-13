@@ -64,35 +64,33 @@
                            <div class="singleprod-bar__calc-sizes">
                               <div class="singleprod-bar__calc__item">
                                  <span class="singleprod-bar__calc__item-lbl">Ширина (м):</span>
-                                 <input class="singleprod-bar__calc__item-width" name="width" type="number" value="10">
+                                 <input class="singleprod-bar__calc__item-width" name="width" type="number" v-model="calcWidth">
                               </div>
                               <div class="singleprod-bar__calc__item">
                                  <span class="singleprod-bar__calc__item-lbl">Длина (м):</span>
-                                 <input class="singleprod-bar__calc__item-length" name="length" type="number"
-                                    value="10">
+                                 <input class="singleprod-bar__calc__item-length" name="length" type="number" v-model="calcHeight">
                               </div>
                            </div>
                            <div class="singleprod-bar__calc-or">или</div>
                            <div class="singleprod-bar__calc-square">
                               <div class="singleprod-bar__calc__item">
                                  <span class="singleprod-bar__calc__item-lbl">Площадь (м²):</span>
-                                 <input class="singleprod-bar__calc__item-square" name="square" type="number"
-                                    value="10">
+                                 <input class="singleprod-bar__calc__item-square" name="square" type="number" disabled style="background-color: white;" :value="calcSquare">
                               </div>
                            </div>
                            <div class="singleprod-bar__calc-percents">
                               <label for="radio-percent-1" class="singleprod-bar__calc-percents-item">
-                                 <input type="radio" name="radio-percent" id="radio-percent-1" checked>
+                                 <input type="radio" name="radio-percent" id="radio-percent-1" :value="0" v-model="percent">
                                  <span class="singleprod-bar__calc-percents-item-icon"></span>
                                  <span class="singleprod-bar__calc-percents-item-txt">+0%</span>
                               </label>
                               <label for="radio-percent-2" class="singleprod-bar__calc-percents-item">
-                                 <input type="radio" name="radio-percent" id="radio-percent-2">
+                                 <input type="radio" name="radio-percent" id="radio-percent-2" :value="5" v-model="percent">
                                  <span class="singleprod-bar__calc-percents-item-icon"></span>
                                  <span class="singleprod-bar__calc-percents-item-txt">+5%</span>
                               </label>
                               <label for="radio-percent-3" class="singleprod-bar__calc-percents-item">
-                                 <input type="radio" name="radio-percent" id="radio-percent-3">
+                                 <input type="radio" name="radio-percent" id="radio-percent-3" :value="10" v-model="percent">
                                  <span class="singleprod-bar__calc-percents-item-icon"></span>
                                  <span class="singleprod-bar__calc-percents-item-txt">+10%</span>
                               </label>
@@ -101,31 +99,31 @@
                               <div class="singleprod-bar__calc-out-item">
                                  <div class="singleprod-bar__calc-out-item-lbl">Ваша площадь:</div>
                                  <div class="singleprod-bar__calc-out-item-val"><span
-                                       class="out_square_1">1</span><span>м²</span></div>
+                                       class="out_square_1">{{ calcSquare }}</span><span>м²</span></div>
                               </div>
                               <div class="singleprod-bar__calc-out-item">
                                  <div class="singleprod-bar__calc-out-item-lbl">
-                                    Ваша площадь <span><b>+</b> <span class="out_percents">0</span><b>%:</b></span>
+                                    Ваша площадь <span><b>+</b> <span class="out_percents">{{ percent }}</span><b>%:</b></span>
                                  </div>
                                  <div class="singleprod-bar__calc-out-item-val"><span
-                                       class="out_square_2">1</span><span>м²</span></div>
+                                       class="out_square_2">{{ squareWithPercent }}</span><span>м²</span></div>
                               </div>
                               <div class="singleprod-bar__calc-out-item">
                                  <div class="singleprod-bar__calc-out-item-lbl">Количество упаковок:</div>
                                  <div class="singleprod-bar__calc-out-item-val"><span
-                                       class="out_pack_count_1">1</span><span>уп.</span></div>
+                                       class="out_pack_count_1">{{ packageCount }}</span><span>уп.</span></div>
                               </div>
                               <div class="singleprod-bar__calc-out-item">
                                  <div class="singleprod-bar__calc-out-item-lbl">Рекомендуем приобрести:</div>
                                  <div class="singleprod-bar__calc-out-item-val">
-                                    <span class="out_pack_count_2">2</span><span>уп.</span> <span
-                                       class="singleprod-gray">(2 м²)</span>
+                                    <span class="out_pack_count_2">{{ packageCount }}</span><span>уп.</span> <span
+                                       class="singleprod-gray">({{ packageCount * squaredMeters }} м²)</span>
                                  </div>
                               </div>
                            </div>
-                           <div class="singleprod-bar__calc-out-price"><span>7 500</span> <span>руб.</span></div>
+                           <div class="singleprod-bar__calc-out-price"><span>{{ price }}</span> <span>руб.</span></div>
                            <div class="products__item-bottom-frst">
-                              <div class="products__item-addtocart-btn" @click="isPopupOpen = true"><span
+                              <div class="products__item-addtocart-btn" :disabled="price === 0" @click="isPopupOpen = true"><span
                                     class="i-addtocart"></span><span class="products__item-addtocart-btn-txt">В
                                     корзину</span>
                               </div>
@@ -165,6 +163,32 @@ import { isAlreadyInCart, addProductToCart } from '~/assets/js/cart';
 const isPopupOpen = ref(false)
 const route = useRoute()
 let data = await useBaseFetch('/catalog/product/' + route.params.slug)
+console.log('data', data);
+const squaredMeters = data['squared_metres']
+const priceForMetr = data['price']
+
+
+const calcWidth = ref(10)
+const calcHeight = ref(10)
+const calcSquare = computed(() => calcWidth.value * calcHeight.value)
+const percent = ref(5)
+
+
+
+const squareWithPercent = computed(() => {
+   console.log('squareWithPercent', calcSquare.value + (percent.value * calcSquare.value / 100));
+   return calcSquare.value + (percent.value * calcSquare.value / 100)
+})
+
+const packageCount = computed(() => {
+   return Math.ceil(squareWithPercent.value / squaredMeters)
+})
+
+const price = computed(() => {
+   const priceForPackage = priceForMetr * squaredMeters
+   return priceForPackage * packageCount.value
+})
+// const calcSquare = computed(() => calcWidth * calcHeight)
 onMounted(() => {
    makeTabs()
 })

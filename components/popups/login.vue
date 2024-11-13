@@ -23,7 +23,7 @@
                      <span>Оставаться в системе</span>
                   </label> -->
 
-                  <div class="popup-form__forget-password forget_password_btn">
+                  <div @click="onForgetPassword" class="popup-form__forget-password forget_password_btn">
                      Я забыл/а свой пароль
                   </div>
 
@@ -48,13 +48,18 @@ let store = useAccountStore()
 const props = defineProps({
    isOpen: Boolean,
 })
-const emit = defineEmits(["closePopup", "openRegModal", "success"])
+const emit = defineEmits(["closePopup", "openRegModal", "success", "forgetPassword"])
 const onClose = () => {
    emit('closePopup')
 }
 const onReg = () => {
    emit('closePopup')
    emit('openRegModal')
+}
+
+const onForgetPassword = () => {
+   emit('closePopup')
+   emit('forgetPassword')
 }
 
 const email = ref("")
@@ -75,7 +80,7 @@ const onLog = async () => {
    }
    if (errors > 0) return
    let object = {
-      email: email.value,
+      username: email.value,
       password: password.value,
    }
    let res = await store.login(object)

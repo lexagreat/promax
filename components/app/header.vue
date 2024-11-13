@@ -110,6 +110,7 @@
       <PopupsRegistration :isOpen="openReg" @closePopup="openReg = false" @success="onSuccessLogin" />
       <PopupsLogin :isOpen="openLogin" @closePopup="openLogin = false" @openRegModal="openReg = true"
          @success="onSuccessLogin" />
+      <PopupsForgetPassword :isOpen="openForgetPassword" @closePopup="openForgetPassword = false" />
    </header>
 </template>
 <script setup>
@@ -118,6 +119,7 @@ let store = useAccountStore()
 const router = useRouter()
 const openLogin = ref(false)
 const openReg = ref(false)
+const openForgetPassword = ref(false)
 let services = await useBaseFetch("/blog/services")
 const onSuccessLogin = () => {
    router.push("/account")

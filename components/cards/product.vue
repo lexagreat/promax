@@ -64,7 +64,10 @@
           @click="toggleFavoriteProduct(product.id, product)"
         >
           <span
-            :class="{ 'i-wishlist-active': productsStore.isProductInFavorite(product.id), 'i-wishlist-disabled': !productsStore.isProductInFavorite(product.id) }"
+            :class="{
+              'i-wishlist-active': productsStore.isProductInFavorite(product.id),
+              'i-wishlist-disabled': !productsStore.isProductInFavorite(product.id)
+            }"
           ></span>
         </div>
         <div
@@ -83,7 +86,11 @@
       <div class="products__item-issample">
         <span class="i-issample-gray"></span>
         <span class="products__item-issample-text">есть образец</span>
-        <span class="i-delete-btn delete-btn-absolute" @click="productsStore.deleteFavoriteProduct(product.id)"></span>
+        <span
+          class="i-delete-btn delete-btn-absolute"
+          v-if="route.path === '/account'"
+          @click="productsStore.deleteFavoriteProduct(product.id)"
+        ></span>
       </div>
     </div>
   </div>

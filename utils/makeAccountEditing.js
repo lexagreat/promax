@@ -22,11 +22,11 @@ export default function () {
       $(".accountb-main__second-item-val input").attr("readonly", true);
    });
    // НАЖАТИЕ НА СЕРДЦЕ
-   $(".accountb-tabs-body__item .products__item-wishlist-btn span").on(
-      "click",
-      function () {
-         $(this).parents(".products__item").remove();
-      }
-   );
+   // $(".accountb-tabs-body__item .products__item-wishlist-btn span").on(
+   //    "click",
+   //    function () {
+   //       $(this).parents(".products__item").remove();
+   //    }
+   // );
    // END account
 }

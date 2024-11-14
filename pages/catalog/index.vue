@@ -200,7 +200,9 @@
 </template>
 <script setup>
 import MultiRangeSlider from "multi-range-slider-vue";
+import { useProductsStore } from "~/store/productsStore";
 import { makeCatalogFilters } from '~/utils/makeCatalogFilters'
+const productsStore = useProductsStore()
 
 
 
@@ -329,7 +331,7 @@ watch(
    }
 );
 await getData()
-
+await productsStore.getFavoriteProducts()
 </script>
 
 

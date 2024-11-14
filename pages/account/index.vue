@@ -73,7 +73,7 @@
                      </div>
                      <div class="accountb-tabs-body__item body-wishlist _active">
                         <div class="prodtabs__main products products_ld_4">
-                           <CardsProduct v-for="(item, index) in 6" :key="index" :product="{id: 'ads', product: {}}" :id="'accountpageitem' + index" />
+                           <CardsProduct v-for="(item, index) in productsStore.favoriteProducts" :key="index" :product="item" :id="'accountpageitem' + index" />
                         </div>
                      </div>
                      <div class="accountb-tabs-body__item body-orders">
@@ -156,36 +156,29 @@
 </template>
 <script setup>
 import { useAccountStore } from '~/store/accountStore';
-let store = useAccountStore()
-const router = useRouter()
+import { useProductsStore } from '~/store/productsStore';
 
-const getFavourite = async () => {
-   let res = await useBaseFetch(`/catalog/favorite-get`, {
-      method: 'GET',
-      headers: {
-         Authorization: `Token ${store.token}`
-      }
-   })
-   console.log('res', res);
-   // products.value = res;
-}
+const accountStore = useAccountStore()
+const productsStore = useProductsStore()
+
+const router = useRouter()
 
 const email = ref("")
 const phone = ref("")
 const name = ref("")
 onMounted(async () => {
-   await getFavourite()
    makeAccountEditing()
-   if (!store.isLogin) {
+   if (!accountStore.isLogin) {
       router.push("/")
    } else {
-      let data = await store.getInfoAboutMe()
-      email.value = data.email
-      phone.value = data.phone_number
+      await productsStore.getFavoriteProducts()
+      let infoAboutMe = await accountStore.getInfoAboutMe()
+      email.value = infoAboutMe.email
+      phone.value = infoAboutMe.phone_number
    }
 })
 const onLogout = () => {
-   store.logout()
+   accountStore.logout()
    router.push("/")
 }
 </script>

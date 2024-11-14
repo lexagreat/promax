@@ -28,7 +28,6 @@ $(document).ready(function () {
       //    dots: true,
       // });
    }
-
    // function toggleTextInAddtoCartBtn(thisEl) {
    //    if ($(thisEl).hasClass("_active")) {
    //       $(thisEl).find(".products__item-addtocart-btn-txt").text("Оформление");
@@ -44,14 +43,14 @@ $(document).ready(function () {
    //    $(this).find(".products__item-addtocart-btn-txt").text("Оформление");
    // });
    // НАЖАТИЕ НА СЕРДЦЕ
-   $(".products__item-wishlist-btn").on("click", function () {
-      $(this).toggleClass("_active");
-      if ($(this).find("span").hasClass("i-wishlist-disabled")) {
-         $(this).find("span").attr("class", "i-wishlist-active");
-      } else {
-         $(this).find("span").attr("class", "i-wishlist-disabled");
-      }
-   });
+   // $(".products__item-wishlist-btn").on("click", function () {
+   //    $(this).toggleClass("_active");
+   //    if ($(this).find("span").hasClass("i-wishlist-disabled")) {
+   //       $(this).find("span").attr("class", "i-wishlist-active");
+   //    } else {
+   //       $(this).find("span").attr("class", "i-wishlist-disabled");
+   //    }
+   // });
 
    $("nav.header-nav li.has-children").each(function () {
       $(this).append('<span class="header-nav_arrow"></span>');

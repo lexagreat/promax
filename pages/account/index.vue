@@ -73,8 +73,7 @@
                      </div>
                      <div class="accountb-tabs-body__item body-wishlist _active">
                         <div class="prodtabs__main products products_ld_4">
-                           <!-- <CardsProduct v-for="(item, index) in 6" :key="index" :id="'accountpageitem' + index" /> -->
-
+                           <CardsProduct v-for="(item, index) in 6" :key="index" :product="{id: 'ads', product: {}}" :id="'accountpageitem' + index" />
                         </div>
                      </div>
                      <div class="accountb-tabs-body__item body-orders">
@@ -160,10 +159,22 @@ import { useAccountStore } from '~/store/accountStore';
 let store = useAccountStore()
 const router = useRouter()
 
+const getFavourite = async () => {
+   let res = await useBaseFetch(`/catalog/favorite-get`, {
+      method: 'GET',
+      headers: {
+         Authorization: `Token ${store.token}`
+      }
+   })
+   console.log('res', res);
+   // products.value = res;
+}
+
 const email = ref("")
 const phone = ref("")
 const name = ref("")
 onMounted(async () => {
+   await getFavourite()
    makeAccountEditing()
    if (!store.isLogin) {
       router.push("/")

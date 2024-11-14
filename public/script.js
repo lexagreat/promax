@@ -43,6 +43,7 @@ $(document).ready(function () {
    //    $(this).addClass("_active");
    //    $(this).find(".products__item-addtocart-btn-txt").text("Оформление");
    // });
+   // НАЖАТИЕ НА СЕРДЦЕ
    $(".products__item-wishlist-btn").on("click", function () {
       $(this).toggleClass("_active");
       if ($(this).find("span").hasClass("i-wishlist-disabled")) {

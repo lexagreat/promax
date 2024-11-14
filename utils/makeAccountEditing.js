@@ -21,7 +21,7 @@ export default function () {
       $("input#prof-save").removeClass("_active");
       $(".accountb-main__second-item-val input").attr("readonly", true);
    });
-
+   // НАЖАТИЕ НА СЕРДЦЕ
    $(".accountb-tabs-body__item .products__item-wishlist-btn span").on(
       "click",
       function () {

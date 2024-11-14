@@ -10,12 +10,11 @@ WORKDIR /frontend
 FROM base as build
 
 COPY --link package*.json .
-RUN npm install --production=false
+RUN yarn install
 
 COPY --link . .
 
-RUN npm run build
-RUN npm prune
+RUN yarn build
 
 # run
 FROM base

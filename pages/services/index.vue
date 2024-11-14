@@ -1,21 +1,28 @@
 <template>
-   <main class="main">
-
-      <div class="ourservb">
-         <div class="container">
-            <div class="ourservb__inner">
-               <h1 class="ourservb__title">Наши услуги</h1>
-               <div class="ourservb__list">
-                  <NuxtLink v-for="item in services" :key="item" :to="'/services/' + item.slug" class="ourservb__item">
-                     <div class="ourservb__item-icon">
-                        <img :src="item.icon" alt="Услуги и цены на шлифовку паркета в Санкт-Петербурге">
-                     </div>
-                     <div class="ourservb__item-desc">
-                        <h2 class="ourservb__item-title">{{ item.title }}</h2>
-                        <div class="ourservb__item-text">{{ item.subtitle }}</div>
-                     </div>
-                  </NuxtLink>
-                  <!-- <NuxtLink to="/services/1" class="ourservb__item">
+  <main class="main">
+    <div class="ourservb">
+      <div class="container">
+        <div class="ourservb__inner">
+          <h1 class="ourservb__title">Наши услуги</h1>
+          <div class="ourservb__list">
+            <NuxtLink
+              v-for="item in services"
+              :key="item"
+              :to="'/services/' + item.slug"
+              class="ourservb__item"
+            >
+              <div class="ourservb__item-icon">
+                <img
+                  :src="item.icon"
+                  alt="Услуги и цены на шлифовку паркета в Санкт-Петербурге"
+                />
+              </div>
+              <div class="ourservb__item-desc">
+                <h2 class="ourservb__item-title">{{ item.title }}</h2>
+                <div class="ourservb__item-text">{{ item.subtitle }}</div>
+              </div>
+            </NuxtLink>
+            <!-- <NuxtLink to="/services/1" class="ourservb__item">
                      <div class="ourservb__item-icon">
                         <img src="@/assets/img/ourservb/ourservb_2.svg"
                            alt="Услуги и цены на шлифовку паркета в Санкт-Петербурге">
@@ -71,16 +78,19 @@
                         </div>
                      </div>
                   </NuxtLink> -->
-               </div>
-               <NuxtLink to="/prices" class="ourserv__bottom-btn _btn">
-                  <span>Посмотреть полный прайс</span>
-                  <span class="i-ourserv-view-cases"></span>
-               </NuxtLink>
-            </div>
-         </div>
+          </div>
+          <NuxtLink
+            to="/prices"
+            class="ourserv__bottom-btn _btn"
+          >
+            <span>Посмотреть полный прайс</span>
+            <span class="i-ourserv-view-cases"></span>
+          </NuxtLink>
+        </div>
       </div>
-   </main>
+    </div>
+  </main>
 </template>
 <script setup>
-let services = await useBaseFetch("/blog/services")
+let services = await useBaseFetch('/blog/services')
 </script>

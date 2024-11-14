@@ -60,8 +60,8 @@
         <div
           class="products__item-wishlist-btn"
           v-if="accountStore.isLogin && route.path !== '/account'"
-          :class="{ _active: isInFavor }"
-          @click="toggleFavoriteProduct(product.id, product)"
+          :class="{ _active: productsStore.isProductInFavorite(product.id) }"
+          @click="productsStore.toggleFavoriteProduct(product.id, product)"
         >
           <span
             :class="{

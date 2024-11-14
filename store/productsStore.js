@@ -52,10 +52,16 @@ export const useProductsStore = defineStore("useProductsStore", {
          }
          console.log('this.favoriteProducts', this.favoriteProducts);
       },
-      // isProductInFavorite(productId) {
-      //    if (!this.favoriteProducts.length) return false
-      //    return this.favoriteProducts.some((product) => product.id === productId)
-      // }
+      async toggleFavoriteProduct(productId, product) {
+         console.log('toggle', productId)
+         if (this.isProductInFavorite(productId)) {
+           console.log('delete')
+           await this.deleteFavoriteProduct(productId)
+         } else {
+           console.log('add')
+           await this.addFavoriteProduct(productId, product)
+         }
+      }
    },
    getters: {
       isProductInFavorite(state) {

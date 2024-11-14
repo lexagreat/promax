@@ -1,7 +1,7 @@
 <template lang="">
-   <AppHeader />
-   <slot />
-   <AppFooter />
+  <AppHeader />
+  <slot />
+  <AppFooter />
 </template>
 <script setup></script>
 

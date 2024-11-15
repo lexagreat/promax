@@ -31,14 +31,6 @@
               />
             </label>
 
-            <!-- <label for="checkbox_5">
-                    <input v-model="" type="checkbox" class="inpcheckbox" id="checkbox_5" name="checkbox" checked>
-                    <div class="i-checkbox-wrp">
-                       <span class="i-checkbox"></span>
-                    </div>
-                    <span>Оставаться в системе</span>
-                 </label> -->
-
             <div class="popup-form__forget-password forget_password_btn">Я забыл/а свой пароль</div>
           </div>
           <div class="popup-form__btns">

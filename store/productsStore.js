@@ -53,12 +53,9 @@ export const useProductsStore = defineStore("useProductsStore", {
          console.log('this.favoriteProducts', this.favoriteProducts);
       },
       async toggleFavoriteProduct(productId, product) {
-         console.log('toggle', productId)
          if (this.isProductInFavorite(productId)) {
-           console.log('delete')
            await this.deleteFavoriteProduct(productId)
          } else {
-           console.log('add')
            await this.addFavoriteProduct(productId, product)
          }
       }

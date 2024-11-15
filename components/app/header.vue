@@ -146,17 +146,20 @@
       </div>
     </div>
     <PopupsRegistration
+      v-if="openReg"
       :isOpen="openReg"
       @closePopup="openReg = false"
       @success="onSuccessLogin"
     />
     <PopupsLogin
+      v-if="openLogin"
       :isOpen="openLogin"
       @closePopup="openLogin = false"
       @openRegModal="openReg = true"
       @success="onSuccessLogin"
     />
     <PopupsForgetPassword
+      v-if="openForgetPassword"
       :isOpen="openForgetPassword"
       @closePopup="openForgetPassword = false"
     />

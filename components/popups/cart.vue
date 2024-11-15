@@ -6,6 +6,12 @@
     <div class="added-main">
       <div class="added-main__inner">
         <div class="added-main__label">Товар добавлен в корзину</div>
+        <div>
+          <!-- <p>product.price: {{ product.price }}</p>
+          <p>product.squared_metres: {{ product.squared_metres }}</p>
+          <p>localCount: {{ localCount }}</p>
+          <p>countPackages: {{ props.countPackages }}</p> -->
+        </div>
         <div class="added-main__product">
           <div class="added-main__product-img">
             <img
@@ -15,7 +21,7 @@
           </div>
           <div class="added-main__product-info">
             <div class="added-main__product-name">
-              <div class="added-main__product-name-cat">Дизайнерский паркет</div>
+              <div class="added-main__product-name-cat">{{ product.sub_category.title }}</div>
               <div class="added-main__product-name-title">{{ product.title }}</div>
             </div>
             <div class="added-main__product-price">
@@ -27,20 +33,24 @@
             <div class="added-main__product-price-pack">
               <div class="added-main__product-price-pack-lbl">Цена за упаковку:</div>
               <div class="added-main__product-price-pack-val">
-                <span>20 000</span> <span>руб. за уп.</span>
+                <span>{{ product.price * product.squared_metres }}</span> <span>руб. за уп.</span>
               </div>
             </div>
           </div>
           <div class="added-main__product-ctrl">
             <div class="added-main__product-ctrl-sum">
-              <div class="added-main__product-ctrl-sum-val"><span>20 000</span> <span>₽</span></div>
+              <div class="added-main__product-ctrl-sum-val">
+                <span>{{ product.price * product.squared_metres * localCount }}</span>
+                <span>₽</span>
+              </div>
               <div class="add-prod-ctrl-sum-right">
                 <div class="add-prod-ctrl-sum-counter">
-                  <span
+                  <button
                     class="counter-minus"
+                    :disabled="localCount <= 1"
                     @click="minus"
-                  ></span>
-                  <span class="counter-val">{{ count }}</span>
+                  ></button>
+                  <span class="counter-val">{{ localCount }}</span>
                   <span
                     class="counter-plus"
                     @click="plus"
@@ -54,10 +64,13 @@
               <div class="added-main__product-ctrl-cart-info">
                 <div class="added-main__product-ctrl-cart-info-first">
                   <span class="added-main__product-ctrl-cart-info-lbl">Товары</span>
-                  <span class="added-main__product-ctrl-cart-info-val"> (<span>1</span>)</span>
+                  <span class="added-main__product-ctrl-cart-info-val">
+                    (<span>{{ countOfProducts }}</span
+                    >)</span
+                  >
                 </div>
                 <div class="added-main__product-ctrl-cart-info-sum">
-                  <span>20 000</span> <span>₽</span>
+                  <span>{{ sumOfProducts }}</span> <span>₽</span>
                 </div>
               </div>
             </div>
@@ -71,77 +84,24 @@
         <div class="added-main__related">
           <div class="added-main__related-label">Вам могут пригодиться</div>
           <div class="added-main__related-list">
-            <div class="added-main__related-item">
+            <div
+              class="added-main__related-item"
+              v-for="usefulProduct of props.product.useful_product"
+              :key="usefulProduct.id"
+            >
               <div class="added-main__related-item-img">
                 <img
-                  src="@/assets/img/products/related-product.png"
-                  alt="Клей для паркета Jurgi"
+                  :src="usefulProduct.images[0]"
+                  :alt="usefulProduct.sub_category.title"
                 />
               </div>
               <div class="added-main__related-item-name">
-                <div class="added-main__related-item-name-lbl">Клей для паркета</div>
-                <div class="added-main__related-item-name-title">Jurgi</div>
+                <div class="added-main__related-item-name-lbl">{{ usefulProduct.sub_category.category }}</div>
+                <div class="added-main__related-item-name-title">{{ usefulProduct.sub_category.title }}</div>
               </div>
-              <div class="added-main__related-item-price"><span>7 000</span> <span>руб.</span></div>
+              <div class="added-main__related-item-price"><span>{{ usefulProduct.price }}</span> <span>руб.</span></div>
               <div class="added-main__related-item-addcart">
-                <div class="products__item-addtocart-btn">
-                  <span class="i-addtocart"></span>
-                  <span class="products__item-addtocart-btn-txt">В корзину</span>
-                </div>
-              </div>
-            </div>
-            <div class="added-main__related-item">
-              <div class="added-main__related-item-img">
-                <img
-                  src="@/assets/img/products/related-product.png"
-                  alt="Клей для паркета Jurgi"
-                />
-              </div>
-              <div class="added-main__related-item-name">
-                <div class="added-main__related-item-name-lbl">Клей для паркета</div>
-                <div class="added-main__related-item-name-title">Jurgi</div>
-              </div>
-              <div class="added-main__related-item-price"><span>7 000</span> <span>руб.</span></div>
-              <div class="added-main__related-item-addcart">
-                <div class="products__item-addtocart-btn">
-                  <span class="i-addtocart"></span>
-                  <span class="products__item-addtocart-btn-txt">В корзину</span>
-                </div>
-              </div>
-            </div>
-            <div class="added-main__related-item">
-              <div class="added-main__related-item-img">
-                <img
-                  src="@/assets/img/products/related-product.png"
-                  alt="Клей для паркета Jurgi"
-                />
-              </div>
-              <div class="added-main__related-item-name">
-                <div class="added-main__related-item-name-lbl">Клей для паркета</div>
-                <div class="added-main__related-item-name-title">Jurgi</div>
-              </div>
-              <div class="added-main__related-item-price"><span>7 000</span> <span>руб.</span></div>
-              <div class="added-main__related-item-addcart">
-                <div class="products__item-addtocart-btn">
-                  <span class="i-addtocart"></span>
-                  <span class="products__item-addtocart-btn-txt">В корзину</span>
-                </div>
-              </div>
-            </div>
-            <div class="added-main__related-item">
-              <div class="added-main__related-item-img">
-                <img
-                  src="@/assets/img/products/related-product.png"
-                  alt="Клей для паркета Jurgi"
-                />
-              </div>
-              <div class="added-main__related-item-name">
-                <div class="added-main__related-item-name-lbl">Клей для паркета</div>
-                <div class="added-main__related-item-name-title">Jurgi</div>
-              </div>
-              <div class="added-main__related-item-price"><span>7 000</span> <span>руб.</span></div>
-              <div class="added-main__related-item-addcart">
-                <div class="products__item-addtocart-btn">
+                <div class="products__item-addtocart-btn _active">
                   <span class="i-addtocart"></span>
                   <span class="products__item-addtocart-btn-txt">В корзину</span>
                 </div>
@@ -155,27 +115,54 @@
   </AppPopup>
 </template>
 <script setup>
-import { minusProductCount, plusProductCount, getProductCount } from '~/assets/js/cart'
+import {
+  minusProductCount,
+  plusProductCount,
+  getProductCount,
+  isAlreadyInCart,
+  getSumOfProducts,
+  getCountOfProducts
+} from '~/assets/js/cart'
 const props = defineProps({
   isOpen: Boolean,
-  product: Object
+  product: Object,
+  countPackages: Number
 })
 const emit = defineEmits(['closePopup'])
 const onClose = () => {
   emit('closePopup')
 }
-const count = ref(0)
+const localCount = ref(0)
+const sumOfProducts = ref(0)
+const countOfProducts = ref(0)
 
 const plus = () => {
-  count.value++
+  localCount.value++
   plusProductCount(props.product.slug)
+  sumOfProducts.value = getSumOfProducts()
 }
 const minus = () => {
-  count.value--
+  localCount.value--
   minusProductCount(props.product.slug)
+  sumOfProducts.value = getSumOfProducts()
 }
 
+watch(
+  () => props.countPackages,
+  (newValue) => {
+    console.log('change countPackages')
+    localCount.value = newValue
+  }
+)
+
 onMounted(() => {
-  count.value = getProductCount(props.product.slug)
+  if (isAlreadyInCart(props.product.slug)) {
+    localCount.value = getProductCount(props.product.slug)
+    sumOfProducts.value = getSumOfProducts()
+    countOfProducts.value = getCountOfProducts()
+    console.log('localCount.value', localCount.value)
+    console.log('sumOfProducts.value', sumOfProducts.value)
+    console.log('countOfProducts.value', countOfProducts.value)
+  }
 })
 </script>

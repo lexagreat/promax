@@ -23,6 +23,16 @@ export function plusProductCount(slug) {
    localStorage.cart = JSON.stringify(cart);
 }
 
+export function setProductCount(slug, count) {
+   let cart = JSON.parse(localStorage.cart);
+   cart.forEach((item) => {
+      if (item.slug == slug) {
+         item.count = count;
+      }
+   });
+   localStorage.cart = JSON.stringify(cart);
+}
+
 export function minusProductCount(slug) {
    let cart = JSON.parse(localStorage.cart);
    cart.forEach((item) => {
@@ -36,7 +46,9 @@ export function getProductCount(slug) {
    let cart = JSON.parse(localStorage.cart);
    let count = 0;
    cart.forEach((item) => {
+      console.log('item.slug', item.slug, 'slug', slug);
       if (item.slug == slug) {
+         console.log('hereee');
          count = item.count;
       }
    });
@@ -61,6 +73,24 @@ export function isAlreadyInCart(slug) {
       }
    });
    return isInCartAlready;
+}
+export function getSumOfProducts() {
+   let cart = JSON.parse(localStorage.cart);
+   let sum = 0
+   if (!cart.length) {
+      return 0
+   }
+
+   for (let product of cart) {
+      const sumOfProduct = product.count * product.price * product.squared_metres
+      sum += sumOfProduct
+   }
+
+   return sum
+}
+export function getCountOfProducts() {
+   const cart = JSON.parse(localStorage.cart);
+   return cart.length
 }
 
 export function getCart() {

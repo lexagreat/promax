@@ -12,7 +12,7 @@
       </div>
     </div>
     <div class="cartb__item-second">
-      <div class="cartb__item-second-cat">Дизайнерский паркет</div>
+      <div class="cartb__item-second-cat">{{ product.sub_category.title }}</div>
       <div class="cartb__item-second-title">{{ product.title }}</div>
       <div class="cartb__item-second-prices">
         <div class="cartb__item-second-prices-reg">
@@ -38,7 +38,9 @@
             ></span>
           </div>
           <div class="add-prod-ctrl-sum-pcs">уп.</div>
-          <div class="add-prod-ctrl-sum-square"><span>3</span> <span>м²</span></div>
+          <div class="add-prod-ctrl-sum-square">
+            <span>{{ product.squared_metres * count }}</span> <span>м²</span>
+          </div>
         </div>
         <div
           class="cartb__item-third-ctrl-delete"
@@ -48,7 +50,7 @@
         </div>
       </div>
       <div class="cartb__item-third-price">
-        <span>{{ product.price * count }}</span> <span>₽</span>
+        <span>{{ product.price * product.squared_metres * count }}</span> <span>₽</span>
       </div>
     </div>
   </div>

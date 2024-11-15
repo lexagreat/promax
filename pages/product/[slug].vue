@@ -54,26 +54,22 @@
                   </div>
                   <div class="singleprod-bar__price-text">Цена за упаковку:</div>
                   <div class="singleprod__pack-price">
-                    <span>{{ data.price }}</span
+                    <span>{{ data.price * data.squared_metres }}</span
                     ><span>руб. за уп.</span>
                   </div>
-
+                  <!--  -->
                   <div class="products__item-bottom-frst">
-                    <div
-                      class="products__item-addtocart-btn _active"
-                      v-if="inCart"
-                      @click="openPopup"
-                    >
-                      <span class="products__item-addtocart-btn-txt">В корзине</span>
-                    </div>
-                    <div
+                    <button
                       class="products__item-addtocart-btn"
-                      v-else
-                      @click="openPopup"
+                      :class="{ _active: inCart }"
+                      :disabled="inCart"
+                      @click="openPopup(false)"
                     >
-                      <span class="i-addtocart"></span
-                      ><span class="products__item-addtocart-btn-txt">В корзину</span>
-                    </div>
+                      <span class="products__item-addtocart-btn-txt">{{
+                        inCart ? 'В корзине' : 'В корзину'
+                      }}</span>
+                    </button>
+                    <!--  -->
                     <div
                       v-if="accountStore.isLogin"
                       class="products__item-wishlist-btn"
@@ -224,14 +220,19 @@
                     <span>{{ price }}</span> <span>руб.</span>
                   </div>
                   <div class="products__item-bottom-frst">
+                    <!--  -->
                     <div
                       class="products__item-addtocart-btn"
+                      :class="{ _active: inCart }"
                       :disabled="price === 0"
-                      @click="isPopupOpen = true"
+                      @click="openPopup(true)"
                     >
                       <span class="i-addtocart"></span
-                      ><span class="products__item-addtocart-btn-txt">В корзину</span>
+                      ><span class="products__item-addtocart-btn-txt">{{
+                        inCart ? 'В корзине' : 'В корзину'
+                      }}</span>
                     </div>
+                    <!--  -->
                   </div>
                 </div>
               </form>
@@ -265,6 +266,7 @@
     </div>
 
     <PopupsCart
+      :countPackages="count"
       :product="data"
       :isOpen="isPopupOpen"
       @closePopup="isPopupOpen = false"
@@ -273,7 +275,12 @@
 </template>
 <script setup>
 import { makeTabs } from '~/utils/makeProductPage'
-import { isAlreadyInCart, addProductToCart } from '~/assets/js/cart'
+import {
+  isAlreadyInCart,
+  addProductToCart,
+  getProductCount,
+  setProductCount
+} from '~/assets/js/cart'
 import { useProductsStore } from '~/store/productsStore'
 import { useAccountStore } from '~/store/accountStore'
 
@@ -312,6 +319,7 @@ await productsStore.getFavoriteProducts()
 onMounted(() => {
   makeTabs()
 })
+const count = ref(0)
 const inCart = ref(false)
 const path = ref([
   {
@@ -334,15 +342,32 @@ for (let key in data.detail_chars) {
   }
   chars.value.push(obj)
 }
-const openPopup = () => {
+const openPopup = (isCalcBtn) => {
+  console.log('openPop')
+  if (!inCart.value) {
+    addProductToCart(data)
+
+    if (isCalcBtn) {
+      setProductCount(data.slug, packageCount.value)
+      count.value = packageCount.value
+    } else {
+      count.value = 1
+    }
+  } else {
+    if (isCalcBtn) {
+      setProductCount(data.slug, packageCount.value)
+      count.value = packageCount.value
+    }
+  }
   isPopupOpen.value = true
   inCart.value = true
-  if (!isAlreadyInCart(data.slug)) {
-    addProductToCart(data)
-  }
 }
 
 onMounted(() => {
   inCart.value = isAlreadyInCart(data.slug)
+
+  if (inCart.value) {
+    count.value = getProductCount(data.slug)
+  }
 })
 </script>

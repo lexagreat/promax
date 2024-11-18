@@ -14,14 +14,12 @@ export const useProductsStore = defineStore("useProductsStore", {
                Authorization: `Token ${accountStore.token}`
             }
          });
-         console.log('favoriteProducts', favoriteProducts);
          if (favoriteProducts.length) {
             this.favoriteProducts = favoriteProducts
          }
       },
       async addFavoriteProduct(productId, product) {
          const accountStore = useAccountStore()
-         console.log('token', accountStore.token);
 
          const res = await useBaseFetch("/catalog/favorite-add", {
             method: "POST",
@@ -45,12 +43,11 @@ export const useProductsStore = defineStore("useProductsStore", {
                Authorization: `Token ${accountStore.token}`
             }
          });
-         console.log('res', res);
+
          if (res.result === true) {
             const index = this.favoriteProducts.findIndex((product) => product.id === productId)
             this.favoriteProducts.splice(index, 1)
          }
-         console.log('this.favoriteProducts', this.favoriteProducts);
       },
       async toggleFavoriteProduct(productId, product) {
          if (this.isProductInFavorite(productId)) {

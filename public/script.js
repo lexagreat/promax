@@ -282,39 +282,39 @@ $(document).ready(function () {
    // END single-ourserv
 
    // START Маска для телефона
-   $(".phoneNum").each(function () {
-      const maskOptions = {
-         mask: "+{7} (000) 000-00-00",
-      };
-      IMask(this, maskOptions);
-   });
+   // $(".phoneNum").each(function () {
+   //    const maskOptions = {
+   //       mask: "+{7} (000) 000-00-00",
+   //    };
+   //    IMask(this, maskOptions);
+   // });
    // END Маска для телефона
 
    // START Валидация
    // Проверка всех форм на изменение любых полей с классом _required
-   $("form").on("input change", "input._required", function () {
-      const form = $(this).closest("form");
-      const submitButton = form.find(".popup-form-submit");
-      let allValid = true;
+   // $("form").on("input change", "input._required", function () {
+   //    const form = $(this).closest("form");
+   //    const submitButton = form.find(".popup-form-submit");
+   //    let allValid = true;
 
-      form.find("input._required").each(function () {
-         const input = $(this);
-         if (
-            input.val().trim() === "" ||
-            (input.hasClass("phoneNum") &&
-               !IMask(input[0], { mask: "+{7} (000) 000-00-00" }).masked
-                  .isComplete)
-         ) {
-            allValid = false;
-            return false;
-         }
-      });
-      if (allValid) {
-         submitButton.addClass("active");
-      } else {
-         submitButton.removeClass("active");
-      }
-   });
+   //    form.find("input._required").each(function () {
+   //       const input = $(this);
+   //       if (
+   //          input.val().trim() === "" ||
+   //          (input.hasClass("phoneNum") &&
+   //             !IMask(input[0], { mask: "+{7} (000) 000-00-00" }).masked
+   //                .isComplete)
+   //       ) {
+   //          allValid = false;
+   //          return false;
+   //       }
+   //    });
+   //    if (allValid) {
+   //       submitButton.addClass("active");
+   //    } else {
+   //       submitButton.removeClass("active");
+   //    }
+   // });
 
    // END Валидация
 

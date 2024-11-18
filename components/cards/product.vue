@@ -111,17 +111,6 @@ const productsStore = useProductsStore()
 
 const route = useRoute()
 
-async function toggleFavoriteProduct(productId, product) {
-  console.log('toggle', productId)
-  if (productsStore.isProductInFavorite(productId)) {
-    console.log('delete')
-    await productsStore.deleteFavoriteProduct(productId)
-  } else {
-    console.log('add')
-    await productsStore.addFavoriteProduct(productId, product)
-  }
-}
-
 let slider
 const isInCart = ref(false)
 const isInFavor = ref(false)

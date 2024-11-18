@@ -96,12 +96,23 @@
                 />
               </div>
               <div class="added-main__related-item-name">
-                <div class="added-main__related-item-name-lbl">{{ usefulProduct.sub_category.category }}</div>
-                <div class="added-main__related-item-name-title">{{ usefulProduct.sub_category.title }}</div>
+                <div class="added-main__related-item-name-lbl">
+                  {{ usefulProduct.sub_category.category }}
+                </div>
+                <div class="added-main__related-item-name-title">
+                  {{ usefulProduct.sub_category.title }}
+                </div>
               </div>
-              <div class="added-main__related-item-price"><span>{{ usefulProduct.price }}</span> <span>руб.</span></div>
+              <div class="added-main__related-item-price">
+                <span>{{ usefulProduct.price }}</span> <span>руб.</span>
+              </div>
               <div class="added-main__related-item-addcart">
-                <div class="products__item-addtocart-btn _active">
+                <div
+                  class="products__item-addtocart-btn"
+                  ref="addtocart-btn"
+                  :data-slug="usefulProduct.slug"
+                  @click="addUsefulProductToCart(usefulProduct.slug)"
+                >
                   <span class="i-addtocart"></span>
                   <span class="products__item-addtocart-btn-txt">В корзину</span>
                 </div>
@@ -115,13 +126,15 @@
   </AppPopup>
 </template>
 <script setup>
+import { useTemplateRef } from 'vue'
 import {
   minusProductCount,
   plusProductCount,
   getProductCount,
   isAlreadyInCart,
   getSumOfProducts,
-  getCountOfProducts
+  getCountOfProducts,
+  addProductToCart
 } from '~/assets/js/cart'
 const props = defineProps({
   isOpen: Boolean,
@@ -136,6 +149,8 @@ const localCount = ref(0)
 const sumOfProducts = ref(0)
 const countOfProducts = ref(0)
 
+const addToCartBtns = useTemplateRef('addtocart-btn')
+
 const plus = () => {
   localCount.value++
   plusProductCount(props.product.slug)
@@ -147,22 +162,50 @@ const minus = () => {
   sumOfProducts.value = getSumOfProducts()
 }
 
+const addUsefulProductToCart = async (slug) => {
+  const product = await useBaseFetch('/catalog/product/' + slug)
+
+  if (typeof product === 'object' && !isAlreadyInCart(slug)) {
+    addProductToCart(product)
+    sumOfProducts.value = getSumOfProducts()
+    countOfProducts.value = getCountOfProducts()
+
+    for (let btn of addToCartBtns.value) {
+      const btnSlug = btn.getAttribute('data-slug')
+
+      if (isAlreadyInCart(slug) && btnSlug === slug) {
+        btn.children[1].innerText = 'В корзине'
+        btn.classList.add('_active')
+      }
+    }
+  }
+}
+
 watch(
   () => props.countPackages,
   (newValue) => {
-    console.log('change countPackages')
     localCount.value = newValue
+    sumOfProducts.value = getSumOfProducts()
+    countOfProducts.value = getCountOfProducts()
   }
 )
 
 onMounted(() => {
-  if (isAlreadyInCart(props.product.slug)) {
-    localCount.value = getProductCount(props.product.slug)
-    sumOfProducts.value = getSumOfProducts()
-    countOfProducts.value = getCountOfProducts()
-    console.log('localCount.value', localCount.value)
-    console.log('sumOfProducts.value', sumOfProducts.value)
-    console.log('countOfProducts.value', countOfProducts.value)
+  localCount.value = getProductCount(props.product.slug)
+  sumOfProducts.value = getSumOfProducts()
+  countOfProducts.value = getCountOfProducts()
+  console.log('sumOfProducts.value', sumOfProducts.value)
+  console.log('countOfProducts.value', countOfProducts.value)
+  // if (isAlreadyInCart(props.product.slug)) {
+  // }
+
+  for (let btn of addToCartBtns.value) {
+    const slug = btn.getAttribute('data-slug')
+
+    if (isAlreadyInCart(slug)) {
+      btn.children[1].innerText = 'В корзине'
+      btn.classList.add('_active')
+    }
   }
 })
 </script>

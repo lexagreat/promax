@@ -69,10 +69,12 @@
               >
                 <span class="i-log-in__logged"
                   ><img
-                    src="@/assets/img/default-log-in.svg"
-                    alt="Иван"
+                    :src="infoAboutMe?.avatar"
+                    :alt="infoAboutMe?.name"
                 /></span>
-                <span class="header-btns__lbl"><b>Иван</b></span>
+                <span class="header-btns__lbl"
+                  ><b>{{ infoAboutMe?.name }}</b></span
+                >
               </NuxtLink>
               <button
                 @click="openLogin = true"
@@ -149,6 +151,7 @@
       v-if="openReg"
       :isOpen="openReg"
       @closePopup="openReg = false"
+      @openLoginModal="openLogin = true"
       @success="onSuccessLogin"
     />
     <PopupsLogin
@@ -156,28 +159,102 @@
       :isOpen="openLogin"
       @closePopup="openLogin = false"
       @openRegModal="openReg = true"
+      @openResetPassword="openResetPassword = true"
       @success="onSuccessLogin"
     />
-    <PopupsForgetPassword
-      v-if="openForgetPassword"
-      :isOpen="openForgetPassword"
-      @closePopup="openForgetPassword = false"
+    <PopupsResetPassword
+      v-if="openResetPassword"
+      :isOpen="openResetPassword"
+      @closePopup="openResetPassword = false"
+    />
+    <PopupsResetPasswordConfirm
+      v-if="openResetPasswordConfirm"
+      :isOpen="openResetPasswordConfirm"
+      @success="onSuccessResetPassword"
+      @closePopup="openResetPasswordConfirm = false"
+      @openLoginModal="openLogin = true"
     />
   </header>
 </template>
 <script setup>
+import { watch } from 'vue'
 import { useAccountStore } from '~/store/accountStore'
+
 let store = useAccountStore()
+
 const router = useRouter()
+const route = useRoute()
+
 const openLogin = ref(false)
 const openReg = ref(false)
-const openForgetPassword = ref(false)
+const openResetPassword = ref(false)
+const openResetPasswordConfirm = ref(false)
+
+console.log('params', route.query);
+
+const infoAboutMe = ref(null)
+
+if (store.isLogin) {
+  infoAboutMe.value = await store.getInfoAboutMe()
+}
+
 let services = await useBaseFetch('/blog/services')
+
 const onSuccessLogin = () => {
   router.push('/account')
+}
+
+const onSuccessResetPassword = () => {
+  router.push('/login')
+}
+
+const confirmResetPassword = async () => {
+  let { id, key } = route.query
+  
+  if (id && key) {
+    key = key.slice(0, -1)
+    console.log(id, key);
+
+    openResetPasswordConfirm.value = true
+    console.log('openResetPasswordConfirm.value', openResetPasswordConfirm.value);
+
+    // const res = await useBaseFetch(`/cabinet/password-reset-confirm/{${id}}/{${key}}/`, {
+    //   method: "POST"
+    // })
+
+    // console.log('res', res);
+  }
 }
 
 onBeforeMount(() => {
   store.initStore()
 })
+
+onMounted(async () => {
+  const resetPassword = await confirmResetPassword()
+
+})
+
+watch(
+  () => store.isLogin,
+  async () => {
+    if (store.isLogin) {
+      infoAboutMe.value = await store.getInfoAboutMe()
+    }
+  }
+)
 </script>
+<style lang="scss" scoped>
+.i-log-in__logged {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  overflow: hidden;
+
+  & img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+}
+</style>

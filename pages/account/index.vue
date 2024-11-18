@@ -7,8 +7,15 @@
           <div class="accountb-main">
             <div class="accountb-main__first">
               <div class="accountb-main__photo">
+                <input
+                  @change="chooseImg"
+                  ref="input-img"
+                  type="file"
+                  style="display: none"
+                />
                 <img
-                  src="@/assets/img/acc-photo-def.svg"
+                  @click="reChooseImg"
+                  :src="imgPath"
                   :alt="name"
                 />
               </div>
@@ -36,7 +43,7 @@
                       name="prof-name"
                       id="prof-name"
                       v-model="name"
-                      readonly
+                      :readonly="!isEditable"
                     />
                   </div>
                 </div>
@@ -48,7 +55,8 @@
                       name="prof-phone"
                       id="prof-phone"
                       v-model="phone"
-                      readonly
+                      v-maska="'+7 (###) ###-##-##'"
+                      :readonly="!isEditable"
                     />
                   </div>
                 </div>
@@ -60,14 +68,18 @@
                       name="prof-mail"
                       id="prof-mail"
                       v-model="email"
-                      readonly
+                      :readonly="!isEditable"
                     />
                   </div>
                 </div>
                 <div class="accountb-main__second-item">
                   <!-- <div class="accountb-main__second-item-lbl">Почта</div> -->
-                  <div class="accountb-main__second-item-val">
+                  <div
+                    :class="{ _active: !isEditable }"
+                    class="accountb-main__second-item-val"
+                  >
                     <input
+                      @click="editProfile"
                       type="submit"
                       name="prof-save"
                       id="prof-save"
@@ -79,7 +91,13 @@
               </form>
             </div>
             <div class="accountb-main__second-mob">
-              <div class="accountb-main__second-edit">Изменить профиль</div>
+              <div
+                @click="toggleEdit"
+                :class="{ _active: isEditable }"
+                class="accountb-main__second-edit"
+              >
+                Изменить профиль
+              </div>
               <button
                 @click.prevent="onLogout"
                 class="accountb-main__second-exit"
@@ -208,8 +226,11 @@
   </main>
 </template>
 <script setup>
+import { useTemplateRef } from 'vue'
 import { useAccountStore } from '~/store/accountStore'
 import { useProductsStore } from '~/store/productsStore'
+import { vMaska } from 'maska/vue'
+import startImg from '@/assets/img/acc-photo-def.svg'
 
 const accountStore = useAccountStore()
 const productsStore = useProductsStore()
@@ -219,17 +240,145 @@ const router = useRouter()
 const email = ref('')
 const phone = ref('')
 const name = ref('')
+const avatar = ref(startImg)
+
+const inputImg = useTemplateRef('input-img')
+const imgPath = ref(startImg)
+const isEditable = ref(false)
+
+const startInfo = {
+  name: '',
+  email: '',
+  phone: '',
+  avatar: ''
+}
+
 onMounted(async () => {
-  makeAccountEditing()
   if (!accountStore.isLogin) {
     router.push('/')
   } else {
     await productsStore.getFavoriteProducts()
+
     let infoAboutMe = await accountStore.getInfoAboutMe()
+    console.log('infoAboutMe', infoAboutMe)
+    name.value = infoAboutMe.name
     email.value = infoAboutMe.email
     phone.value = infoAboutMe.phone_number
+
+    if (infoAboutMe.avatar && infoAboutMe.avatar.length) {
+      avatar.value = infoAboutMe.avatar
+      imgPath.value = infoAboutMe.avatar
+      startInfo.avatar = infoAboutMe.avatar
+    }
+
+    startInfo.name = infoAboutMe.name
+    startInfo.email = infoAboutMe.email
+    startInfo.phone = infoAboutMe.phone_number
   }
 })
+
+function chooseImg(event) {
+  const files = event.target.files
+
+  if (files.length) {
+    avatar.value = files[0]
+    imgPath.value = URL.createObjectURL(files[0])
+  }
+}
+
+function reChooseImg() {
+  if (isEditable.value) {
+    inputImg.value.click()
+  }
+}
+
+function toggleEdit() {
+  isEditable.value = !isEditable.value
+}
+
+async function editProfile() {
+  const form = new FormData()
+
+  if (startInfo.name !== name.value) {
+    form.append('name', name.value)
+
+    const res = await useBaseFetch('/cabinet/update/', {
+      method: 'PATCH',
+      body: form,
+      headers: {
+        Authorization: `Token ${accountStore.token}`
+      }
+    })
+
+    name.value = res.name
+    startInfo.name = res.name
+  }
+
+  if (startInfo.email !== email.value) {
+    form.append('email', email.value)
+
+    const res = await useBaseFetch('/cabinet/update/', {
+      method: 'PATCH',
+      body: form,
+      headers: {
+        Authorization: `Token ${accountStore.token}`
+      }
+    })
+
+    email.value = res.email
+    startInfo.email = res.email
+  }
+
+  if (startInfo.phone !== phone.value) {
+    console.log('startInfo.phone', startInfo.phone, 'phone.value', phone.value)
+    form.append('phone', phone.value)
+
+    const res = await useBaseFetch('/cabinet/update/', {
+      method: 'PATCH',
+      body: form,
+      headers: {
+        Authorization: `Token ${accountStore.token}`
+      }
+    })
+
+    phone.value = res.phone
+    startInfo.phone = res.phone
+  }
+
+  if (startInfo.avatar !== avatar.value) {
+    form.append('avatar', avatar.value)
+
+    const res = await useBaseFetch('/cabinet/update/', {
+      method: 'PATCH',
+      body: form,
+      headers: {
+        Authorization: `Token ${accountStore.token}`
+      }
+    })
+
+    avatar.value = res.avatar
+    startInfo.avatar = res.avatar
+  }
+
+  // const editProfileRes = await useBaseFetch('/cabinet/update/', {
+  //   method: 'PATCH',
+  //   body: form,
+  //   headers: {
+  //     Authorization: `Token ${accountStore.token}`
+  //   }
+  // })
+
+  // name.value = editProfileRes.name
+  // email.value = editProfileRes.email
+  // phone.value = editProfileRes.phone_number
+  // avatar.value = editProfileRes.avatar
+  // imgPath.value = editProfileRes.avatar
+
+  // console.log('editProfileRes', editProfileRes)
+
+  toggleEdit()
+}
+
 const onLogout = () => {
   accountStore.logout()
   router.push('/')

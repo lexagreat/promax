@@ -290,7 +290,7 @@ const accountStore = useAccountStore()
 const isPopupOpen = ref(false)
 const route = useRoute()
 let data = await useBaseFetch('/catalog/product/' + route.params.slug)
-console.log('data', data)
+
 const squaredMeters = data['squared_metres']
 const priceForMetr = data['price']
 
@@ -300,7 +300,6 @@ const calcSquare = computed(() => calcWidth.value * calcHeight.value)
 const percent = ref(5)
 
 const squareWithPercent = computed(() => {
-  console.log('squareWithPercent', calcSquare.value + (percent.value * calcSquare.value) / 100)
   return calcSquare.value + (percent.value * calcSquare.value) / 100
 })
 
@@ -343,7 +342,6 @@ for (let key in data.detail_chars) {
   chars.value.push(obj)
 }
 const openPopup = (isCalcBtn) => {
-  console.log('openPop')
   if (!inCart.value) {
     addProductToCart(data)
 

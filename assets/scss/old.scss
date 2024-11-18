@@ -6102,6 +6102,11 @@ html._hidden {
    box-shadow: 0 15px 50px #0000001a;
 }
 
+.popup-main._with-errors {
+   transform: translate(-50%);
+   top: 0;
+}
+
 .popup-main__inner {
    padding: 68px 62px 73px 63px;
 }
@@ -6465,6 +6470,13 @@ input#prof-save._active {
 
 .accountb-main__photo {
    width: 165px;
+   height: 165px;
+   border-radius: 50%;
+   overflow: hidden;
+}
+
+.accountb-main__photo img {
+   object-fit: cover;
 }
 
 .body-orders__list {
@@ -8014,10 +8026,8 @@ input#prof-save._active {
 }
 
 .download-info__btn {
+   position: relative;
    cursor: pointer;
-   position: absolute;
-   bottom: -51px;
-   right: 0;
    font-size: 20px;
 
    &::after {
@@ -8029,11 +8039,6 @@ input#prof-save._active {
       position: absolute;
       background-color: #373435;
    }
-}
-
-.download-info__btn,
-.download-info {
-   display: none;
 }
 
 .download-info__btn.active,

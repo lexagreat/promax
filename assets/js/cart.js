@@ -46,9 +46,7 @@ export function getProductCount(slug) {
    let cart = JSON.parse(localStorage.cart);
    let count = 0;
    cart.forEach((item) => {
-      console.log('item.slug', item.slug, 'slug', slug);
       if (item.slug == slug) {
-         console.log('hereee');
          count = item.count;
       }
    });
@@ -117,9 +115,9 @@ export function getFullPrice(products) {
    products.forEach((product) => {
       let value = product.price;
       if (typeof value == "number") {
-         res += value * product.count;
+         res += value * product.count * product.squared_metres;
       } else {
-         res += Number(value.replace(/\s+/g, "")) * product.count;
+         res += Number(value.replace(/\s+/g, "")) * product.count * product.squared_metres;
       }
    });
    return res;

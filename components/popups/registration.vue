@@ -91,7 +91,12 @@
             />
           </div>
           <div class="popup-form__bottom">
-            У вас уже есть учетная запись? <span class="login_btn">Войти</span>
+            У вас уже есть учетная запись?
+            <span
+              @click="onLogin"
+              class="login_btn"
+              >Войти</span
+            >
           </div>
         </form>
       </div>
@@ -107,7 +112,7 @@ let store = useAccountStore()
 const props = defineProps({
   isOpen: Boolean
 })
-const emit = defineEmits(['closePopup', 'success'])
+const emit = defineEmits(['closePopup', 'success', 'openLoginModal'])
 const onClose = () => {
   emit('closePopup')
 }
@@ -117,6 +122,11 @@ const email = ref('')
 const password = ref('')
 const phone = ref('')
 const check = ref(false)
+
+const onLogin = () => {
+  emit('closePopup')
+  emit('openLoginModal')
+}
 
 const onReg = async () => {
   if (!check.value) {

@@ -40,7 +40,7 @@
                   </label> -->
 
             <div
-              @click="onForgetPassword"
+              @click="onResetPassword"
               class="popup-form__forget-password forget_password_btn"
             >
               Я забыл/а свой пароль
@@ -83,7 +83,7 @@ let store = useAccountStore()
 const props = defineProps({
   isOpen: Boolean
 })
-const emit = defineEmits(['closePopup', 'openRegModal', 'success', 'forgetPassword'])
+const emit = defineEmits(['closePopup', 'openRegModal', 'success', 'openResetPassword'])
 const onClose = () => {
   emit('closePopup')
 }
@@ -92,9 +92,9 @@ const onReg = () => {
   emit('openRegModal')
 }
 
-const onForgetPassword = () => {
+const onResetPassword = () => {
   emit('closePopup')
-  emit('forgetPassword')
+  emit('openResetPassword')
 }
 
 const email = ref('')

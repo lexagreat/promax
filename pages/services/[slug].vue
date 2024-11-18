@@ -95,7 +95,7 @@
                       <div class="singleserv__price-table-price">{{ item.price }}</div>
                       <button
                         class="singleserv__price-table-icon"
-                        @click="isPopupOpen = true"
+                        @click="openPopup(data.id, item.id)"
                       >
                         <span class="i-singleserv-arrow"></span>
                       </button>
@@ -153,14 +153,28 @@
     <TgExperts />
   </main>
   <PopupsService
+    :serviceId="serviceId"
+    :priceId="priceId"
     :isOpen="isPopupOpen"
     @closePopup="isPopupOpen = false"
   />
 </template>
 <script setup>
+import { ref } from 'vue'
+
 const isPopupOpen = ref(false)
 let route = useRoute()
 let slug = route.params.slug
 
 let data = await useBaseFetch(`/blog/service/${slug}`)
+
+const serviceId = ref(0)
+const priceId = ref(0)
+
+function openPopup(serviceID, priceID) {
+  console.log('serviceId', serviceID)
+  serviceId.value = serviceID
+  priceId.value = priceID
+  isPopupOpen.value = true
+}
 </script>

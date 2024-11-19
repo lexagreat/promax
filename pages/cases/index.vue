@@ -10,21 +10,54 @@
               <div class="container">
                 <div class="howwork__inner">
                   <div class="howwork__list">
-                    <!-- <div class="howwork__item">
-                                 <div class="howwork__item-poster">
-                                    <img loading="lazy" src="@/assets/img/howwork/howwork-1.webp" alt="howwork">
-                                 </div>
-                                 <div class="howwork__item-video-popup">
-                                    <div class="howwork__item-video-close"></div>
-                                    <div class="howwork__item-video-inner">
-                                       place for video frame
-                                    </div>
-                                 </div>
-                                 <h3 class="howwork__item-title">Грунтовка | Нанесение<br> двухкомпонентной<br>
-                                    грунтовки
-                                    на
-                                    растворителе</h3>
-                              </div> -->
+                    <div
+                      class="howwork__item"
+                      v-for="item in youtube.items"
+                    >
+                      <div class="howwork__item-poster">
+                        <!-- <img loading="lazy" src="@/assets/img/howwork/howwork-1.webp" alt="howwork"> -->
+                      </div>
+                      <div class="howwork__item-video-popup">
+                        <div class="howwork__item-video-close"></div>
+                        <div
+                          class="howwork__item-video-inner"
+                          v-html="item.iframe"
+                        ></div>
+                      </div>
+                      <h3 class="howwork__item-title">{{ item.title }}</h3>
+                    </div>
+                    <div
+                      class="howwork__item"
+                      v-for="item in youtube.items"
+                    >
+                      <div class="howwork__item-poster">
+                        <!-- <img loading="lazy" src="@/assets/img/howwork/howwork-1.webp" alt="howwork"> -->
+                      </div>
+                      <div class="howwork__item-video-popup">
+                        <div class="howwork__item-video-close"></div>
+                        <div
+                          class="howwork__item-video-inner"
+                          v-html="item.iframe"
+                        ></div>
+                      </div>
+                      <h3 class="howwork__item-title">{{ item.title }}</h3>
+                    </div>
+                    <div
+                      class="howwork__item"
+                      v-for="item in youtube.items"
+                    >
+                      <div class="howwork__item-poster">
+                        <!-- <img loading="lazy" src="@/assets/img/howwork/howwork-1.webp" alt="howwork"> -->
+                      </div>
+                      <div class="howwork__item-video-popup">
+                        <div class="howwork__item-video-close"></div>
+                        <div
+                          class="howwork__item-video-inner"
+                          v-html="item.iframe"
+                        ></div>
+                      </div>
+                      <h3 class="howwork__item-title">{{ item.title }}</h3>
+                    </div>
                     <div
                       class="howwork__item"
                       v-for="item in youtube.items"

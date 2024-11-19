@@ -63,7 +63,7 @@
       <div class="container">
         <div class="howwork__inner">
           <h2 class="howwork__title">Как мы работаем</h2>
-          <div class="howwork__list">
+          <div class="howwork__list--main">
             <!-- <div class="howwork__item">
    <div class="howwork__item-poster">
       <img loading="lazy" src="@/assets/img/howwork/howwork-1.webp" alt="howwork">
@@ -79,6 +79,22 @@
       на
       растворителе</h3>
 </div> -->
+            <div
+              class="howwork__item"
+              v-for="item in youtube.items"
+            >
+              <div class="howwork__item-poster">
+                <!-- <img loading="lazy" src="@/assets/img/howwork/howwork-1.webp" alt="howwork"> -->
+              </div>
+              <div class="howwork__item-video-popup">
+                <div class="howwork__item-video-close"></div>
+                <div
+                  class="howwork__item-video-inner"
+                  v-html="item.iframe"
+                ></div>
+              </div>
+              <h3 class="howwork__item-title">{{ item.title }}</h3>
+            </div>
             <div
               class="howwork__item"
               v-for="item in youtube.items"

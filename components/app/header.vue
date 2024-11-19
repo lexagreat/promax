@@ -76,14 +76,14 @@
                   ><b>{{ infoAboutMe?.name }}</b></span
                 >
               </NuxtLink>
-              <button
+              <NuxtLink
                 @click="openLogin = true"
                 class="header-btns__item"
                 v-else
               >
                 <span class="i-log-in"></span>
                 <span class="header-btns__lbl">Войти</span>
-              </button>
+              </NuxtLink>
 
               <NuxtLink
                 to="/cart"

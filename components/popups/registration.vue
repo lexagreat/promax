@@ -190,6 +190,10 @@ function clear() {
   vForms.phone = ''
   vForms.password = ''
   vForms.check = false
+
+  if (submitMessage.value.length) {
+    submitMessage.value = ''
+  }
 }
 
 const onLogin = () => {
@@ -217,15 +221,6 @@ const onReg = async () => {
     submitMessage.value = res
     return
   }
-
-  if (submitMessage.value.length) {
-    submitMessage.value = ''
-  }
-}
-const reset = () => {
-  name.value = ''
-  email.value = ''
-  phone.value = ''
 
   if (submitMessage.value.length) {
     submitMessage.value = ''

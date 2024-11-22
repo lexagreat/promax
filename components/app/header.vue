@@ -55,17 +55,16 @@
 
             <div class="header-btns">
               <NuxtLink
-                to="#"
+                to="/account"
                 class="header-btns__item"
               >
                 <span class="i-clock"></span>
                 <span class="header-btns__lbl">Статус заказа</span>
               </NuxtLink>
-
               <NuxtLink
+                v-if="store.isLogin"
                 to="/account"
                 class="header-btns__item"
-                v-if="store.isLogin"
               >
                 <span class="i-log-in__logged"
                   ><img
@@ -77,9 +76,9 @@
                 >
               </NuxtLink>
               <NuxtLink
+                v-if="!store.isLogin"
                 @click="openLogin = true"
                 class="header-btns__item"
-                v-else
               >
                 <span class="i-log-in"></span>
                 <span class="header-btns__lbl">Войти</span>

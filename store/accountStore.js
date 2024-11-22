@@ -9,6 +9,7 @@ export const useAccountStore = defineStore("useAccountStore", {
          const localData = data
          localData.username = data.name
          delete(localData.name)
+
          let response = await useBaseFetch("/cabinet/register", {
             body: data,
             method: "POST",
@@ -28,6 +29,13 @@ export const useAccountStore = defineStore("useAccountStore", {
             body: data,
             method: "POST",
          });
+
+         console.log('response', response.name);
+
+         if (response.name && response.name === 'FetchError') {
+            return 'Пользователь с таким email не существует'
+         }
+
          if (response.token) {
             this.saveToken(response.token);
             return true;

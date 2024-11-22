@@ -16,9 +16,17 @@
                 name="name"
                 class="_required"
                 placeholder="E-mail или номер телефона:"
-                v-model="email"
+                @blur="vForms.email.$touch"
+                v-model="vForms.email"
+                :class="{
+                  error: v$.email.$dirty && (v$.email.required.$invalid || v$.email.email.$invalid)
+                }"
               />
             </label>
+            <p v-if="v$.email.$dirty && v$.email.required.$invalid">
+              Поле Email должно быть заполнено
+            </p>
+            <p v-if="v$.email.$dirty && v$.email.email.$invalid">Невалидный email</p>
 
             <label for="password_5">
               <input
@@ -27,17 +35,16 @@
                 name="password"
                 class="_required"
                 placeholder="Пароль:"
-                v-model="password"
+                v-model="vForms.password"
+                @blur="vForms.password.$touch"
+                :class="{ error: v$.password.$dirty && v$.password.required.$invalid }"
               />
             </label>
+            <p v-if="v$.password.$dirty && v$.password.required.$invalid">
+              Поле Телефон должно быть заполнено
+            </p>
 
-            <!-- <label for="checkbox_5">
-                     <input v-model="" type="checkbox" class="inpcheckbox" id="checkbox_5" name="checkbox" checked>
-                     <div class="i-checkbox-wrp">
-                        <span class="i-checkbox"></span>
-                     </div>
-                     <span>Оставаться в системе</span>
-                  </label> -->
+            <p v-if="submitMessage.length">{{ submitMessage }}</p>
 
             <div
               @click="onResetPassword"
@@ -46,23 +53,24 @@
               Я забыл/а свой пароль
             </div>
           </div>
+
           <div class="popup-form__btns">
             <input
               class="popup-form-reset _btn"
-              type="reset"
               readonly
               value="Сброс"
-              @click.prevent="reset"
+              @click.prevent="clear"
             />
+
             <input
               class="popup-form-submit _btn"
-              type="submit"
               readonly
               value="Войти"
+              :class="{ active: isValid }"
               @click.prevent="onLog"
-              style="pointer-events: all"
             />
           </div>
+
           <div class="popup-form__bottom">
             У вас нет учетной записи?
             <span
@@ -79,11 +87,17 @@
 </template>
 <script setup>
 import { useAccountStore } from '~/store/accountStore'
+import { useVuelidate } from '@vuelidate/core'
+import { minLength, maxLength, email, required } from '@vuelidate/validators'
+
 let store = useAccountStore()
+
 const props = defineProps({
   isOpen: Boolean
 })
+
 const emit = defineEmits(['closePopup', 'openRegModal', 'success', 'openResetPassword'])
+
 const onClose = () => {
   emit('closePopup')
 }
@@ -97,48 +111,57 @@ const onResetPassword = () => {
   emit('openResetPassword')
 }
 
-const email = ref('')
-const password = ref('')
+const submitMessage = ref('')
+
+const vForms = reactive({
+  email: '',
+  password: '',
+})
+
+const rules = {
+  email: {
+    required,
+    email
+  },
+  password: {
+    required
+  }
+}
+
+const v$ = useVuelidate(rules, vForms)
+
+const isValid = computed(() => {
+  return v$.value.$errors.length === 0
+})
+
+function clear() {
+  vForms.email = ''
+  vForms.password = ''
+
+  if (submitMessage.value.length) {
+    submitMessage.value = ''
+  }
+}
 
 const onLog = async () => {
-  let errors = 0
-  if (!email.value) {
-    document.querySelector('#email_5').classList.add('error')
-    errors++
+  const isCorrect = await v$.value.$validate()
+
+  if (!isCorrect) {
+    return
   }
 
-  if (!password.value.length) {
-    document.querySelector('#password_5').classList.add('error')
-    errors++
-  }
-  if (errors > 0) return
-  let object = {
-    username: email.value,
-    password: password.value
-  }
-  let res = await store.login(object)
-  if (res) {
-    emit('success')
-    emit('closePopup')
-  }
-}
-const reset = () => {
-  if (email.value) {
-    email.value = ''
+  const form = {
+    username: vForms.email,
+    password: vForms.password
   }
 
-  if (password.value) {
-    password.value = ''
+  let res = await store.login(form)
+  console.log('res', res);
+  if (res.length) {
+    submitMessage.value = res
+    return
   }
+  emit('success')
+  emit('closePopup')
 }
-watch(email, (value) => {
-  if (value) {
-    document.querySelector('#email_5').classList.remove('error')
-  }
-})
-watch(password, (value) => {
-  if (value) {
-    document.querySelector('#password_5').classList.remove('error')
-  }
-})
 </script>

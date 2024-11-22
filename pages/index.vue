@@ -26,7 +26,9 @@
                     ООО «Паркет Промакс»
                   </div>
                 </div>
-                <div class="bosstext-prof__btn _btn">Задать вопрос</div>
+                <NuxtLink>
+                  <div class="bosstext-prof__btn _btn">Задать вопрос</div>
+                </NuxtLink>
               </div>
             </div>
           </div>

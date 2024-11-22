@@ -194,10 +194,6 @@ onMounted(() => {
   localCount.value = getProductCount(props.product.slug)
   sumOfProducts.value = getSumOfProducts()
   countOfProducts.value = getCountOfProducts()
-  console.log('sumOfProducts.value', sumOfProducts.value)
-  console.log('countOfProducts.value', countOfProducts.value)
-  // if (isAlreadyInCart(props.product.slug)) {
-  // }
 
   for (let btn of addToCartBtns.value) {
     const slug = btn.getAttribute('data-slug')

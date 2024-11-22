@@ -5,7 +5,10 @@
     :isOpen="isOpen"
     @closePopup="onClose"
   >
-    <div class="popup-main">
+    <div
+      class="popup-main"
+      :class="{ '_with-errors': v$.$errors.length }"
+    >
       <div class="popup-main__inner">
         <div class="popup-title">
           Зарегистрируйтесь<br />
@@ -19,46 +22,68 @@
                 id="name_4"
                 name="name"
                 placeholder="Имя:"
-                v-model="name"
+                v-model="vForms.name"
+                @blur="vForms.name.$touch"
+                :class="{ error: v$.name.$dirty && v$.name.required.$invalid }"
               />
             </label>
-
+            <p v-if="v$.name.$dirty && v$.name.required.$invalid">Поле Имя должно быть заполнено</p>
             <label for="email_4">
               <input
+                :class="{
+                  error: v$.email.$dirty && (v$.email.required.$invalid || v$.email.email.$invalid)
+                }"
                 type="email"
                 id="email_4"
                 name="email"
                 placeholder="E-mail:"
-                v-model="email"
+                @blur="vForms.email.$touch"
+                v-model="vForms.email"
               />
             </label>
-
+            <p v-if="v$.email.$dirty && v$.email.required.$invalid">
+              Поле Email должно быть заполнено
+            </p>
+            <p v-if="v$.email.$dirty && v$.email.email.$invalid">Невалидный email</p>
             <label for="phone_4">
               <input
                 id="phone_4"
                 name="phone"
                 placeholder="Телефон:"
                 v-maska="'+7 (###) ###-##-##'"
-                v-model="phone"
+                v-model="vForms.phone"
+                @blur="vForms.phone.$touch"
+                :class="{
+                  error:
+                    v$.phone.$dirty && (v$.phone.required.$invalid || v$.phone.minLength.$invalid)
+                }"
               />
             </label>
+            <p v-if="v$.phone.$dirty && v$.phone.required.$invalid">
+              Поле Телефон должно быть заполнено
+            </p>
+            <p v-if="v$.phone.$dirty && v$.phone.minLength.$invalid">Должно быть 11 цифр</p>
             <label for="password_4">
               <input
                 id="password_4"
                 type="password"
                 name="password"
                 placeholder="Пароль:"
-                v-model="password"
+                v-model="vForms.password"
+                @blur="vForms.password.$touch"
+                :class="{ error: v$.password.$dirty && v$.password.required.$invalid }"
               />
             </label>
-
+            <p v-if="v$.password.$dirty && v$.password.required.$invalid">
+              Поле Телефон должно быть заполнено
+            </p>
             <label for="checkbox_4">
               <input
                 type="checkbox"
                 class="inpcheckbox"
                 id="checkbox_4"
                 name="checkbox"
-                v-model="check"
+                v-model="vForms.check"
               />
               <div class="i-checkbox-wrp">
                 <span class="i-checkbox"></span>
@@ -67,7 +92,8 @@
                 >Я предпочитаю не получать уведомления по электронной почте о рекламных акциях</span
               >
             </label>
-
+            <p v-if="v$.check.$dirty && v$.check.required.$invalid">Нажмите на чекбокс</p>
+            <p v-if="submitMessage.length">{{ submitMessage }}</p>
             <div class="popup-form__info-policy">
               Продолжая, вы соглашаетесь<br />
               с Условиями использования<br />
@@ -80,14 +106,14 @@
               type="reset"
               value="Сброс"
               readonly
-              @click.prevent="reset"
+              @click="clear"
             />
             <input
               class="popup-form-submit _btn"
               value="Зарегистрироваться"
               readonly
+              :class="{ active: isValid }"
               @click.prevent="onReg"
-              style="pointer-events: all"
             />
           </div>
           <div class="popup-form__bottom">
@@ -107,21 +133,64 @@
 <script setup>
 import isValidEmail from '~/utils/isValidEmail'
 import { vMaska } from 'maska/vue'
+import { useVuelidate } from '@vuelidate/core'
+import { minLength, maxLength, email, required } from '@vuelidate/validators'
 import { useAccountStore } from '~/store/accountStore'
+
 let store = useAccountStore()
 const props = defineProps({
   isOpen: Boolean
 })
+
 const emit = defineEmits(['closePopup', 'success', 'openLoginModal'])
+
 const onClose = () => {
   emit('closePopup')
 }
 
-const name = ref('')
-const email = ref('')
-const password = ref('')
-const phone = ref('')
-const check = ref(false)
+const submitMessage = ref('')
+
+const vForms = reactive({
+  name: '',
+  email: '',
+  phone: '',
+  password: '',
+  check: ''
+})
+
+const rules = {
+  name: {
+    required
+  },
+  email: {
+    required,
+    email
+  },
+  phone: {
+    required,
+    minLength: minLength(18)
+  },
+  password: {
+    required
+  },
+  check: {
+    required
+  }
+}
+
+const v$ = useVuelidate(rules, vForms)
+
+const isValid = computed(() => {
+  return v$.value.$errors.length === 0
+})
+
+function clear() {
+  vForms.name = ''
+  vForms.email = ''
+  vForms.phone = ''
+  vForms.password = ''
+  vForms.check = false
+}
 
 const onLogin = () => {
   emit('closePopup')
@@ -129,65 +198,39 @@ const onLogin = () => {
 }
 
 const onReg = async () => {
-  if (!check.value) {
+  const isCorrect = await v$.value.$validate()
+
+  if (!isCorrect) {
     return
   }
-  let errors = 0
-  if (!isValidEmail(email.value)) {
-    document.querySelector('#email_4').classList.add('error')
-    errors++
+
+  const form = {
+    name: vForms.name,
+    email: vForms.email,
+    phone_number: vForms.phone,
+    password: vForms.password
   }
-  if (!name.value.length) {
-    document.querySelector('#name_4').classList.add('error')
-    errors++
+
+  let res = await store.registr(form)
+
+  if (res.length) {
+    submitMessage.value = res
+    return
   }
-  if (!phone.value.length) {
-    document.querySelector('#phone_4').classList.add('error')
-    errors++
-  }
-  if (!password.value.length) {
-    document.querySelector('#password_4').classList.add('error')
-    errors++
-  }
-  if (errors > 0) return
-  let object = {
-    name: name.value,
-    email: email.value,
-    phone_number: phone.value,
-    password: password.value
-  }
-  let res = await store.registr(object)
-  if (res) {
-    emit('success')
-    emit('closePopup')
+
+  if (submitMessage.value.length) {
+    submitMessage.value = ''
   }
 }
 const reset = () => {
   name.value = ''
   email.value = ''
   phone.value = ''
-}
 
-watch(email, (value) => {
-  if (isValidEmail(value)) {
-    document.querySelector('#email_4').classList.remove('error')
+  if (submitMessage.value.length) {
+    submitMessage.value = ''
   }
-})
-watch(name, (value) => {
-  if (value) {
-    document.querySelector('#name_4').classList.remove('error')
-  }
-})
-watch(phone, (value) => {
-  if (value) {
-    document.querySelector('#phone_4').classList.remove('error')
-  }
-})
-watch(password, (value) => {
-  if (value) {
-    document.querySelector('#password_4').classList.remove('error')
-  }
-})
+}
 </script>
 
 <style lang="scss">

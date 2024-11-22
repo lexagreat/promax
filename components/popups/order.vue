@@ -111,7 +111,7 @@
   </AppPopup>
 </template>
 <script setup>
-import { reactive, computed } from 'vue'
+import { reactive, computed, ref } from 'vue'
 import { vMaska } from 'maska/vue'
 import { useVuelidate } from '@vuelidate/core'
 import { minLength, maxLength, email, required } from '@vuelidate/validators'
@@ -172,16 +172,9 @@ function clear() {
 }
 
 async function submit() {
-  console.log('submit')
-  console.log('$v', v$.value)
-  console.log('vForms', vForms)
-
   const isCorrect = await v$.value.$validate()
-  console.log('isCorrect', isCorrect)
-  console.log('errors', v$.value.$errors)
 
   if (!isCorrect) {
-    console.log('not valid form')
     return
   }
 
@@ -203,8 +196,6 @@ async function submit() {
       count: product.count
     })
   }
-
-  console.log('order', form)
 
   const orderRes = await useBaseFetch('/order/product/', {
     body: form,

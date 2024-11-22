@@ -46,7 +46,11 @@
                 <strong>Не нашли интересующую Вас услугу?</strong><br />
                 Просмотрите полный список цен на работы
               </div>
-              <div class="foundserv-btn">Подробнее</div>
+              <NuxtLink
+                to="/prices"
+                class="foundserv-btn"
+                >Подробнее</NuxtLink
+              >
             </div>
           </div>
         </div>

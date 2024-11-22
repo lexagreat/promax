@@ -6,12 +6,20 @@ export const useAccountStore = defineStore("useAccountStore", {
    }),
    actions: {
       async registr(data) {
+         const localData = data
+         localData.username = data.name
+         delete(localData.name)
          let response = await useBaseFetch("/cabinet/register", {
             body: data,
             method: "POST",
          });
+
+         if (response.name && response.name === 'FetchError') {
+            return 'Пользователь с таким email уже существует'
+          }
+
          if (response.email) {
-            let logres = await this.login(data);
+            let logres = await this.login(localData);
             return logres;
          }
       },

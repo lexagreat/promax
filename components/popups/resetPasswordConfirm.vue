@@ -9,12 +9,17 @@
         <div class="popup-title">Восстановить пароль</div>
         <form class="popup-form">
           <div class="popup-form__inputs">
-            <label for="password_5" v-if="!passwordChanged">
+            <label
+              for="password_5"
+              v-if="!passwordChanged"
+            >
               <input
                 type="password"
                 id="password_5"
                 name="password"
-                :class="{ error: vPassword$.password.$dirty && vPassword$.password.required.$invalid }"
+                :class="{
+                  error: vPassword$.password.$dirty && vPassword$.password.required.$invalid
+                }"
                 placeholder="Новый пароль:"
                 v-model="vPassword.password"
               />
@@ -22,17 +27,28 @@
             <p v-if="vPassword$.password.$dirty && vPassword$.password.required.$invalid">
               Поле Пароль должно быть заполнено
             </p>
-            <label for="password_5" v-if="!passwordChanged">
+            <label
+              for="password_5"
+              v-if="!passwordChanged"
+            >
               <input
                 type="password"
                 id="password_5"
                 name="password"
-                :class="{ error: vPassword$.passwordConfirm.$dirty && vPassword$.passwordConfirm.required.$invalid }"
+                :class="{
+                  error:
+                    vPassword$.passwordConfirm.$dirty &&
+                    vPassword$.passwordConfirm.required.$invalid
+                }"
                 placeholder="Подтвердить пароль:"
                 v-model="vPassword.passwordConfirm"
               />
             </label>
-            <p v-if="vPassword$.passwordConfirm.$dirty && vPassword$.passwordConfirm.required.$invalid">
+            <p
+              v-if="
+                vPassword$.passwordConfirm.$dirty && vPassword$.passwordConfirm.required.$invalid
+              "
+            >
               Поле Подтвердить пароль должно быть заполнено
             </p>
             <p v-if="passwordsNotMatch">Пароли не совпадают</p>
@@ -48,7 +64,7 @@
             />
             <input
               v-if="!passwordChanged"
-              :class="{ 'active': isValidPassword }"
+              :class="{ active: isValidPassword }"
               class="popup-form-submit _btn"
               type="submit"
               readonly
@@ -91,7 +107,7 @@ const onClose = () => {
 }
 
 const onReg = () => {
-  router.replace({query: {}})
+  router.replace({ query: {} })
   emit('closePopup')
   emit('openRegModal')
 }
@@ -100,12 +116,10 @@ const passwordChanged = ref(false)
 const submitMessage = ref('')
 const passwordsNotMatch = ref(false)
 
-
 const vPassword = reactive({
   password: '',
   passwordConfirm: ''
 })
-
 
 const rulePassword = {
   password: {
@@ -118,7 +132,6 @@ const rulePassword = {
 
 const vPassword$ = useVuelidate(rulePassword, vPassword)
 
-
 const isValidPassword = computed(() => {
   return vPassword$.value.$errors.length === 0
 })
@@ -129,29 +142,25 @@ function clear() {
 }
 
 async function sendPassword() {
-  console.log('sendPassword')
   const isCorrect = await vPassword$.value.$validate()
 
   if (!isCorrect) {
-    console.log('not valid form')
     return
   }
 
   let { id, key } = route.query
-  
+
   if (id && key) {
     if (key[key.length - 1] === '/') {
       key = key.slice(0, -1)
     }
-    console.log(id, key);
 
     if (vPassword.password !== vPassword.passwordConfirm) {
-      console.log('пароли не совпадают');
       return
     }
 
     const res = await useBaseFetch(`/cabinet/password-reset-confirm/${id}/${key}/`, {
-      method: "POST",
+      method: 'POST',
       body: JSON.stringify({
         new_password: vPassword.password,
         confirm_password: vPassword.passwordConfirm
@@ -163,11 +172,9 @@ async function sendPassword() {
       return
     }
 
-    router.replace({query: {}})
+    router.replace({ query: {} })
     emit('closePopup')
     emit('openLoginModal')
   }
-
 }
-
 </script>

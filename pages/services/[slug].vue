@@ -2,7 +2,7 @@
   <main class="main">
     <div class="singleserv">
       <div class="singleserv__inner">
-        <h1>{{ data.title }}</h1>
+        <h1 class="singleserv__title">{{ data.title }}</h1>
         <div class="singleserv__desc">
           {{ data.subtitle }}
         </div>
@@ -77,7 +77,7 @@
           <div class="container">
             <div class="singleserv__price-inner">
               <h2 class="singleserv__price-label">
-                Цены и услуги на укладку паркета в Санкт-Петербурге
+                {{ data.title }}
               </h2>
               <div class="singleserv__price-table">
                 <div class="singleserv__price-table-header">
@@ -126,7 +126,6 @@
               <div class="singleserv__price-text">
                 <div class="singleart">
                   <div class="singleart__inner">
-                    <h1>{{ data.title }}</h1>
                     <div
                       v-for="item in data.blocks"
                       :key="item"
@@ -172,9 +171,29 @@ const serviceId = ref(0)
 const priceId = ref(0)
 
 function openPopup(serviceID, priceID) {
-  console.log('serviceId', serviceID)
   serviceId.value = serviceID
   priceId.value = priceID
   isPopupOpen.value = true
 }
 </script>
+<style lang="scss" scoped>
+.singleserv__title {
+  font-size: 30px;
+  font-weight: 700;
+  line-height: 43.35px;
+}
+
+.singleserv__price-label {
+  font-size: 40px;
+  font-weight: 600;
+  line-height: 44px;
+}
+
+@media (max-width: 1470px) {
+  .singleserv__price-label {
+    font-size: 17px;
+    text-align: center;
+    line-height: 19px;
+  }
+}
+</style>

@@ -183,8 +183,6 @@ function chooseImg(event) {
   if (files.length) {
     vForms.photo = files[0]
   }
-  console.log(event)
-  console.log('vForms', vForms)
 }
 
 function reChooseImg() {
@@ -200,11 +198,9 @@ function clear() {
 }
 
 async function submit() {
-  console.log('submit')
   const isCorrect = await v$.value.$validate()
 
   if (!isCorrect) {
-    console.log('not valid form')
     return
   }
 

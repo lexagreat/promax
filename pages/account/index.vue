@@ -260,7 +260,6 @@ onMounted(async () => {
     await productsStore.getFavoriteProducts()
 
     let infoAboutMe = await accountStore.getInfoAboutMe()
-    console.log('infoAboutMe', infoAboutMe)
     name.value = infoAboutMe.name
     email.value = infoAboutMe.email
     phone.value = infoAboutMe.phone_number
@@ -330,7 +329,6 @@ async function editProfile() {
   }
 
   if (startInfo.phone !== phone.value) {
-    console.log('startInfo.phone', startInfo.phone, 'phone.value', phone.value)
     form.append('phone', phone.value)
 
     const res = await useBaseFetch('/cabinet/update/', {
@@ -373,8 +371,6 @@ async function editProfile() {
   // phone.value = editProfileRes.phone_number
   // avatar.value = editProfileRes.avatar
   // imgPath.value = editProfileRes.avatar
-
-  // console.log('editProfileRes', editProfileRes)
 
   toggleEdit()
 }

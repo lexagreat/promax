@@ -1,5 +1,5 @@
 <template>
-  <main class="main">
+  <main class="main prices-page">
     <div class="breadcrumbs">
       <div class="container">
         <div class="breadcrumbs__inner">

@@ -18,7 +18,11 @@
                 id="email_5"
                 name="name"
                 class="_required"
-                :class="{ error: vEmail$.email.$dirty && (vEmail$.email.required.$invalid || vEmail$.email.email.$invalid) }"
+                :class="{
+                  error:
+                    vEmail$.email.$dirty &&
+                    (vEmail$.email.required.$invalid || vEmail$.email.email.$invalid)
+                }"
                 placeholder="E-mail или номер телефона:"
                 v-model="vEmail.email"
               />
@@ -26,9 +30,7 @@
             <p v-if="vEmail$.email.$dirty && vEmail$.email.required.$invalid">
               Поле Email должно быть заполнено
             </p>
-            <p v-if="vEmail$.email.$dirty && vEmail$.email.email.$invalid">
-              Невалидный Email
-            </p>
+            <p v-if="vEmail$.email.$dirty && vEmail$.email.email.$invalid">Невалидный Email</p>
             <p v-if="emailSended">{{ submitMessage }}</p>
           </div>
           <div class="popup-form__btns">
@@ -111,11 +113,9 @@ function clear() {
 }
 
 async function sendLetter() {
-  console.log('sendLetter')
   const isCorrect = await vEmail$.value.$validate()
 
   if (!isCorrect) {
-    console.log('not valid form')
     return
   }
 
@@ -123,8 +123,6 @@ async function sendLetter() {
     method: 'POST',
     body: JSON.stringify({ email: vEmail.email })
   })
-
-  console.log('res', res)
 
   if (res.detail) {
     submitMessage.value = res.detail

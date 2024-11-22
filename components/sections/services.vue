@@ -41,7 +41,7 @@
         <div class="ourserv__bottom">
           <h2 class="ourserv__bottom-title">Фото паркетных работ</h2>
           <NuxtLink
-            to="#"
+            to="/cases"
             class="ourserv__bottom-btn _btn"
           >
             <span>Посмотреть кейсы</span>

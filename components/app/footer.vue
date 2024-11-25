@@ -46,28 +46,10 @@
                     v-for="category of categories"
                     :key="category.id"
                   >
-                    <NuxtLink :to="`/catalog?id=${category.id}&title=${category.title}`">{{
+                    <NuxtLink to="/catalog">{{
                       category.title
                     }}</NuxtLink>
                   </li>
-                  <!-- <li>
-                    <NuxtLink to="/catalog">Английская елка</NuxtLink>
-                  </li>
-                  <li>
-                    <NuxtLink to="/catalog">Французская елка</NuxtLink>
-                  </li>
-                  <li>
-                    <NuxtLink to="/catalog">Инженерная доска</NuxtLink>
-                  </li>
-                  <li>
-                    <NuxtLink to="/catalog">Модульный паркет</NuxtLink>
-                  </li>
-                  <li>
-                    <NuxtLink to="/catalog">Плинтус и аксессуары</NuxtLink>
-                  </li>
-                  <li>
-                    <NuxtLink to="/catalog">Паркетная химия</NuxtLink>
-                  </li> -->
                 </ul>
               </li>
             </ul>

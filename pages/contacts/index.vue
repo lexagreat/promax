@@ -70,7 +70,12 @@
         </div>
       </div>
     </div>
-    <PopupsWriteUs
+    <!-- <PopupsWriteUs
+      :isOpen="openWriteUsPopup"
+      @closePopup="openWriteUsPopup = false"
+      @success="openSuccessPopup = true"
+    /> -->
+    <PopupsQuestion
       :isOpen="openWriteUsPopup"
       @closePopup="openWriteUsPopup = false"
       @success="openSuccessPopup = true"
@@ -170,8 +175,6 @@ function changeTab(id) {
       }
     }
   }
-  // const index = tabs.findIndex((tab) => tab.id === id)
-  // tabs[index].active = true
 }
 
 async function editProfile() {
@@ -215,34 +218,6 @@ async function editProfile() {
 
   toggleEdit()
 }
-
-const onLogout = () => {
-  accountStore.logout()
-  router.push('/')
-}
-
-onMounted(async () => {
-  if (!accountStore.isLogin) {
-    router.push('/')
-  } else {
-    await productsStore.getFavoriteProducts()
-    await accountStore.getInfoAboutMe()
-
-    name.value = accountStore.infoAboutMe.name
-    email.value = accountStore.infoAboutMe.email
-    phone.value = accountStore.infoAboutMe.phone_number
-
-    if (accountStore.infoAboutMe.avatar && accountStore.infoAboutMe.avatar.length) {
-      avatar.value = accountStore.infoAboutMe.avatar
-      imgPath.value = accountStore.infoAboutMe.avatar
-      startInfo.avatar = accountStore.infoAboutMe.avatar
-    }
-
-    startInfo.name = accountStore.infoAboutMe.name
-    startInfo.email = accountStore.infoAboutMe.email
-    startInfo.phone = accountStore.infoAboutMe.phone_number
-  }
-})
 </script>
 <style lang="scss" scoped>
 p {

@@ -132,6 +132,11 @@
     <PopupsQuestion
       :isOpen="openQuestion"
       @closePopup="openQuestion = false"
+      @success="openSuccessPopup = true"
+    />
+    <PopupsSuccess
+      :isOpen="openSuccessPopup"
+      @closePopup="openSuccessPopup = false"
     />
   </main>
 </template>
@@ -144,6 +149,7 @@ let cases = await useBaseFetch('/blog/cases/')
 let youtube = ref(cases[0].youtube)
 
 const openQuestion = ref(false)
+const openSuccessPopup = ref(false)
 
 onMounted(async () => {
   if (accountStore.isLogin) {

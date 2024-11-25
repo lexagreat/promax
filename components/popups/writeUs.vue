@@ -163,12 +163,4 @@ async function submit() {
 
   emit('closePopup')
 }
-
-onMounted(async () => {
-  if (accountStore.isLogin) {
-    vForms.name = accountStore.infoAboutMe.name
-    vForms.email = accountStore.infoAboutMe.email
-    vForms.phone = accountStore.infoAboutMe.phone_number
-  }
-})
 </script>

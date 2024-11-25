@@ -116,7 +116,7 @@ const props = defineProps({
   priceId: Number
 })
 
-const emit = defineEmits(['closePopup'])
+const emit = defineEmits(['closePopup', 'success'])
 
 const onClose = () => {
   emit('closePopup')
@@ -186,6 +186,9 @@ async function submit() {
     method: 'POST'
   })
 
-  emit('closePopup')
+  if (res) {
+    emit('success')
+    emit('closePopup')
+  }
 }
 </script>

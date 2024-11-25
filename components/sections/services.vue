@@ -86,5 +86,5 @@ onBeforeRouteLeave(() => {
   })
 })
 
-let services = await useBaseFetch('/blog/services')
+let services = await useBaseFetch('/blog/services/')
 </script>

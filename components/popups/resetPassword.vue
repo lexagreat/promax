@@ -14,6 +14,7 @@
               v-if="!emailSended"
             >
               <input
+                @blur="vEmail.email.$touch"
                 type="text"
                 id="email_5"
                 name="name"

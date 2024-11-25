@@ -305,13 +305,14 @@
 </template>
 <script setup>
 import MultiRangeSlider from 'multi-range-slider-vue'
+import { useAccountStore } from '~/store/accountStore'
 import { useProductsStore } from '~/store/productsStore'
 import { makeCatalogFilters } from '~/utils/makeCatalogFilters'
-const productsStore = useProductsStore()
 
-onMounted(() => {
-  makeCatalogFilters()
-})
+const productsStore = useProductsStore()
+const accountStore = useAccountStore()
+
+const route = useRoute()
 
 const categoryName = ref('Паркет')
 const subcategoryName = ref('')
@@ -367,13 +368,14 @@ const setSizes = () => {
   lengthMaxValue.value = lengthMax.value
   lengthMinValue.value = lengthMin.value
 }
-categories.value = await useBaseFetch('/catalog/categories-list')
+categories.value = await useBaseFetch('/catalog/categories-list/')
 
 const getData = async (subCat = '') => {
   getProducts(subCat)
   getPricesAndSizes(subCat)
 }
 const setCategory = async (id, title) => {
+  console.log('id', id, 'title', title)
   checkedCategory.value = id
   checkedSubcategory.value = ''
   subcategoryName.value = ''
@@ -434,7 +436,31 @@ watch(
   }
 )
 await getData()
-await productsStore.getFavoriteProducts()
+
+watch(
+  () => route.query,
+  () => {
+    if (route.query['id'] && route.query['title']) {
+      console.log('set')
+      setCategory(Number(route.query['id']), route.query['title'])
+    }
+  }
+)
+
+onMounted(async () => {
+  makeCatalogFilters()
+
+  if (accountStore.isLogin) {
+    await productsStore.getFavoriteProducts()
+  }
+
+  console.log('rotue', route.query)
+  if (route.query['id'] && route.query['title']) {
+    console.log('set')
+    setCategory(Number(route.query['id']), route.query['title'])
+    makeCatalogFilters()
+  }
+})
 </script>
 
 <style lang="scss">

@@ -25,23 +25,11 @@
               <li>
                 <NuxtLink to="/services">Услуги</NuxtLink>
                 <ul>
-                  <li>
-                    <NuxtLink to="/services/1">Укладка паркета</NuxtLink>
-                  </li>
-                  <li>
-                    <NuxtLink to="/services/1">Циклевка</NuxtLink>
-                  </li>
-                  <li>
-                    <NuxtLink to="/services/1">Ремонт</NuxtLink>
-                  </li>
-                  <li>
-                    <NuxtLink to="/services/1">Реставрация</NuxtLink>
-                  </li>
-                  <li>
-                    <NuxtLink to="/services/1">Шлифовка</NuxtLink>
-                  </li>
-                  <li>
-                    <NuxtLink to="/services/1">Установка плинтуса</NuxtLink>
+                  <li
+                    v-for="service of services"
+                    :key="service.id"
+                  >
+                    <NuxtLink :to="`/services/${service.slug}`">{{ service.title }}</NuxtLink>
                   </li>
                 </ul>
               </li>
@@ -54,10 +42,15 @@
               <li>
                 <NuxtLink to="/catalog">Каталог</NuxtLink>
                 <ul>
-                  <li>
-                    <NuxtLink to="/catalog">Дизайнерский паркет</NuxtLink>
+                  <li
+                    v-for="category of categories"
+                    :key="category.id"
+                  >
+                    <NuxtLink :to="`/catalog?id=${category.id}&title=${category.title}`">{{
+                      category.title
+                    }}</NuxtLink>
                   </li>
-                  <li>
+                  <!-- <li>
                     <NuxtLink to="/catalog">Английская елка</NuxtLink>
                   </li>
                   <li>
@@ -74,7 +67,7 @@
                   </li>
                   <li>
                     <NuxtLink to="/catalog">Паркетная химия</NuxtLink>
-                  </li>
+                  </li> -->
                 </ul>
               </li>
             </ul>
@@ -109,4 +102,7 @@
     </div>
   </footer>
 </template>
-<script setup></script>
+<script setup>
+const services = await useBaseFetch('/blog/services')
+const categories = await useBaseFetch('/catalog/categories-list')
+</script>

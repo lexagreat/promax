@@ -42,5 +42,5 @@
   </main>
 </template>
 <script setup>
-let blog = await useBaseFetch('/blog/list')
+let blog = await useBaseFetch('/blog/list/')
 </script>

@@ -16,8 +16,10 @@
         </div>
         <form class="popup-form">
           <div class="popup-form__inputs">
-            <p v-if="v$.name.$dirty && v$.name.required.$invalid">Поле Имя должно быть заполнено</p>
-            <label for="name_3">
+            <label
+              v-if="!accountStore.isLogin"
+              for="name_3"
+            >
               <input
                 @blur="vForms.name.$touch"
                 v-model="vForms.name"
@@ -25,14 +27,13 @@
                 name="name"
                 type="text"
                 placeholder="Ваше имя"
+                :class="{ error: v$.name.$dirty && v$.name.required.$invalid }"
               />
             </label>
-            <p v-if="v$.square.$dirty && v$.square.$invalid">
-              Поле Площадь помещения должно быть заполнено
+            <p v-if="!accountStore.isLogin && v$.name.$dirty && v$.name.required.$invalid">
+              Поле Имя должно быть заполнено
             </p>
-            <p v-if="v$.age.$dirty && v$.age.$invalid">
-              Поле Возраст паркета должно быть заполнено
-            </p>
+
             <div class="popup-form__split">
               <label for="square_3">
                 <input
@@ -42,6 +43,7 @@
                   name="square"
                   type="number"
                   placeholder="Площадь помещения, м²"
+                  :class="{ error: v$.square.$dirty && v$.square.required.$invalid }"
                 />
               </label>
               <label for="age_3">
@@ -52,17 +54,24 @@
                   name="age"
                   type="number"
                   placeholder="Выберите возраст паркета"
+                  :class="{ error: v$.age.$dirty && v$.age.required.$invalid }"
                 />
                 <div class="singleserv__price-table-icon">
                   <span class="i-singleserv-arrow"></span>
                 </div>
               </label>
             </div>
-            <p v-if="v$.phone.$dirty && v$.phone.required.$invalid">
-              Поле Телефон должно быть заполнено
+            <p v-if="v$.square.$dirty && v$.square.$invalid">
+              Поле Площадь помещения должно быть заполнено
             </p>
-            <p v-if="v$.phone.$dirty && v$.phone.minLength.$invalid">Должно быть 11 цифр</p>
-            <label for="phone_3">
+            <p v-if="v$.age.$dirty && v$.age.$invalid">
+              Поле Возраст паркета должно быть заполнено
+            </p>
+
+            <label
+              v-if="!accountStore.isLogin"
+              for="phone_3"
+            >
               <input
                 @blur="vForms.phone.$touch"
                 v-model="vForms.phone"
@@ -72,9 +81,15 @@
                 name="phone"
                 class="phoneNum"
                 placeholder="+7 (999) 999-99-99"
+                :class="{ error: v$.phone.$dirty && v$.phone.required.$invalid }"
               />
             </label>
-
+            <p v-if="!accountStore.isLogin && v$.phone.$dirty && v$.phone.required.$invalid">
+              Поле Телефон должно быть заполнено
+            </p>
+            <p v-if="!accountStore.isLogin && v$.phone.$dirty && v$.phone.minLength.$invalid">
+              Должно быть 11 цифр
+            </p>
             <label
               for="download_3"
               class="download-file-label"
@@ -138,12 +153,15 @@ import { reactive, computed, useTemplateRef } from 'vue'
 import { vMaska } from 'maska/vue'
 import { useVuelidate } from '@vuelidate/core'
 import { minLength, maxLength, email, required } from '@vuelidate/validators'
+import { useAccountStore } from '~/store/accountStore'
+
+const accountStore = useAccountStore()
 
 const props = defineProps({
   isOpen: Boolean
 })
 
-const emit = defineEmits(['closePopup'])
+const emit = defineEmits(['closePopup', 'success'])
 
 const photoInput = useTemplateRef('photo-input')
 
@@ -190,14 +208,21 @@ function reChooseImg() {
 }
 
 function clear() {
-  vForms.name = ''
+  if (!accountStore.isLogin) {
+    vForms.name = ''
+    vForms.phone = ''
+  }
   vForms.square = ''
   vForms.age = ''
-  vForms.phone = ''
   vForms.photo = ''
 }
 
 async function submit() {
+  if (accountStore.isLogin) {
+    vForms.name = accountStore.infoAboutMe.name
+    vForms.phone = accountStore.infoAboutMe.phone_number
+  }
+
   const isCorrect = await v$.value.$validate()
 
   if (!isCorrect) {
@@ -217,12 +242,27 @@ async function submit() {
     body: form
   })
 
-  onClose()
+  if (pricesRes) {
+    emit('success')
+    onClose()
+  }
 }
 
 const onClose = () => {
   emit('closePopup')
+
+  setTimeout(() => {
+    clear()
+    v$.value.$reset()
+  }, 1000)
 }
+
+onMounted(async () => {
+  if (accountStore.isLogin) {
+    vForms.name = accountStore.infoAboutMe.name
+    vForms.phone = accountStore.infoAboutMe.phone_number
+  }
+})
 </script>
 
 <style lang="scss" scoped>

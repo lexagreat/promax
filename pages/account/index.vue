@@ -20,7 +20,7 @@
                 />
               </div>
               <div class="accountb-main__name">
-                {{ name }}
+                {{ accountStore.infoAboutMe.name }}
               </div>
             </div>
             <div class="accountb-main__second">
@@ -37,7 +37,10 @@
               <form class="accountb-main__second-body">
                 <div class="accountb-main__second-item">
                   <div class="accountb-main__second-item-lbl">ФИО</div>
-                  <div class="accountb-main__second-item-val">
+                  <div
+                    class="accountb-main__second-item-val"
+                    :class="{ _active: isEditable }"
+                  >
                     <input
                       type="text"
                       name="prof-name"
@@ -49,7 +52,10 @@
                 </div>
                 <div class="accountb-main__second-item">
                   <div class="accountb-main__second-item-lbl">Телефон</div>
-                  <div class="accountb-main__second-item-val">
+                  <div
+                    class="accountb-main__second-item-val"
+                    :class="{ _active: isEditable }"
+                  >
                     <input
                       type="text"
                       name="prof-phone"
@@ -62,7 +68,10 @@
                 </div>
                 <div class="accountb-main__second-item">
                   <div class="accountb-main__second-item-lbl">Почта</div>
-                  <div class="accountb-main__second-item-val">
+                  <div
+                    class="accountb-main__second-item-val"
+                    :class="{ _active: isEditable }"
+                  >
                     <input
                       type="text"
                       name="prof-mail"
@@ -74,12 +83,10 @@
                 </div>
                 <div class="accountb-main__second-item">
                   <!-- <div class="accountb-main__second-item-lbl">Почта</div> -->
-                  <div
-                    :class="{ _active: !isEditable }"
-                    class="accountb-main__second-item-val"
-                  >
+                  <div class="accountb-main__second-item-val">
                     <input
-                      @click="editProfile"
+                      :class="{ _active: isEditable }"
+                      @click.prevent="editProfile"
                       type="submit"
                       name="prof-save"
                       id="prof-save"
@@ -112,15 +119,27 @@
         <div class="container">
           <div class="accountb-tabs">
             <div class="accountb-tabs-header">
-              <div class="accountb-tabs-header__item tab-referral">Реферальная программа</div>
-              <div class="accountb-tabs-header__item tab-wishlist _active">Избранное</div>
-              <div class="accountb-tabs-header__item tab-orders">Мои заказы</div>
+              <div
+                v-for="tab of tabs"
+                :key="tab.id"
+                class="accountb-tabs-header__item"
+                :class="{ _active: tab.active }"
+                @click="changeTab(tab.id)"
+              >
+                {{ tab.name }}
+              </div>
             </div>
             <div class="accountb-tabs-body">
-              <div class="accountb-tabs-body__item body-referral">
+              <div
+                class="accountb-tabs-body__item body-referral"
+                :class="{ _active: tabs[0].active }"
+              >
                 Lorem ipsum dolor sit amet, consectetur adipisicing elit.
               </div>
-              <div class="accountb-tabs-body__item body-wishlist _active">
+              <div
+                class="accountb-tabs-body__item body-wishlist"
+                :class="{ _active: tabs[1].active }"
+              >
                 <div class="prodtabs__main products products_ld_4">
                   <CardsProduct
                     v-for="(item, index) in productsStore.favoriteProducts"
@@ -130,9 +149,40 @@
                   />
                 </div>
               </div>
-              <div class="accountb-tabs-body__item body-orders">
-                <div class="body-orders__list">
+              <div
+                v-if="accountStore.orders.length"
+                class="accountb-tabs-body__item body-orders"
+                :class="{ _active: tabs[2].active }"
+              >
+                <div
+                  v-for="order of accountStore.orders"
+                  :key="order.id"
+                  class="body-orders__list"
+                >
                   <div class="body-orders__item">
+                    <div class="body-orders__item-header">
+                      <div class="body-orders__item-date">
+                        Заказ от {{ formatDate(order.date) }}
+                      </div>
+                      <div class="body-orders__item-params">
+                        <span>6 уп.</span><span>10 м²</span>
+                      </div>
+                      <div class="body-orders__item-price"><span>120 000</span> <span>₽</span></div>
+                    </div>
+                    <div class="body-orders__item-body">
+                      <div class="body-orders__item-img">
+                        <img
+                          src="@/assets/img/orders-img.png"
+                          alt="Рисунки карандашом «Print»"
+                        />
+                      </div>
+                      <div class="body-orders__item-title">
+                        <div class="body-orders__item-title-first">Дизайнерский паркет</div>
+                        <h2 class="body-orders__item-title-second">Рисунки карандашом «Print»</h2>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- <div class="body-orders__item">
                     <div class="body-orders__item-header">
                       <div class="body-orders__item-date">Заказ от 1 июля</div>
                       <div class="body-orders__item-params">
@@ -194,28 +244,7 @@
                         <h2 class="body-orders__item-title-second">Рисунки карандашом «Print»</h2>
                       </div>
                     </div>
-                  </div>
-                  <div class="body-orders__item">
-                    <div class="body-orders__item-header">
-                      <div class="body-orders__item-date">Заказ от 1 июля</div>
-                      <div class="body-orders__item-params">
-                        <span>6 уп.</span><span>10 м²</span>
-                      </div>
-                      <div class="body-orders__item-price"><span>120 000</span> <span>₽</span></div>
-                    </div>
-                    <div class="body-orders__item-body">
-                      <div class="body-orders__item-img">
-                        <img
-                          src="@/assets/img/orders-img.png"
-                          alt="Рисунки карандашом «Print»"
-                        />
-                      </div>
-                      <div class="body-orders__item-title">
-                        <div class="body-orders__item-title-first">Дизайнерский паркет</div>
-                        <h2 class="body-orders__item-title-second">Рисунки карандашом «Print»</h2>
-                      </div>
-                    </div>
-                  </div>
+                  </div> -->
                 </div>
               </div>
             </div>
@@ -246,35 +275,33 @@ const inputImg = useTemplateRef('input-img')
 const imgPath = ref(startImg)
 const isEditable = ref(false)
 
+const tabs = reactive([
+  {
+    id: 1,
+    name: 'Реферальная программа',
+    class: 'tab-referral',
+    active: false
+  },
+  {
+    id: 2,
+    name: 'Избранное',
+    class: 'tab-wishlist',
+    active: true
+  },
+  {
+    id: 3,
+    name: 'Мои заказы',
+    class: 'tab-orders',
+    active: false
+  }
+])
+
 const startInfo = {
   name: '',
   email: '',
   phone: '',
   avatar: ''
 }
-
-onMounted(async () => {
-  if (!accountStore.isLogin) {
-    router.push('/')
-  } else {
-    await productsStore.getFavoriteProducts()
-
-    let infoAboutMe = await accountStore.getInfoAboutMe()
-    name.value = infoAboutMe.name
-    email.value = infoAboutMe.email
-    phone.value = infoAboutMe.phone_number
-
-    if (infoAboutMe.avatar && infoAboutMe.avatar.length) {
-      avatar.value = infoAboutMe.avatar
-      imgPath.value = infoAboutMe.avatar
-      startInfo.avatar = infoAboutMe.avatar
-    }
-
-    startInfo.name = infoAboutMe.name
-    startInfo.email = infoAboutMe.email
-    startInfo.phone = infoAboutMe.phone_number
-  }
-})
 
 function chooseImg(event) {
   const files = event.target.files
@@ -295,82 +322,58 @@ function toggleEdit() {
   isEditable.value = !isEditable.value
 }
 
+function changeTab(id) {
+  for (let tab of tabs) {
+    if (tab.id === id) {
+      tab.active = !tab.active
+    } else {
+      if (tab.active === true) {
+        tab.active = !tab.active
+      }
+    }
+  }
+  // const index = tabs.findIndex((tab) => tab.id === id)
+  // tabs[index].active = true
+}
+
 async function editProfile() {
   const form = new FormData()
 
   if (startInfo.name !== name.value) {
     form.append('name', name.value)
 
-    const res = await useBaseFetch('/cabinet/update/', {
-      method: 'PATCH',
-      body: form,
-      headers: {
-        Authorization: `Token ${accountStore.token}`
-      }
-    })
+    await accountStore.updateProfile(form)
 
-    name.value = res.name
-    startInfo.name = res.name
+    name.value = accountStore.infoAboutMe.name
+    startInfo.name = accountStore.infoAboutMe.name
   }
 
   if (startInfo.email !== email.value) {
     form.append('email', email.value)
 
-    const res = await useBaseFetch('/cabinet/update/', {
-      method: 'PATCH',
-      body: form,
-      headers: {
-        Authorization: `Token ${accountStore.token}`
-      }
-    })
+    await accountStore.updateProfile(form)
 
-    email.value = res.email
-    startInfo.email = res.email
+    email.value = accountStore.infoAboutMe.email
+    startInfo.email = accountStore.infoAboutMe.email
   }
 
   if (startInfo.phone !== phone.value) {
     form.append('phone', phone.value)
 
-    const res = await useBaseFetch('/cabinet/update/', {
-      method: 'PATCH',
-      body: form,
-      headers: {
-        Authorization: `Token ${accountStore.token}`
-      }
-    })
+    await accountStore.updateProfile(form)
 
-    phone.value = res.phone
-    startInfo.phone = res.phone
+    phone.value = accountStore.infoAboutMe.phone
+    startInfo.phone = accountStore.infoAboutMe.phone
   }
 
   if (startInfo.avatar !== avatar.value) {
     form.append('avatar', avatar.value)
 
-    const res = await useBaseFetch('/cabinet/update/', {
-      method: 'PATCH',
-      body: form,
-      headers: {
-        Authorization: `Token ${accountStore.token}`
-      }
-    })
+    await accountStore.updateProfile(form)
 
-    avatar.value = res.avatar
-    startInfo.avatar = res.avatar
+    avatar.value = accountStore.infoAboutMe.avatar
+    startInfo.avatar = accountStore.infoAboutMe.avatar
   }
-
-  // const editProfileRes = await useBaseFetch('/cabinet/update/', {
-  //   method: 'PATCH',
-  //   body: form,
-  //   headers: {
-  //     Authorization: `Token ${accountStore.token}`
-  //   }
-  // })
-
-  // name.value = editProfileRes.name
-  // email.value = editProfileRes.email
-  // phone.value = editProfileRes.phone_number
-  // avatar.value = editProfileRes.avatar
-  // imgPath.value = editProfileRes.avatar
 
   toggleEdit()
 }
@@ -378,5 +381,55 @@ async function editProfile() {
 const onLogout = () => {
   accountStore.logout()
   router.push('/')
+}
+
+onMounted(async () => {
+  if (!accountStore.isLogin) {
+    router.push('/')
+  } else {
+    await productsStore.getFavoriteProducts()
+    await accountStore.getInfoAboutMe()
+    await accountStore.getOrders()
+
+    name.value = accountStore.infoAboutMe.name
+    email.value = accountStore.infoAboutMe.email
+    phone.value = accountStore.infoAboutMe.phone_number
+
+    if (accountStore.infoAboutMe.avatar && accountStore.infoAboutMe.avatar.length) {
+      avatar.value = accountStore.infoAboutMe.avatar
+      imgPath.value = accountStore.infoAboutMe.avatar
+      startInfo.avatar = accountStore.infoAboutMe.avatar
+    }
+
+    startInfo.name = accountStore.infoAboutMe.name
+    startInfo.email = accountStore.infoAboutMe.email
+    startInfo.phone = accountStore.infoAboutMe.phone_number
+  }
+})
+
+function formatDate(date) {
+  const months = [
+    'января',
+    'февраля',
+    'марта',
+    'апреля',
+    'мая',
+    'июня',
+    'июля',
+    'августа',
+    'сентября',
+    'октября',
+    'ноября',
+    'декабря'
+  ]
+
+  const newDate = new Date(date)
+  const day = newDate.getDate()
+  console.log('date', date)
+  console.log('newDate', newDate)
+  console.log('day', day)
+  const month = months[newDate.getMonth()]
+
+  return `${day} ${month}`
 }
 </script>

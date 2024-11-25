@@ -154,26 +154,38 @@
   <PopupsService
     :serviceId="serviceId"
     :priceId="priceId"
-    :isOpen="isPopupOpen"
-    @closePopup="isPopupOpen = false"
+    :isOpen="openServicePopup"
+    @closePopup="openServicePopup = false"
+    @success="foo"
+  />
+  <PopupsSuccess
+    :isOpen="openSuccessPopup"
+    @closePopup="openSuccessPopup = false"
   />
 </template>
 <script setup>
 import { ref } from 'vue'
 
-const isPopupOpen = ref(false)
+const openServicePopup = ref(false)
+const openSuccessPopup = ref(false)
+
 let route = useRoute()
 let slug = route.params.slug
 
-let data = await useBaseFetch(`/blog/service/${slug}`)
+let data = await useBaseFetch(`/blog/service/${slug}/`)
 
 const serviceId = ref(0)
 const priceId = ref(0)
 
+function foo() {
+  console.log('success')
+  openSuccessPopup.value = true
+}
+
 function openPopup(serviceID, priceID) {
   serviceId.value = serviceID
   priceId.value = priceID
-  isPopupOpen.value = true
+  openServicePopup.value = true
 }
 </script>
 <style lang="scss" scoped>

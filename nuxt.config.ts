@@ -43,7 +43,11 @@ export default defineNuxtConfig({
       },
    },
    modules: [
-      // ...
       "@pinia/nuxt",
+      "vue-yandex-maps/nuxt"
    ],
+   yandexMaps: {
+      apikey: '13dcbcc2-99fd-4b4b-8c3b-668751fe2b0f',
+      lang: 'ru_RU',
+   }
 });

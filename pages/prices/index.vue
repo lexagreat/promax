@@ -75,16 +75,23 @@
     <TgExperts />
   </main>
   <PopupsPrices
-    :isOpen="isPopupOpen"
-    @closePopup="isPopupOpen = false"
+    :isOpen="openPricesPopup"
+    @closePopup="openPricesPopup = false"
+    @success="openSuccessPopup = true"
+  />
+  <PopupsSuccess
+    :isOpen="openSuccessPopup"
+    @closePopup="openSuccessPopup = false"
   />
 </template>
 <script setup>
-const isPopupOpen = ref(false)
+const openPricesPopup = ref(false)
+const openSuccessPopup = ref(false)
+
 const currentId = ref(0)
 const openPopup = (id) => {
   currentId.value = id
-  isPopupOpen.value = true
+  openPricesPopup.value = true
 }
-let prices = await useBaseFetch('/blog/services/prices')
+let prices = await useBaseFetch('/blog/services/prices/')
 </script>

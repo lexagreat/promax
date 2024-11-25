@@ -289,7 +289,7 @@ const accountStore = useAccountStore()
 
 const isPopupOpen = ref(false)
 const route = useRoute()
-let data = await useBaseFetch('/catalog/product/' + route.params.slug)
+let data = await useBaseFetch('/catalog/product/' + route.params.slug + '/')
 
 const squaredMeters = data['squared_metres']
 const priceForMetr = data['price']

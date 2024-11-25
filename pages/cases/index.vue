@@ -155,7 +155,7 @@
   </main>
 </template>
 <script setup>
-let cases = await useBaseFetch('/blog/cases')
+let cases = await useBaseFetch('/blog/cases/')
 let youtube = ref(cases[0].youtube)
 let tg = ref(cases[0].tg)
 let inst = ref(cases[0].inst)

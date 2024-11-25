@@ -14,6 +14,7 @@
               v-if="!passwordChanged"
             >
               <input
+                @blur="vPassword.password.$touch"
                 type="password"
                 id="password_5"
                 name="password"

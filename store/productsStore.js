@@ -3,12 +3,14 @@ import { useAccountStore } from "./accountStore";
 
 export const useProductsStore = defineStore("useProductsStore", {
    state: () => ({
-      favoriteProducts: []
+      favoriteProducts: [],
+      orders: []
    }),
    actions: {
       async getFavoriteProducts() {
          const accountStore = useAccountStore()
-         let favoriteProducts = await useBaseFetch("/catalog/favorite-get", {
+         
+         let favoriteProducts = await useBaseFetch("/catalog/favorite-get/", {
             method: "GET",
             headers: {
                Authorization: `Token ${accountStore.token}`
@@ -21,7 +23,7 @@ export const useProductsStore = defineStore("useProductsStore", {
       async addFavoriteProduct(productId, product) {
          const accountStore = useAccountStore()
 
-         const res = await useBaseFetch("/catalog/favorite-add", {
+         const res = await useBaseFetch("/catalog/favorite-add/", {
             method: "POST",
             body: { productId },
             headers: {
@@ -36,7 +38,7 @@ export const useProductsStore = defineStore("useProductsStore", {
       async deleteFavoriteProduct(productId) {
          const accountStore = useAccountStore()
 
-         let res = await useBaseFetch("/catalog/favorite-delete", {
+         let res = await useBaseFetch("/catalog/favorite-delete/", {
             method: "DELETE",
             body: { productId },
             headers: {
@@ -55,7 +57,20 @@ export const useProductsStore = defineStore("useProductsStore", {
          } else {
            await this.addFavoriteProduct(productId, product)
          }
-      }
+      },
+      async makeOrder(form) {
+         const accountStore = useAccountStore()
+         
+         let res = await useBaseFetch("/order/product/", {
+            method: "POST",
+            body: form,
+            headers: {
+               Authorization: `Token ${accountStore.token}`
+            }
+         })
+
+         return res
+      },
    },
    getters: {
       isProductInFavorite(state) {

@@ -12,10 +12,7 @@
         <div class="popup-title">Введите ваши данные:</div>
         <form class="popup-form">
           <div class="popup-form__inputs">
-            <label
-              v-if="!accountStore.isLogin"
-              for="name_1"
-            >
+            <label v-if="!accountStore.isLogin" for="name_1">
               <input
                 v-model="vForms.name"
                 @blur="vForms.name.$touch"
@@ -27,37 +24,9 @@
                 :class="{ error: v$.name.$dirty && v$.name.required.$invalid }"
               />
             </label>
-            <p v-if="!accountStore.isLogin && v$.name.$dirty && v$.name.required.$invalid">
-              Поле Имя должно быть заполнено
-            </p>
+            <p v-if="!accountStore.isLogin && v$.name.$dirty && v$.name.required.$invalid">Поле Имя должно быть заполнено</p>
 
-            <label
-              v-if="!accountStore.isLogin"
-              for="email_1"
-            >
-              <input
-                @blur="vForms.email.$touch"
-                v-model="vForms.email"
-                id="email_1"
-                name="email"
-                type="email"
-                placeholder="E-mail"
-                :class="{
-                  error: v$.email.$dirty && (v$.email.required.$invalid || v$.email.email.$invalid)
-                }"
-              />
-            </label>
-            <p v-if="!accountStore.isLogin && v$.email.$dirty && v$.email.required.$invalid">
-              Поле Email должно быть заполнено
-            </p>
-            <p v-if="!accountStore.isLogin && v$.email.$dirty && v$.email.email.$invalid">
-              Невалидный email
-            </p>
-
-            <label
-              v-if="!accountStore.isLogin"
-              for="phone_1"
-            >
+            <label v-if="!accountStore.isLogin" for="phone_1">
               <input
                 @blur="vForms.phone.$touch"
                 v-model="vForms.phone"
@@ -76,47 +45,21 @@
             <p v-if="!accountStore.isLogin && v$.phone.$dirty && v$.phone.required.$invalid">
               Поле Телефон должно быть заполнено
             </p>
-            <p v-if="!accountStore.isLogin && v$.phone.$dirty && v$.phone.minLength.$invalid">
-              Должно быть 11 цифр
-            </p>
+            <p v-if="!accountStore.isLogin && v$.phone.$dirty && v$.phone.minLength.$invalid">Должно быть 11 цифр</p>
 
-            <label for="address_1">
+            <label for="question_1">
               <textarea
-                @blur="vForms.address.$touch"
-                v-model="vForms.address"
-                name="address"
-                id="address_1"
-                placeholder="Доставка по адресу:"
-                :class="{ error: v$.address.$dirty && v$.address.required.$invalid }"
+                @blur="vForms.question.$touch"
+                v-model="vForms.question"
+                name="question"
+                id="question_1"
+                placeholder="Сообщение"
+                :class="{ error: v$.question.$dirty && v$.question.required.$invalid }"
               ></textarea>
             </label>
-            <p v-if="v$.address.$dirty && v$.address.required.$invalid">
-              Поле Адрес должно быть заполнено
+            <p v-if="v$.question.$dirty && v$.question.required.$invalid">
+              Поле Сообщение должно быть заполнено
             </p>
-
-            <label for="lift_1">
-              <input
-                @blur="vForms.lift.$touch"
-                v-model="vForms.lift"
-                type="text"
-                id="lift_1"
-                name="lift"
-                placeholder="Подъём (пронос в метрах, этаж, лифт):"
-                :class="{ error: v$.lift.$dirty && v$.lift.required.$invalid }"
-              />
-            </label>
-            <p v-if="v$.lift.$dirty && v$.lift.required.$invalid">
-              Поле Лифт должно быть заполнено
-            </p>
-            <label for="order-comment_1">
-              <textarea
-                @blur="vForms.comment.$touch"
-                v-model="vForms.comment"
-                name="order-comment"
-                id="order-comment_1"
-                placeholder="Комментарии к заказу:"
-              ></textarea>
-            </label>
           </div>
           <div class="popup-form__btns">
             <input
@@ -155,7 +98,7 @@ const props = defineProps({
   priceId: Number
 })
 
-const emit = defineEmits(['closePopup', 'success'])
+const emit = defineEmits(['closePopup'])
 
 const onClose = () => {
   emit('closePopup')
@@ -163,29 +106,19 @@ const onClose = () => {
 
 const vForms = reactive({
   name: '',
-  email: '',
   phone: '',
-  address: '',
-  lift: '',
-  comment: ''
+  question: ''
 })
 
 const rules = {
   name: {
     required
   },
-  email: {
-    required,
-    email
-  },
   phone: {
     required,
     minLength: minLength(18)
   },
-  address: {
-    required
-  },
-  lift: {
+  question: {
     required
   }
 }
@@ -200,17 +133,13 @@ function clear() {
   if (!accountStore.isLogin) {
     vForms.name = ''
     vForms.phone = ''
-    vForms.email = ''
   }
-  vForms.address = ''
-  vForms.comment = ''
-  vForms.lift = ''
+  vForms.question = ''
 }
 
 async function submit() {
   if (accountStore.isLogin) {
     vForms.name = accountStore.infoAboutMe.name
-    vForms.email = accountStore.infoAboutMe.email
     vForms.phone = accountStore.infoAboutMe.phone_number
   }
 
@@ -224,26 +153,15 @@ async function submit() {
     name: vForms.name,
     email: vForms.email,
     phone_number: vForms.phone,
-    delivery_on_order: vForms.lift,
-    comments_on_order: vForms.comment,
-    service: props.serviceId,
-    price: props.priceId
+    question: vForms.question
   }
 
-  const serviceRes = await useBaseFetch('/order/service/', {
+  const res = await useBaseFetch('/blog/question/', {
     body: form,
     method: 'POST'
   })
 
-  if (serviceRes) {
-    emit('closePopup')
-    emit('success')
-
-    setTimeout(() => {
-      clear()
-      v$.value.$reset()
-    }, 1000)
-  }
+  emit('closePopup')
 }
 
 onMounted(async () => {

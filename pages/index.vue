@@ -26,9 +26,12 @@
                     ООО «Паркет Промакс»
                   </div>
                 </div>
-                <NuxtLink>
-                  <div class="bosstext-prof__btn _btn">Задать вопрос</div>
-                </NuxtLink>
+                <div
+                  @click="openQuestion = true"
+                  class="bosstext-prof__btn _btn"
+                >
+                  Задать вопрос
+                </div>
               </div>
             </div>
           </div>
@@ -126,9 +129,26 @@
     </div>
 
     <TgExperts />
+    <PopupsQuestion
+      v-if="openQuestion"
+      :isOpen="openQuestion"
+      @closePopup="openQuestion = false"
+    />
   </main>
 </template>
 <script setup>
-let cases = await useBaseFetch('/blog/cases')
+import { useAccountStore } from '~/store/accountStore'
+
+const accountStore = useAccountStore()
+
+let cases = await useBaseFetch('/blog/cases/')
 let youtube = ref(cases[0].youtube)
+
+const openQuestion = ref(false)
+
+onMounted(async () => {
+  if (accountStore.isLogin) {
+    await accountStore.getInfoAboutMe()
+  }
+})
 </script>

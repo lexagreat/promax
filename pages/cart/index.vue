@@ -13,7 +13,10 @@
                 @changeCount="onChangeCount"
               />
             </div>
-            <div class="cartb__main-info">
+            <div
+              v-if="cart.length"
+              class="cartb__main-info"
+            >
               <div class="added-main__product-ctrl-cart">
                 <div class="added-main__product-ctrl-cart-lbl">Ваша корзина</div>
                 <div class="added-main__product-ctrl-cart-info">
@@ -31,7 +34,8 @@
               </div>
               <button
                 class="added-main__product-ctrl-btn"
-                @click="isPopupOpen = true"
+                :disabled="!accountStore.isLogin"
+                @click="makeOrder"
               >
                 <span>Перейти к оформлению</span><span class="i-ourserv-view-cases"></span>
               </button>
@@ -42,14 +46,26 @@
     </div>
     <TgExperts />
     <PopupsOrder
-      :isOpen="isPopupOpen"
-      @closePopup="isPopupOpen = false"
+      :isOpen="openCartPopup"
+      @closePopup="openCartPopup = false"
+      @success="success"
+    />
+    <PopupsSuccess
+      :isOpen="openSuccessPopup"
+      @closePopup="openSuccessPopup = false"
     />
   </main>
 </template>
 <script setup>
-import { getCart, getFullPrice } from '~/assets/js/cart'
-const isPopupOpen = ref(false)
+import { clearCart, getCart, getFullPrice } from '~/assets/js/cart'
+import { useAccountStore } from '~/store/accountStore'
+
+const accountStore = useAccountStore()
+
+const router = useRouter()
+
+const openCartPopup = ref(false)
+const openSuccessPopup = ref(false)
 const cart = ref([])
 onMounted(() => {
   cart.value = getCart()
@@ -64,5 +80,18 @@ const onChangeCount = () => {
   price.value = getFullPrice(getCart())
 }
 
+async function success() {
+  await clearCart()
+  cart.value = []
+  openSuccessPopup.value = true
+}
+
 const price = ref(0)
+
+function makeOrder() {
+  if (!accountStore.isLogin) {
+    router.push('/')
+  }
+  openCartPopup.value = true
+}
 </script>

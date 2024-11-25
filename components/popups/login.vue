@@ -57,6 +57,7 @@
           <div class="popup-form__btns">
             <input
               class="popup-form-reset _btn"
+              type="reset"
               readonly
               value="Сброс"
               @click.prevent="clear"
@@ -115,7 +116,7 @@ const submitMessage = ref('')
 
 const vForms = reactive({
   email: '',
-  password: '',
+  password: ''
 })
 
 const rules = {
@@ -156,8 +157,8 @@ const onLog = async () => {
   }
 
   let res = await store.login(form)
-  console.log('res', res);
-  if (res.length) {
+  console.log('res', res)
+  if (res && res.length) {
     submitMessage.value = res
     return
   }

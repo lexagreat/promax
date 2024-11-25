@@ -42,7 +42,7 @@
 <script setup>
 const route = useRoute()
 let slug = route.params.slug
-let data = await useBaseFetch(`/blog/${slug}`)
+let data = await useBaseFetch(`/blog/${slug}/`)
 </script>
 
 <style lang="scss" scoped>

@@ -6,22 +6,22 @@
           <div class="prodtabs-tabs">
             <div
               class="prodtabs-tabs__item"
-              @click="setTab('trend')"
-              :class="{ _active: url == 'trend' }"
+              @click="setTab('trend/')"
+              :class="{ _active: url == 'trend/' }"
             >
               Тренд 2024
             </div>
             <div
               class="prodtabs-tabs__item"
-              @click="setTab('hit')"
-              :class="{ _active: url == 'hit' }"
+              @click="setTab('hit/')"
+              :class="{ _active: url == 'hit/' }"
             >
               Хит продаж
             </div>
             <div
               class="prodtabs-tabs__item"
-              @click="setTab('best')"
-              :class="{ _active: url == 'best' }"
+              @click="setTab('best/')"
+              :class="{ _active: url == 'best/' }"
             >
               Лучшее предложение
             </div>
@@ -47,12 +47,15 @@
 <script setup>
 const products = ref([])
 let base = '/catalog/'
-const url = ref('hit')
+const url = ref('hit/')
 async function setTab(slug) {
+  console.log('slug', slug)
   if (slug == url.value) return
   url.value = slug
-  let res = await useBaseFetch(base + url.value)
+
+  console.log('url.value', url.value)
+  let res = await useBaseFetch(`${base}${url.value}`)
   products.value = res.products
 }
-await setTab('trend')
+await setTab('trend/')
 </script>

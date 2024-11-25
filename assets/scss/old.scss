@@ -1710,6 +1710,14 @@ span.products__item-price-in {
 h2.ourserv__title {
    margin: 0;
    margin-bottom: 55px;
+   font-size: 40px;
+   font-weight: 600;
+   line-height: 44px;
+
+   @media (max-width: 768px) {
+      font-size: 24px;
+      line-height: 26.4px;
+   }
 }
 
 .ourserv__before {
@@ -1824,6 +1832,14 @@ a.ourserv__slider-item-desc-btn {
 
 h2.ourserv__bottom-title {
    margin: 0;
+   font-size: 40px;
+   font-weight: 600;
+   line-height: 44px;
+
+   @media (max-width: 768px) {
+      font-size: 24px;
+      line-height: 26.4px;
+   }
 }
 
 h2.ourserv__bottom-title,
@@ -1943,6 +1959,14 @@ footer.footer {
 h2.howwork__title {
    margin-bottom: 55px;
    text-align: center;
+   font-size: 40px;
+   font-weight: 600;
+   line-height: 44px;
+   
+   @media (max-width: 768px) {
+      font-size: 24px;
+      line-height: 26.4px;
+   }
 }
 
 .howwork__item-poster {
@@ -2038,6 +2062,11 @@ h3.howwork__item-title {
 
 .footer__inner ul {
    list-style: none;
+   max-width: 196px;
+
+   @media (max-width: 1470px) {
+      max-width: unset;
+   }
 }
 
 .footer__first-phones {
@@ -2086,6 +2115,9 @@ h3.howwork__item-title {
 }
 
 .footer-nav > ul > li > ul {
+   display: flex;
+   flex-direction: column;
+   gap: 20px;
    color: #989898;
    position: relative;
 }
@@ -3483,9 +3515,14 @@ h3.howwork__item-title {
 .ourservb__item-icon {
    position: relative;
    z-index: 9;
+   // width: 100px;
+   // height: 100px;
 }
 
 .ourservb__item .ourservb__item-icon img {
+   // width: 100%;
+   // height: 100%;
+   // object-fit: cover;
    transition: all 0.2s ease;
 }
 
@@ -5773,6 +5810,7 @@ label {
    background-color: #f3f3f3;
    padding: 13px 57px;
    cursor: pointer;
+   text-align: center;
 }
 
 .popup-form__btns .popup-form-submit {

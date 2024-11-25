@@ -1989,6 +1989,11 @@
   dependencies:
     vue-demi "^0.13.11"
 
+"@yandex/ymaps3-types@>=0.0.27":
+  version "1.0.15285770"
+  resolved "https://registry.yarnpkg.com/@yandex/ymaps3-types/-/ymaps3-types-1.0.15285770.tgz#9403de7085d3a780b52971a1a16c1bd48c11f975"
+  integrity sha512-K+3RY/0QOl6E/0NEuRkMGEQORphcZ/Ym1YA5Cy8v0oAJLbXoM55Au1R2x3lB3GzflS0LQcGcLFaMSYh3ekl5uA==
+
 abbrev@1:
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/abbrev/-/abbrev-1.1.1.tgz#f8f2c887ad10bf67f634f005b6987fed3179aac8"
@@ -5815,6 +5820,13 @@ vue-router@^4.4.5:
   integrity sha512-4fKZygS8cH1yCyuabAXGUAsyi1b2/o/OKgu/RUb+znIYOxPRxdkytJEx+0wGcpBE1pX6vUgh5jwWOKRGvuA/7Q==
   dependencies:
     "@vue/devtools-api" "^6.6.4"
+
+vue-yandex-maps@^2.1.4:
+  version "2.1.4"
+  resolved "https://registry.yarnpkg.com/vue-yandex-maps/-/vue-yandex-maps-2.1.4.tgz#e5f987cfed3c9309657e868fd34ec1019b22483e"
+  integrity sha512-W/vJPbBRkSXpGxeDgHBYQmyViq4ct4T4Vih7RM2uhXMJySSHrVMl1yKUDE0qpg2Or4ZD9BiwYOm3HG/JtvcHxg==
+  dependencies:
+    "@yandex/ymaps3-types" ">=0.0.27"
 
 vue@^3.5.12:
   version "3.5.12"

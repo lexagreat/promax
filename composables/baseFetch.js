@@ -9,6 +9,11 @@ export async function useBaseFetch(request, opts) {
 
       return myRequest;
    } catch (err) {
+      if (err.data) {
+         console.log('error.data', err.data);
+         return err.data
+      }
+
       return err;
    }
 }

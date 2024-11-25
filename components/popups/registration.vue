@@ -77,13 +77,15 @@
             <p v-if="v$.password.$dirty && v$.password.required.$invalid">
               Поле Телефон должно быть заполнено
             </p>
-            <label for="checkbox_4">
+            <label
+              for="checkbox_4"
+              style="display: none"
+            >
               <input
                 type="checkbox"
                 class="inpcheckbox"
                 id="checkbox_4"
                 name="checkbox"
-                v-model="vForms.check"
               />
               <div class="i-checkbox-wrp">
                 <span class="i-checkbox"></span>
@@ -92,7 +94,6 @@
                 >Я предпочитаю не получать уведомления по электронной почте о рекламных акциях</span
               >
             </label>
-            <p v-if="v$.check.$dirty && v$.check.required.$invalid">Нажмите на чекбокс</p>
             <p v-if="submitMessage.length">{{ submitMessage }}</p>
             <div class="popup-form__info-policy">
               Продолжая, вы соглашаетесь<br />
@@ -137,12 +138,14 @@ import { useVuelidate } from '@vuelidate/core'
 import { minLength, maxLength, email, required } from '@vuelidate/validators'
 import { useAccountStore } from '~/store/accountStore'
 
-let store = useAccountStore()
+let accountStore = useAccountStore()
 const props = defineProps({
   isOpen: Boolean
 })
 
 const emit = defineEmits(['closePopup', 'success', 'openLoginModal'])
+
+const router = useRouter()
 
 const onClose = () => {
   emit('closePopup')
@@ -154,8 +157,7 @@ const vForms = reactive({
   name: '',
   email: '',
   phone: '',
-  password: '',
-  check: ''
+  password: ''
 })
 
 const rules = {
@@ -171,9 +173,6 @@ const rules = {
     minLength: minLength(18)
   },
   password: {
-    required
-  },
-  check: {
     required
   }
 }
@@ -215,9 +214,10 @@ const onReg = async () => {
     password: vForms.password
   }
 
-  let res = await store.registr(form)
+  let res = await accountStore.registr(form)
+  console.log('regist res', res)
 
-  if (res.length) {
+  if (res && res.length) {
     submitMessage.value = res
     return
   }
@@ -225,6 +225,10 @@ const onReg = async () => {
   if (submitMessage.value.length) {
     submitMessage.value = ''
   }
+
+  router.push('/')
+  emit('closePopup')
+  await accountStore.getInfoAboutMe()
 }
 </script>
 

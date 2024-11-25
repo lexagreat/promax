@@ -62,21 +62,25 @@
                 <span class="header-btns__lbl">Статус заказа</span>
               </NuxtLink>
               <NuxtLink
-                v-if="store.isLogin"
+                v-if="accountStore.isLogin"
                 to="/account"
                 class="header-btns__item"
               >
                 <span class="i-log-in__logged"
                   ><img
-                    :src="infoAboutMe?.avatar"
-                    :alt="infoAboutMe?.name"
+                    :src="
+                      accountStore.infoAboutMe?.avatar === null
+                        ? startImg
+                        : accountStore.infoAboutMe?.avatar
+                    "
+                    :alt="accountStore.infoAboutMe?.name"
                 /></span>
                 <span class="header-btns__lbl"
-                  ><b>{{ infoAboutMe?.name }}</b></span
+                  ><b>{{ accountStore.infoAboutMe?.name }}</b></span
                 >
               </NuxtLink>
               <NuxtLink
-                v-if="!store.isLogin"
+                v-if="!accountStore.isLogin"
                 @click="openLogin = true"
                 class="header-btns__item"
               >
@@ -178,8 +182,9 @@
 <script setup>
 import { watch } from 'vue'
 import { useAccountStore } from '~/store/accountStore'
+import startImg from '@/assets/img/default-log-in.svg'
 
-let store = useAccountStore()
+let accountStore = useAccountStore()
 
 const router = useRouter()
 const route = useRoute()
@@ -188,14 +193,9 @@ const openLogin = ref(false)
 const openReg = ref(false)
 const openResetPassword = ref(false)
 const openResetPasswordConfirm = ref(false)
+const openSuccess = ref(false)
 
-const infoAboutMe = ref(null)
-
-if (store.isLogin) {
-  infoAboutMe.value = await store.getInfoAboutMe()
-}
-
-let services = await useBaseFetch('/blog/services')
+let services = await useBaseFetch('/blog/services/')
 
 const onSuccessLogin = () => {
   router.push('/account')
@@ -216,21 +216,15 @@ const confirmResetPassword = async () => {
 }
 
 onBeforeMount(() => {
-  store.initStore()
+  accountStore.initStore()
 })
 
 onMounted(async () => {
   const resetPassword = await confirmResetPassword()
-})
-
-watch(
-  () => store.isLogin,
-  async () => {
-    if (store.isLogin) {
-      infoAboutMe.value = await store.getInfoAboutMe()
-    }
+  if (accountStore.isLogin) {
+    await accountStore.getInfoAboutMe()
   }
-)
+})
 </script>
 <style lang="scss" scoped>
 .header-bar {

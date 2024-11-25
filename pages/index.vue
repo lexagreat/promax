@@ -130,7 +130,6 @@
 
     <TgExperts />
     <PopupsQuestion
-      v-if="openQuestion"
       :isOpen="openQuestion"
       @closePopup="openQuestion = false"
     />

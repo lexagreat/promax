@@ -165,6 +165,7 @@
                         Заказ от {{ formatDate(order.date) }}
                       </div>
                       <div class="body-orders__item-params">
+                        
                         <span>6 уп.</span><span>10 м²</span>
                       </div>
                       <div class="body-orders__item-price"><span>120 000</span> <span>₽</span></div>
@@ -182,69 +183,6 @@
                       </div>
                     </div>
                   </div>
-                  <!-- <div class="body-orders__item">
-                    <div class="body-orders__item-header">
-                      <div class="body-orders__item-date">Заказ от 1 июля</div>
-                      <div class="body-orders__item-params">
-                        <span>6 уп.</span><span>10 м²</span>
-                      </div>
-                      <div class="body-orders__item-price"><span>120 000</span> <span>₽</span></div>
-                    </div>
-                    <div class="body-orders__item-body">
-                      <div class="body-orders__item-img">
-                        <img
-                          src="@/assets/img/orders-img.png"
-                          alt="Рисунки карандашом «Print»"
-                        />
-                      </div>
-                      <div class="body-orders__item-title">
-                        <div class="body-orders__item-title-first">Дизайнерский паркет</div>
-                        <h2 class="body-orders__item-title-second">Рисунки карандашом «Print»</h2>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="body-orders__item">
-                    <div class="body-orders__item-header">
-                      <div class="body-orders__item-date">Заказ от 1 июля</div>
-                      <div class="body-orders__item-params">
-                        <span>6 уп.</span><span>10 м²</span>
-                      </div>
-                      <div class="body-orders__item-price"><span>120 000</span> <span>₽</span></div>
-                    </div>
-                    <div class="body-orders__item-body">
-                      <div class="body-orders__item-img">
-                        <img
-                          src="@/assets/img/orders-img.png"
-                          alt="Рисунки карандашом «Print»"
-                        />
-                      </div>
-                      <div class="body-orders__item-title">
-                        <div class="body-orders__item-title-first">Дизайнерский паркет</div>
-                        <h2 class="body-orders__item-title-second">Рисунки карандашом «Print»</h2>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="body-orders__item">
-                    <div class="body-orders__item-header">
-                      <div class="body-orders__item-date">Заказ от 1 июля</div>
-                      <div class="body-orders__item-params">
-                        <span>6 уп.</span><span>10 м²</span>
-                      </div>
-                      <div class="body-orders__item-price"><span>120 000</span> <span>₽</span></div>
-                    </div>
-                    <div class="body-orders__item-body">
-                      <div class="body-orders__item-img">
-                        <img
-                          src="@/assets/img/orders-img.png"
-                          alt="Рисунки карандашом «Print»"
-                        />
-                      </div>
-                      <div class="body-orders__item-title">
-                        <div class="body-orders__item-title-first">Дизайнерский паркет</div>
-                        <h2 class="body-orders__item-title-second">Рисунки карандашом «Print»</h2>
-                      </div>
-                    </div>
-                  </div> -->
                 </div>
               </div>
             </div>
@@ -260,6 +198,7 @@ import { useAccountStore } from '~/store/accountStore'
 import { useProductsStore } from '~/store/productsStore'
 import { vMaska } from 'maska/vue'
 import startImg from '@/assets/img/acc-photo-def.svg'
+import { clearCart } from '~/assets/js/cart'
 
 const accountStore = useAccountStore()
 const productsStore = useProductsStore()
@@ -378,9 +317,10 @@ async function editProfile() {
   toggleEdit()
 }
 
-const onLogout = () => {
-  accountStore.logout()
-  router.push('/')
+const onLogout = async () => {
+  await accountStore.logout()
+  await router.push('/')
+  clearCart()
 }
 
 onMounted(async () => {

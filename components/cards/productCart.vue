@@ -6,8 +6,8 @@
       </div>
       <div class="cartb__item-first-img">
         <img
-          src="@/assets/img/cartb.png"
-          alt="Рисунки карандашом «Print»"
+          :src="product.images[0]"
+          :alt="product.title"
         />
       </div>
     </div>

@@ -41,7 +41,7 @@
         v-html="product?.description"
       ></div>
     </div>
-    <div class="products__item-size">
+    <div v-if="product.squared_meters" class="products__item-size">
       <span class="i-size-gray"></span>
       <span>{{ product.width }} х {{ product.length }} мм</span>
     </div>
@@ -80,7 +80,8 @@
         </div>
         <div class="products__item-price">
           <span class="products__item-price-val">{{ product?.price }}</span>
-          <span class="products__item-price-in">руб. за м²</span>
+          <span v-if="product.squared_meters" class="products__item-price-in">руб. за м²</span>
+          <span v-else class="products__item-price-in">руб.</span>
         </div>
       </div>
       <div class="products__item-issample">
@@ -165,5 +166,10 @@ if (props.product.detail_chars) {
   position: absolute;
   bottom: 26px;
   right: 13px;
+}
+
+.products__item-slider-wrapper {
+  position: relative;
+  flex-grow: 1;
 }
 </style>

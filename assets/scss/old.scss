@@ -4646,6 +4646,10 @@ span.singleprod-gray {
       gap: 30px;
    }
 
+   .no_calc {
+      justify-content: center;
+   }
+
    .singleprod-bar__item {
       min-width: 354px;
       height: auto;
@@ -5924,6 +5928,7 @@ label {
    font-size: 30px;
    font-weight: 600;
    max-width: 130px;
+   word-break: break-all;
    text-transform: uppercase;
    line-height: 1.2;
 }
@@ -6066,7 +6071,7 @@ input#prof-name {
 }
 
 input#prof-phone {
-   width: 160px;
+   width: 200px;
 }
 
 input#prof-mail {

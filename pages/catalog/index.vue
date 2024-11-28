@@ -1,4 +1,6 @@
 <template>
+  
+
   <main class="main">
     <div class="breadcrumbs">
       <div class="container">
@@ -22,15 +24,14 @@
       <div class="container">
         <div class="filterblock__inner">
           <div class="filterbar">
-            <!-- probably AJAX form (output in .filterout) -->
             <form id="filterbar">
               <div class="filterbar__all-btn-mob-wrap">
                 <div class="filterbar__all-btn-mob-count"><span>1</span></div>
                 <div class="filterbar__all-btn-mob-lbl">Фильтры</div>
-                <div class="filterbar__all-btn-mob-icon"><span class="i-mob-filter"></span></div>
+                <div @click="toggleFilter" class="filterbar__all-btn-mob-icon"><span class="i-mob-filter"></span></div>
               </div>
 
-              <div class="filterbar__inner">
+              <div ref="filter-inner" class="filterbar__inner">
                 <div class="filterbar__param_1">
                   <ul>
                     <li>
@@ -39,15 +40,19 @@
                         <li
                           v-for="category in categories"
                           :key="category"
+                          :data-id="category.id"
+                          ref="categ"
+                          :class="{_active: categoryId === category.id}"
                         >
                           <span @click="setCategory(category.id, category.title)">{{
                             category.title
                           }}</span>
-                          <ul>
+                          <ul ref="sub-categ">
                             <li
                               v-for="sub in category.sub_categories"
                               :key="sub"
                               @click="setSubcategory(sub.id, sub.title)"
+                              :class="{ _active: sub.id === subCategoryId }"
                             >
                               <span>{{ sub.title }}</span>
                             </li>
@@ -108,13 +113,14 @@
                       </div>
                       <div class="filterbar-block__range">
                         <div class="range-slider">
-                          <MultiRangeSlider
+                          <AppMultiRangeSlider
                             :ruler="false"
                             :min="priceMin"
                             :max="priceMax"
                             :step="100"
                             :minValue="priceMinValue"
                             :maxValue="priceMaxValue"
+                            @inputBySlide="UpdatePricesBySlide"
                             @input="UpdatePrices"
                           />
                         </div>
@@ -198,7 +204,7 @@
                     </div>
                   </div>
                 </div>
-                <div class="filterbar__param_4">
+                <div v-if="hasWidthAndLength" class="filterbar__param_4">
                   <div class="sizes">
                     <div class="filterbar-block">
                       <div class="filterbar__title">
@@ -212,7 +218,7 @@
                       <div class="filterbar-block__range filterbar__width">
                         <div class="filterbar-block__range-title">Ширина</div>
                         <div class="range-slider">
-                          <MultiRangeSlider
+                          <AppMultiRangeSlider
                             :ruler="false"
                             :min="widthMin"
                             :max="widthMax"
@@ -220,6 +226,7 @@
                             :minValue="widthMinValue"
                             :maxValue="widthMaxValue"
                             @input="UpdateWidth"
+                            @inputBySlide="UpdateWidthBySlide"
                           />
                         </div>
 
@@ -248,7 +255,7 @@
                       <div class="filterbar-block__range filterbar__length">
                         <div class="filterbar-block__range-title">Длина</div>
                         <div class="range-slider">
-                          <MultiRangeSlider
+                          <AppMultiRangeSlider
                             :ruler="false"
                             :min="lengthMin"
                             :max="lengthMax"
@@ -256,9 +263,9 @@
                             :minValue="lengthMinValue"
                             :maxValue="lengthMaxValue"
                             @input="UpdateLength"
+                            @inputBySlide="UpdateLengthBySlide"
                           />
                         </div>
-
                         <div class="filterbar-block__range-num">
                           <div class="filterbar-block__range-num-from">
                             <span>от</span>
@@ -284,7 +291,6 @@
                   </div>
                 </div>
 
-                <div class="filterbar__all-btn _btn">Все фильтры</div>
               </div>
             </form>
           </div>
@@ -314,8 +320,18 @@ const accountStore = useAccountStore()
 
 const route = useRoute()
 
+const catRef = useTemplateRef('categ')
+const subCatListsRef = useTemplateRef('sub-categ')
+
+const filterInnerRef = useTemplateRef('filter-inner')
+
 const categoryName = ref('Паркет')
 const subcategoryName = ref('')
+
+const categoryId = ref(1)
+const subCategoryId = ref(0)
+const choosedSubCat = ref(false)
+const hasWidthAndLength = ref(false)
 
 const checkedCategory = ref(1)
 const checkedSubcategory = ref(0)
@@ -324,13 +340,105 @@ const products = ref([])
 
 const radio = ref('trend')
 
+async function slideUp(element, duration = 500) {
+  return new Promise((resolve) => {
+    element.style.transition = `height ${duration}ms ease`;
+    element.style.overflow = 'hidden';
+    element.style.height = `${element.offsetHeight}px`;
+
+    requestAnimationFrame(() => {
+      element.style.height = '0';
+    });
+
+    setTimeout(() => {
+      element.style.display = 'none';
+      element.style.removeProperty('height');
+      element.style.removeProperty('overflow');
+      element.style.removeProperty('transition');
+      resolve()
+    }, duration);
+  })
+}
+
+async function slideDown(element, duration = 500) {
+  return new Promise((resolve) => {
+    element.style.display = 'block';
+    const height = element.offsetHeight; // Вычисляем полную высоту
+    element.style.height = '0';
+    element.style.overflow = 'hidden';
+    element.style.transition = `height ${duration}ms ease`;
+  
+    requestAnimationFrame(() => {
+      element.style.height = `${height}px`;
+    });
+  
+    setTimeout(() => {
+      element.style.removeProperty('height');
+      element.style.removeProperty('overflow');
+      element.style.removeProperty('transition');
+      resolve()
+    }, duration);
+  })
+}
+
+function slideToggle(element, duration = 500) {
+  const isHidden = window.getComputedStyle(element).display === 'none';
+
+  if (isHidden) {
+    slideDown(element, duration);
+  } else {
+    slideUp(element, duration);
+  }
+}
+
+function toggleFilter() {
+  slideToggle(filterInnerRef.value)
+}
+
+categories.value = await useBaseFetch('/catalog/categories-list/')
+
+onMounted(async () => {
+  if (route.query['id']) {
+    let id = Number(route.query.id)
+
+    if (Number.isNaN(id)) {
+      console.log('id === Nan');
+      id = 1
+    }
+    const categoryTitle = categories.value.filter((category) => category.id === id)[0].title
+    setCategory(id, categoryTitle)
+  } else {
+    const categoryTitle = categories.value[0].title
+    setCategory(1, categoryTitle)
+    slideDown(subCatListsRef.value[0])
+  }
+  console.log('categories', categories.value);
+  console.log('subCatListsRef.value', subCatListsRef.value);
+})
+
 const priceMin = ref(0)
 const priceMax = ref(10000)
 const priceMinValue = ref(priceMin.value)
 const priceMaxValue = ref(priceMax.value)
-const UpdatePrices = (e) => {
+const helpPriceMinValue = ref(priceMin.value)
+const helpPriceMaxValue = ref(priceMax.value)
+
+
+const UpdatePrices = async (e) => {
+  console.log('e', e);
   priceMinValue.value = e.minValue
   priceMaxValue.value = e.maxValue
+  console.log('priceMinValue.value', priceMinValue.value, 'priceMaxValue.value', priceMaxValue.value);
+}
+const UpdatePricesBySlide = async (e) => {
+  console.log('e', e);
+  priceMinValue.value = e.minValue
+  priceMaxValue.value = e.maxValue
+  if (categoryName.value.length) {
+    await getProducts(subCategoryId.value === 0 ? '' : subCategoryId.value)
+  } else {
+    await getProducts('')
+  }
 }
 
 const widthMin = ref(0)
@@ -341,6 +449,16 @@ const UpdateWidth = (e) => {
   widthMinValue.value = e.minValue
   widthMaxValue.value = e.maxValue
 }
+const UpdateWidthBySlide = async (e) => {
+  widthMinValue.value = e.minValue
+  widthMaxValue.value = e.maxValue
+
+  if (categoryName.value.length) {
+    await getProducts(subCategoryId.value === 0 ? '' : subCategoryId.value)
+  } else {
+    await getProducts('')
+  }
+}
 const lengthMin = ref(0)
 const lengthMax = ref(1000)
 const lengthMinValue = ref(lengthMin.value)
@@ -348,6 +466,16 @@ const lengthMaxValue = ref(lengthMax.value)
 const UpdateLength = (e) => {
   lengthMinValue.value = e.minValue
   lengthMaxValue.value = e.maxValue
+}
+const UpdateLengthBySlide = async (e) => {
+  lengthMinValue.value = e.minValue
+  lengthMaxValue.value = e.maxValue
+
+  if (categoryName.value.length) {
+    await getProducts(subCategoryId.value === 0 ? '' : subCategoryId.value)
+  } else {
+    await getProducts('')
+  }
 }
 
 const setPrices = (min, max) => {
@@ -368,97 +496,97 @@ const setSizes = () => {
   lengthMaxValue.value = lengthMax.value
   lengthMinValue.value = lengthMin.value
 }
-categories.value = await useBaseFetch('/catalog/categories-list/')
 
 const getData = async (subCat = '') => {
-  getProducts(subCat)
-  getPricesAndSizes(subCat)
+  await getPricesAndSizes(subCat)
+  await getProducts(subCat)
 }
 const setCategory = async (id, title) => {
-  console.log('id', id, 'title', title)
-  checkedCategory.value = id
-  checkedSubcategory.value = ''
+  for (const cat of catRef.value) {
+    if (cat.classList.contains('_active')) {
+      await slideUp(cat.querySelector('ul'), 500)
+    }
+  }
+  categoryId.value = id
+  subCategoryId.value = 0
   subcategoryName.value = ''
-  await getData()
-
+  await slideDown(subCatListsRef.value[id - 1])
+  await getData('')
   categoryName.value = title
 }
 const setSubcategory = async (id, title) => {
-  checkedSubcategory.value = id
+  console.log('sub id', id);
+  subCategoryId.value = id
   subcategoryName.value = title
+  await getData(id)
 }
 
 const getPricesAndSizes = async (subCat = '') => {
-  let res = await useBaseFetch(
-    `/catalog/prices-and-sizes?categoryId=${checkedCategory.value}&subCategoryId=${subCat}`
-  )
-  priceMin.value = Number(res.prices.min)
-  priceMax.value = Number(res.prices.max)
-  widthMin.value = Number(res.width.min)
-  widthMax.value = Number(res.width.max)
-  lengthMin.value = Number(res['length'].min)
-  lengthMax.value = Number(res['length'].max)
-  setPrices()
-  setSizes()
+  let res = await useBaseFetch(`/catalog/prices-and-sizes?categoryId=${categoryId.value}&subCategoryId=${subCat}`)
+  
+  if (res.prices.min !== null) {
+    priceMin.value = Number(res.prices.min)
+    priceMax.value = Number(res.prices.max)
+    setPrices()
+  } else {
+    priceMin.value = 0
+    priceMax.value = 10000
+    setPrices()
+  }
+
+  if (res.width.min !== null && res['length'].min !== null) {
+    widthMin.value = Number(res.width.min)
+    widthMax.value = Number(res.width.max)
+    lengthMin.value = Number(res['length'].min)
+    lengthMax.value = Number(res['length'].max)
+    console.log('width has');
+    hasWidthAndLength.value = true
+    setSizes()
+  } else {
+    console.log('no width');
+    hasWidthAndLength.value = false
+    // console.log('nulllll');
+    // widthMin.value = 0
+    // widthMax.value = 0
+    // lengthMin.value = 0
+    // lengthMax.value = 0
+    // setSizes(0, 0)
+  }
 }
 
 const getProducts = async (subCat = '') => {
-  let res = await useBaseFetch(
-    `/catalog/products?categoryId=${checkedCategory.value}&subCategoryId=${subCat}&filter=${radio.value}&price_min=${priceMinValue.value}&price_max=${priceMaxValue.value}&width_min=${widthMinValue.value}&width_max=${widthMaxValue.value}&length_min=${lengthMinValue.value}&length_max=${lengthMaxValue.value}`
-  )
-  products.value = res
+  console.log('price_min', priceMinValue.value);
+  if (hasWidthAndLength.value) {
+    let res = await useBaseFetch(`catalog/products?categoryId=${categoryId.value}&subCategoryId=${subCat}&filter=${radio.value}&price_min=${priceMinValue.value}&price_max=${priceMaxValue.value}&width_min=${widthMinValue.value}&width_max=${widthMaxValue.value}&length_min=${lengthMinValue.value}&length_max=${lengthMaxValue.value}`)
+    products.value = res
+  } else {
+    let res = await useBaseFetch(`/catalog/products?categoryId=${categoryId.value}&subCategoryId=${subCat}&filter=${radio.value}&price_min=${priceMinValue.value}&price_max=${priceMaxValue.value}`)
+    products.value = res
+  }
 }
-watch(checkedSubcategory, async (value) => {
-  await getData(value)
-})
-// Следим за изменениями в объекте filters
+
 watch(radio, async () => {
-  await getData(checkedSubcategory.value ? checkedSubcategory.value : '')
-})
-
-const ranges = computed(() => {
-  return {
-    priceMin: priceMinValue.value,
-    priceMax: priceMaxValue.value,
-    lengthMin: lengthMinValue.value,
-    lengthMax: lengthMinValue.value,
-    widthMax: widthMinValue.value,
-    widthMax: widthMaxValue.value
+  if (categoryName.value.length) {
+    await getData(subCategoryId.value === 0 ? '' : subCategoryId.value)
+  } else {
+    await getData('')
   }
 })
-watch(
-  ranges,
-  async () => {
-    await getProducts(checkedSubcategory.value ? checkedSubcategory.value : '')
-  },
-  {
-    deep: true
-  }
-)
-await getData()
 
-watch(
-  () => route.query,
-  () => {
-    if (route.query['id'] && route.query['title']) {
-      console.log('set')
-      setCategory(Number(route.query['id']), route.query['title'])
+watch(() => route.query['id'], () => {
+  if (route.query['id']) {
+    let id = Number(route.query.id)
+
+    if (Number.isNaN(id)) {
+      console.log('id === Nan');
+      id = 1
     }
-  }
-)
-
-onMounted(async () => {
-  makeCatalogFilters()
-
-  if (accountStore.isLogin) {
-    await productsStore.getFavoriteProducts()
-  }
-
-  console.log('rotue', route.query)
-  if (route.query['id'] && route.query['title']) {
-    console.log('set')
-    setCategory(Number(route.query['id']), route.query['title'])
-    makeCatalogFilters()
+    const categoryTitle = categories.value.filter((category) => category.id === id)[0].title
+    setCategory(id, categoryTitle)
+  } else {
+    const categoryTitle = categories.value[0].title
+    setCategory(1, categoryTitle)
+    slideDown(subCatListsRef.value[0])
   }
 })
 </script>

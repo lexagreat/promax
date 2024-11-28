@@ -46,7 +46,7 @@
                     v-for="category of categories"
                     :key="category.id"
                   >
-                    <NuxtLink to="/catalog">{{
+                    <NuxtLink :to="`/catalog?id=${category.id}`">{{
                       category.title
                     }}</NuxtLink>
                   </li>

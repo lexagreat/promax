@@ -51,19 +51,25 @@ export const initializeRangeSlider = (
       $container.find(".radio-container").hide();
    }
 };
-export const makeFilters = () => {
-   $(".filterbar__param_1>ul>li>ul>li").removeClass("_active");
-   $(".filterbar__param_1>ul>li>ul>li").children("ul").slideUp();
-   $(".filterbar__param_1>ul>li>ul>li:first-child").addClass("_active");
-   $(".filterbar__param_1>ul>li>ul>li:first-child>ul").slideDown();
+export const makeFilters = (id = null) => {
+   console.log('makeFilters');
+   $(".filterbar__param_1>ul>li>ul>li").removeClass("_active"); // Удаляем класс у категорий
+   console.log('categories', $(".filterbar__param_1>ul>li>ul>li"));
+   console.log('id === null', id === null);
+   if (id === null) {
+      $(".filterbar__param_1>ul>li>ul>li").children("ul").slideUp(); // скрываем подкатегории
+      $(".filterbar__param_1>ul>li>ul>li:first-child").addClass("_active"); // открываем первую категорию
+      $(".filterbar__param_1>ul>li>ul>li:first-child>ul").slideDown(); // открываем подкатегорию
+   }
 
-   $(".filterbar__param_1>ul>li>ul>li>span").on("click", function () {
-      const $currentLi = $(this).closest("li");
-      const $currentUl = $currentLi.children("ul");
+   $(".filterbar__param_1>ul>li>ul>li>span").on("click", function () { // нажатие на span категории
+      console.log('click');
+      const $currentLi = $(this).closest("li"); // li категории
+      const $currentUl = $currentLi.children("ul"); // ul подкатегории
 
       if ($currentLi.hasClass("_active")) {
-         $currentLi.removeClass("_active");
-         $currentUl.slideUp();
+         // $currentLi.removeClass("_active");
+         // $currentUl.slideUp();
       } else {
          $(this).closest("ul").find("li").removeClass("_active");
          $(this).closest("ul").find("li").children("ul").slideUp();
@@ -80,8 +86,26 @@ export const makeFilters = () => {
    $(".filterbar__all-btn-mob-icon").on("click", function () {
       $(".filterbar__inner").slideToggle();
    });
+
+   
+   if (typeof id === 'number') {
+      $(".filterbar__param_1>ul>li>ul>li").removeClass("_active");
+      $(".filterbar__param_1>ul>li>ul>li").children("ul").slideUp();
+      const li = $(`.filterbar__param_1>ul>li>ul>li[data-id="${id}"]`)
+      const ul = li.children("ul"); // ul подкатегории
+
+      if (ul.length) {
+         ul.slideDown()
+      }
+
+      li.addClass('_active')
+   }
 };
-export const makeCatalogFilters = () => {
+export const makeCatalogFilters = (id = null) => {
+   if (typeof id !== null) {
+      makeFilters(id);
+      return
+   }
    makeFilters();
    // initializeRangeSlider(
    //    ".filterbar__param_3",

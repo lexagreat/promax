@@ -76,7 +76,7 @@
                     :alt="accountStore.infoAboutMe?.name"
                 /></span>
                 <span class="header-btns__lbl"
-                  ><b>{{ accountStore.infoAboutMe?.name }}</b></span
+                  ><b class="header__profile-title">{{ accountStore.infoAboutMe?.name }}</b></span
                 >
               </NuxtLink>
               <NuxtLink
@@ -283,6 +283,12 @@ onMounted(async () => {
   display: flex;
   font-size: 20px;
 }
+
+.header__profile-title {
+    max-width: 100px;
+    word-break: break-all;
+    display: flex;
+  }
 
 header.header {
   position: relative;

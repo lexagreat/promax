@@ -16,18 +16,14 @@
                 name="name"
                 class="_required"
                 placeholder="E-mail или номер телефона:"
-                @blur="vForms.email.$touch"
-                v-model="vForms.email"
+                v-model="emailOrPhone"
                 :class="{
-                  error: v$.email.$dirty && (v$.email.required.$invalid || v$.email.email.$invalid)
+                  error: emailOrPasswordError
                 }"
+                @input="emailOrPasswordError = false"
               />
             </label>
-            <p v-if="v$.email.$dirty && v$.email.required.$invalid">
-              Поле Email должно быть заполнено
-            </p>
-            <p v-if="v$.email.$dirty && v$.email.email.$invalid">Невалидный email</p>
-
+            <p v-if="emailOrPasswordError">Невалидный email или номер телефона</p>
             <label for="password_5">
               <input
                 type="password"
@@ -113,17 +109,27 @@ const onResetPassword = () => {
 }
 
 const submitMessage = ref('')
+const emailOrPhone =  ref('')
+const emailOrPasswordError = ref(false)
+
+const isValidEmailOrPhone = computed(() => {
+  const emailRegex = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/g
+  const phoneRegex = /(^8|7|\+7)((\d{10})|(\s\(\d{3}\)\s\d{3}\s\d{2}\s\d{2}))/
+
+  if (emailOrPhone.value.match(emailRegex)) {
+    return true
+  } else if (emailOrPhone.value.match(phoneRegex)) {
+    return true
+  }
+
+  return false
+})
 
 const vForms = reactive({
-  email: '',
   password: ''
 })
 
 const rules = {
-  email: {
-    required,
-    email
-  },
   password: {
     required
   }
@@ -136,7 +142,7 @@ const isValid = computed(() => {
 })
 
 function clear() {
-  vForms.email = ''
+  emailOrPhone.value = ''
   vForms.password = ''
 
   if (submitMessage.value.length) {
@@ -146,13 +152,20 @@ function clear() {
 
 const onLog = async () => {
   const isCorrect = await v$.value.$validate()
+  console.log('isCorrect', isCorrect);
+  console.log('isValidEmailOrPhone', isValidEmailOrPhone.value);
+  console.log('isCorrect and isValidEmailOrPhone', !isCorrect || !isValidEmailOrPhone.value);
 
-  if (!isCorrect) {
+  if (!isCorrect || !isValidEmailOrPhone.value) {
+    console.log('not valid');
+    emailOrPasswordError.value = true
     return
   }
 
+  emailOrPasswordError.value = false
+
   const form = {
-    username: vForms.email,
+    username: emailOrPhone.value,
     password: vForms.password
   }
 

@@ -26,7 +26,7 @@
           <div class="filterbar">
             <form id="filterbar">
               <div class="filterbar__all-btn-mob-wrap">
-                <div class="filterbar__all-btn-mob-count"><span>1</span></div>
+                <div v-if="products.length" class="filterbar__all-btn-mob-count"><span>{{ products.length }}</span></div>
                 <div class="filterbar__all-btn-mob-lbl">Фильтры</div>
                 <div @click="toggleFilter" class="filterbar__all-btn-mob-icon"><span class="i-mob-filter"></span></div>
               </div>
@@ -62,6 +62,7 @@
                     </li>
                   </ul>
                 </div>
+                <!-- f2 -->
                 <div class="filterbar__param_2">
                   <label
                     class="_active"
@@ -144,7 +145,7 @@
                             />
                           </div>
                         </div>
-
+                        <!-- f1 -->
                         <div class="filterbar-block__range-radio">
                           <label
                             for="price-radio-1"
@@ -155,6 +156,8 @@
                               type="radio"
                               name="price-radio"
                               id="price-radio-1"
+                              v-model="radioPrice"
+                              value="radio-price-1"
                             />
                             <div class="filterbar-block__radio-input"><span></span></div>
                             <div class="filterbar-block__label">до 1000 ₽</div>
@@ -168,6 +171,8 @@
                               type="radio"
                               name="price-radio"
                               id="price-radio-2"
+                              v-model="radioPrice"
+                              value="radio-price-2"
                             />
                             <div class="filterbar-block__radio-input"><span></span></div>
                             <div class="filterbar-block__label">1 000 – 2 000 ₽</div>
@@ -181,6 +186,8 @@
                               type="radio"
                               name="price-radio"
                               id="price-radio-3"
+                              v-model="radioPrice"
+                              value="radio-price-3"
                             />
                             <div class="filterbar-block__radio-input"><span></span></div>
                             <div class="filterbar-block__label">2 000 ₽ и дороже</div>
@@ -195,6 +202,8 @@
                               name="price-radio"
                               id="price-radio-4"
                               checked
+                              v-model="radioPrice"
+                              value="radio-price-4"
                             />
                             <div class="filterbar-block__radio-input"><span></span></div>
                             <div class="filterbar-block__label">Неважно</div>
@@ -339,6 +348,7 @@ const categories = ref([])
 const products = ref([])
 
 const radio = ref('trend')
+const radioPrice = ref('radio-price-4')
 
 async function slideUp(element, duration = 500) {
   return new Promise((resolve) => {
@@ -402,7 +412,6 @@ onMounted(async () => {
     let id = Number(route.query.id)
 
     if (Number.isNaN(id)) {
-      console.log('id === Nan');
       id = 1
     }
     const categoryTitle = categories.value.filter((category) => category.id === id)[0].title
@@ -412,8 +421,6 @@ onMounted(async () => {
     setCategory(1, categoryTitle)
     slideDown(subCatListsRef.value[0])
   }
-  console.log('categories', categories.value);
-  console.log('subCatListsRef.value', subCatListsRef.value);
 })
 
 const priceMin = ref(0)
@@ -425,13 +432,10 @@ const helpPriceMaxValue = ref(priceMax.value)
 
 
 const UpdatePrices = async (e) => {
-  console.log('e', e);
   priceMinValue.value = e.minValue
   priceMaxValue.value = e.maxValue
-  console.log('priceMinValue.value', priceMinValue.value, 'priceMaxValue.value', priceMaxValue.value);
 }
 const UpdatePricesBySlide = async (e) => {
-  console.log('e', e);
   priceMinValue.value = e.minValue
   priceMaxValue.value = e.maxValue
   if (categoryName.value.length) {
@@ -489,6 +493,7 @@ const setPrices = (min, max) => {
   } else {
     priceMaxValue.value = priceMax.value
   }
+
 }
 const setSizes = () => {
   widthMaxValue.value = widthMax.value
@@ -515,7 +520,6 @@ const setCategory = async (id, title) => {
   categoryName.value = title
 }
 const setSubcategory = async (id, title) => {
-  console.log('sub id', id);
   subCategoryId.value = id
   subcategoryName.value = title
   await getData(id)
@@ -539,23 +543,14 @@ const getPricesAndSizes = async (subCat = '') => {
     widthMax.value = Number(res.width.max)
     lengthMin.value = Number(res['length'].min)
     lengthMax.value = Number(res['length'].max)
-    console.log('width has');
     hasWidthAndLength.value = true
     setSizes()
   } else {
-    console.log('no width');
     hasWidthAndLength.value = false
-    // console.log('nulllll');
-    // widthMin.value = 0
-    // widthMax.value = 0
-    // lengthMin.value = 0
-    // lengthMax.value = 0
-    // setSizes(0, 0)
   }
 }
 
 const getProducts = async (subCat = '') => {
-  console.log('price_min', priceMinValue.value);
   if (hasWidthAndLength.value) {
     let res = await useBaseFetch(`catalog/products?categoryId=${categoryId.value}&subCategoryId=${subCat}&filter=${radio.value}&price_min=${priceMinValue.value}&price_max=${priceMaxValue.value}&width_min=${widthMinValue.value}&width_max=${widthMaxValue.value}&length_min=${lengthMinValue.value}&length_max=${lengthMaxValue.value}`)
     products.value = res
@@ -573,12 +568,20 @@ watch(radio, async () => {
   }
 })
 
+watch(radioPrice, async (newValue) => {
+  console.log('newValue', newValue);
+  if (categoryName.value.length) {
+    await getProducts(subCategoryId.value === 0 ? '' : subCategoryId.value)
+  } else {
+    await getProducts('')
+  }
+})
+
 watch(() => route.query['id'], () => {
   if (route.query['id']) {
     let id = Number(route.query.id)
 
     if (Number.isNaN(id)) {
-      console.log('id === Nan');
       id = 1
     }
     const categoryTitle = categories.value.filter((category) => category.id === id)[0].title

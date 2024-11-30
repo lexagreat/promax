@@ -1,6 +1,4 @@
 <template>
-  
-
   <main class="main">
     <div class="breadcrumbs">
       <div class="container">
@@ -26,12 +24,25 @@
           <div class="filterbar">
             <form id="filterbar">
               <div class="filterbar__all-btn-mob-wrap">
-                <div v-if="products.length" class="filterbar__all-btn-mob-count"><span>{{ products.length }}</span></div>
+                <div
+                  v-if="products.length"
+                  class="filterbar__all-btn-mob-count"
+                >
+                  <span>{{ products.length }}</span>
+                </div>
                 <div class="filterbar__all-btn-mob-lbl">Фильтры</div>
-                <div @click="toggleFilter" class="filterbar__all-btn-mob-icon"><span class="i-mob-filter"></span></div>
+                <div
+                  @click="toggleFilter"
+                  class="filterbar__all-btn-mob-icon"
+                >
+                  <span class="i-mob-filter"></span>
+                </div>
               </div>
 
-              <div ref="filter-inner" class="filterbar__inner">
+              <div
+                ref="filter-inner"
+                class="filterbar__inner"
+              >
                 <div class="filterbar__param_1">
                   <ul>
                     <li>
@@ -42,7 +53,7 @@
                           :key="category"
                           :data-id="category.id"
                           ref="categ"
-                          :class="{_active: categoryId === category.id}"
+                          :class="{ _active: categoryId === category.id }"
                         >
                           <span @click="setCategory(category.id, category.title)">{{
                             category.title
@@ -62,7 +73,6 @@
                     </li>
                   </ul>
                 </div>
-                <!-- f2 -->
                 <div class="filterbar__param_2">
                   <label
                     class="_active"
@@ -118,7 +128,7 @@
                             :ruler="false"
                             :min="priceMin"
                             :max="priceMax"
-                            :step="100"
+                            :step="stepPrice"
                             :minValue="priceMinValue"
                             :maxValue="priceMaxValue"
                             @inputBySlide="UpdatePricesBySlide"
@@ -131,7 +141,8 @@
                             <input
                               class="filterbar__param_3_min"
                               type="number"
-                              v-model="priceMinValue"
+                              v-model="helpPriceMinValue"
+                              @blur="validateHelpPriceMin"
                               name="price-from"
                             />
                           </div>
@@ -140,17 +151,18 @@
                             <input
                               class="filterbar__param_3_max"
                               type="number"
-                              v-model="priceMaxValue"
+                              v-model="helpPriceMaxValue"
+                              @blur="validateHelpPriceMax"
                               name="price-to"
                             />
                           </div>
                         </div>
-                        <!-- f1 -->
                         <div class="filterbar-block__range-radio">
                           <label
                             for="price-radio-1"
                             class="filterbar-block__range-radio-item"
-                            @click="setPrices(0, 1000)"
+                            @click="setHelpPrices(0, 1000)"
+                            v-if="priceMinValue <= 1000 && priceMaxValue <= 1000"
                           >
                             <input
                               type="radio"
@@ -165,7 +177,8 @@
                           <label
                             for="price-radio-2"
                             class="filterbar-block__range-radio-item"
-                            @click="setPrices(1000, 2000)"
+                            @click="setHelpPrices(1000, 2000)"
+                            v-if="priceMinValue <= 1000 && priceMaxValue >= 2000"
                           >
                             <input
                               type="radio"
@@ -178,9 +191,10 @@
                             <div class="filterbar-block__label">1 000 – 2 000 ₽</div>
                           </label>
                           <label
+                            v-if="priceMinValue <= 2000 && priceMaxValue >= 2000"
                             for="price-radio-3"
                             class="filterbar-block__range-radio-item"
-                            @click="setPrices(2000)"
+                            @click="setHelpPrices(2000, priceMaxValue)"
                           >
                             <input
                               type="radio"
@@ -195,7 +209,7 @@
                           <label
                             for="price-radio-4"
                             class="filterbar-block__range-radio-item"
-                            @click="setPrices()"
+                            @click="setPrices"
                           >
                             <input
                               type="radio"
@@ -213,7 +227,10 @@
                     </div>
                   </div>
                 </div>
-                <div v-if="hasWidthAndLength" class="filterbar__param_4">
+                <div
+                  v-if="hasWidthAndLength"
+                  class="filterbar__param_4"
+                >
                   <div class="sizes">
                     <div class="filterbar-block">
                       <div class="filterbar__title">
@@ -231,7 +248,7 @@
                             :ruler="false"
                             :min="widthMin"
                             :max="widthMax"
-                            :step="1"
+                            :step="stepWidth"
                             :minValue="widthMinValue"
                             :maxValue="widthMaxValue"
                             @input="UpdateWidth"
@@ -244,18 +261,20 @@
                             <span>от</span>
                             <input
                               type="number"
-                              v-model="widthMinValue"
+                              v-model="helpWidthMinValue"
                               name="sizes-width-from"
                               class="sizes-width-from"
+                              @blur="validateHelpWidthMin"
                             />
                           </div>
                           <div class="filterbar-block__range-num-to">
                             <span>до</span>
                             <input
                               type="number"
-                              v-model="widthMaxValue"
+                              v-model="helpWidthMaxValue"
                               name="sizes-width-to"
                               class="sizes-width-to"
+                              @blur="validateHelpWidthMax"
                             />
                           </div>
                         </div>
@@ -268,7 +287,7 @@
                             :ruler="false"
                             :min="lengthMin"
                             :max="lengthMax"
-                            :step="1"
+                            :step="stepLength"
                             :minValue="lengthMinValue"
                             :maxValue="lengthMaxValue"
                             @input="UpdateLength"
@@ -280,18 +299,20 @@
                             <span>от</span>
                             <input
                               type="number"
-                              v-model="lengthMinValue"
+                              v-model="helpLengthMinValue"
                               name="sizes-length-from"
                               class="sizes-length-from"
+                              @blur="validateHelpLengthMin"
                             />
                           </div>
                           <div class="filterbar-block__range-num-to">
                             <span>до</span>
                             <input
                               type="number"
-                              v-model="lengthMaxValue"
+                              v-model="helpLengthMaxValue"
                               name="sizes-length-to"
                               class="sizes-length-to"
+                              @blur="validateHelpLengthMax"
                             />
                           </div>
                         </div>
@@ -299,7 +320,6 @@
                     </div>
                   </div>
                 </div>
-
               </div>
             </form>
           </div>
@@ -352,52 +372,52 @@ const radioPrice = ref('radio-price-4')
 
 async function slideUp(element, duration = 500) {
   return new Promise((resolve) => {
-    element.style.transition = `height ${duration}ms ease`;
-    element.style.overflow = 'hidden';
-    element.style.height = `${element.offsetHeight}px`;
+    element.style.transition = `height ${duration}ms ease`
+    element.style.overflow = 'hidden'
+    element.style.height = `${element.offsetHeight}px`
 
     requestAnimationFrame(() => {
-      element.style.height = '0';
-    });
+      element.style.height = '0'
+    })
 
     setTimeout(() => {
-      element.style.display = 'none';
-      element.style.removeProperty('height');
-      element.style.removeProperty('overflow');
-      element.style.removeProperty('transition');
+      element.style.display = 'none'
+      element.style.removeProperty('height')
+      element.style.removeProperty('overflow')
+      element.style.removeProperty('transition')
       resolve()
-    }, duration);
+    }, duration)
   })
 }
 
 async function slideDown(element, duration = 500) {
   return new Promise((resolve) => {
-    element.style.display = 'block';
-    const height = element.offsetHeight; // Вычисляем полную высоту
-    element.style.height = '0';
-    element.style.overflow = 'hidden';
-    element.style.transition = `height ${duration}ms ease`;
-  
+    element.style.display = 'block'
+    const height = element.offsetHeight // Вычисляем полную высоту
+    element.style.height = '0'
+    element.style.overflow = 'hidden'
+    element.style.transition = `height ${duration}ms ease`
+
     requestAnimationFrame(() => {
-      element.style.height = `${height}px`;
-    });
-  
+      element.style.height = `${height}px`
+    })
+
     setTimeout(() => {
-      element.style.removeProperty('height');
-      element.style.removeProperty('overflow');
-      element.style.removeProperty('transition');
+      element.style.removeProperty('height')
+      element.style.removeProperty('overflow')
+      element.style.removeProperty('transition')
       resolve()
-    }, duration);
+    }, duration)
   })
 }
 
 function slideToggle(element, duration = 500) {
-  const isHidden = window.getComputedStyle(element).display === 'none';
+  const isHidden = window.getComputedStyle(element).display === 'none'
 
   if (isHidden) {
-    slideDown(element, duration);
+    slideDown(element, duration)
   } else {
-    slideUp(element, duration);
+    slideUp(element, duration)
   }
 }
 
@@ -415,33 +435,73 @@ onMounted(async () => {
       id = 1
     }
     const categoryTitle = categories.value.filter((category) => category.id === id)[0].title
-    setCategory(id, categoryTitle)
+    await setCategory(id, categoryTitle)
   } else {
     const categoryTitle = categories.value[0].title
-    setCategory(1, categoryTitle)
-    slideDown(subCatListsRef.value[0])
+    await setCategory(1, categoryTitle)
+    await slideDown(subCatListsRef.value[0])
   }
+
+  updateHelpPrices()
+
+  if (hasWidthAndLength.value) {
+    updateHelpWidth()
+    updateHelpLength()
+  }
+
+  await getData('')
 })
 
 const priceMin = ref(0)
 const priceMax = ref(10000)
 const priceMinValue = ref(priceMin.value)
 const priceMaxValue = ref(priceMax.value)
-const helpPriceMinValue = ref(priceMin.value)
-const helpPriceMaxValue = ref(priceMax.value)
-
+const helpPriceMinValue = ref(0)
+const helpPriceMaxValue = ref(10000)
+const stepPrice = ref(100)
 
 const UpdatePrices = async (e) => {
   priceMinValue.value = e.minValue
   priceMaxValue.value = e.maxValue
+  updateHelpPrices()
 }
 const UpdatePricesBySlide = async (e) => {
   priceMinValue.value = e.minValue
   priceMaxValue.value = e.maxValue
+
   if (categoryName.value.length) {
     await getProducts(subCategoryId.value === 0 ? '' : subCategoryId.value)
   } else {
     await getProducts('')
+  }
+  updateHelpPrices()
+}
+const updateHelpPrices = () => {
+  helpPriceMinValue.value = priceMinValue.value
+  helpPriceMaxValue.value = priceMaxValue.value
+}
+const validateHelpPriceMin = async (e) => {
+  const min = Number(e.target.value)
+
+  if (
+    min < priceMinValue.value ||
+    min > priceMaxValue.value ||
+    priceMaxValue.value - min >= stepPrice
+  ) {
+    helpPriceMinValue.value = priceMinValue.value
+  } else if (min !== priceMinValue.value) {
+    console.log('ok');
+    helpPriceMinValue.value = min
+    await getValidatedProducts()
+  }
+}
+const validateHelpPriceMax = async (e) => {
+  const max = Number(e.target.value)
+  if (max > priceMaxValue.value || max < priceMinValue.value + stepPrice.value) {
+    helpPriceMaxValue.value = priceMaxValue.value
+  } else if (max !== priceMaxValue.value) {
+    helpPriceMaxValue.value = max
+    await getValidatedProducts()
   }
 }
 
@@ -449,9 +509,14 @@ const widthMin = ref(0)
 const widthMax = ref(1000)
 const widthMinValue = ref(widthMin.value)
 const widthMaxValue = ref(widthMax.value)
+const helpWidthMinValue = ref(0)
+const helpWidthMaxValue = ref(0)
+const stepWidth = ref(1)
+
 const UpdateWidth = (e) => {
   widthMinValue.value = e.minValue
   widthMaxValue.value = e.maxValue
+  updateHelpWidth()
 }
 const UpdateWidthBySlide = async (e) => {
   widthMinValue.value = e.minValue
@@ -462,14 +527,43 @@ const UpdateWidthBySlide = async (e) => {
   } else {
     await getProducts('')
   }
+  updateHelpWidth()
 }
+const updateHelpWidth = () => {
+  helpWidthMinValue.value = widthMinValue.value
+  helpWidthMaxValue.value = widthMaxValue.value
+}
+const validateHelpWidthMin = async (e) => {
+  const min = Number(e.target.value)
+  if (min > widthMaxValue.value - stepWidth.value || min < widthMinValue.value + stepWidth.value) {
+    helpWidthMinValue.value = widthMinValue.value
+  } else {
+    helpWidthMinValue.value = min
+    await getValidatedProducts()
+  }
+}
+const validateHelpWidthMax = async (e) => {
+  const max = Number(e.target.value)
+  if (max > widthMaxValue.value || max < widthMinValue.value + stepWidth.value) {
+    helpWidthMaxValue.value = widthMaxValue.value
+  } else {
+    helpWidthMaxValue.value = max
+    await getValidatedProducts()
+  }
+}
+
 const lengthMin = ref(0)
 const lengthMax = ref(1000)
 const lengthMinValue = ref(lengthMin.value)
 const lengthMaxValue = ref(lengthMax.value)
+const helpLengthMinValue = ref(0)
+const helpLengthMaxValue = ref(0)
+const stepLength = ref(1)
+
 const UpdateLength = (e) => {
   lengthMinValue.value = e.minValue
   lengthMaxValue.value = e.maxValue
+  updateHelpLength()
 }
 const UpdateLengthBySlide = async (e) => {
   lengthMinValue.value = e.minValue
@@ -479,6 +573,36 @@ const UpdateLengthBySlide = async (e) => {
     await getProducts(subCategoryId.value === 0 ? '' : subCategoryId.value)
   } else {
     await getProducts('')
+  }
+
+  updateHelpLength()
+}
+const updateHelpLength = () => {
+  helpLengthMinValue.value = lengthMinValue.value
+  helpLengthMaxValue.value = lengthMaxValue.value
+}
+const validateHelpLengthMin = async (e) => {
+  const min = Number(e.target.value)
+  if (
+    min > priceMaxValue.value - stepLength.value ||
+    min < lengthMinValue.value + stepLength.value
+  ) {
+    helpLengthMinValue.value = lengthMinValue.value
+  } else {
+    helpLengthMinValue.value = min
+    await getValidatedProducts()
+  }
+}
+const validateHelpLengthMax = async (e) => {
+  const max = Number(e.target.value)
+  console.log('max', max)
+  console.log('lengthMaxValue.value', lengthMaxValue.value)
+  console.log('lengthMinValue.value', lengthMinValue.value)
+  if (max > lengthMaxValue.value || max < lengthMinValue.value + stepLength.value) {
+    helpLengthMaxValue.value = lengthMaxValue.value
+  } else {
+    helpLengthMaxValue.value = max
+    await getValidatedProducts()
   }
 }
 
@@ -493,7 +617,15 @@ const setPrices = (min, max) => {
   } else {
     priceMaxValue.value = priceMax.value
   }
+}
+const setHelpPrices = (min, max) => {
+  if (min >= 0) {
+    helpPriceMinValue.value = min
+  }
 
+  if (max > 0) {
+    helpPriceMaxValue.value = max
+  }
 }
 const setSizes = () => {
   widthMaxValue.value = widthMax.value
@@ -526,17 +658,19 @@ const setSubcategory = async (id, title) => {
 }
 
 const getPricesAndSizes = async (subCat = '') => {
-  let res = await useBaseFetch(`/catalog/prices-and-sizes?categoryId=${categoryId.value}&subCategoryId=${subCat}`)
-  
+  let res = await useBaseFetch(
+    `/catalog/prices-and-sizes?categoryId=${categoryId.value}&subCategoryId=${subCat}`
+  )
+
   if (res.prices.min !== null) {
     priceMin.value = Number(res.prices.min)
     priceMax.value = Number(res.prices.max)
-    setPrices()
   } else {
     priceMin.value = 0
     priceMax.value = 10000
-    setPrices()
   }
+
+  setPrices()
 
   if (res.width.min !== null && res['length'].min !== null) {
     widthMin.value = Number(res.width.min)
@@ -550,12 +684,23 @@ const getPricesAndSizes = async (subCat = '') => {
   }
 }
 
+const getValidatedProducts = async () => {
+  if (categoryName.value.length) {
+    await getProducts(subCategoryId.value === 0 ? '' : subCategoryId.value)
+  } else {
+    await getProducts('')
+  }
+}
 const getProducts = async (subCat = '') => {
   if (hasWidthAndLength.value) {
-    let res = await useBaseFetch(`catalog/products?categoryId=${categoryId.value}&subCategoryId=${subCat}&filter=${radio.value}&price_min=${priceMinValue.value}&price_max=${priceMaxValue.value}&width_min=${widthMinValue.value}&width_max=${widthMaxValue.value}&length_min=${lengthMinValue.value}&length_max=${lengthMaxValue.value}`)
+    let res = await useBaseFetch(
+      `catalog/products?categoryId=${categoryId.value}&subCategoryId=${subCat}&filter=${radio.value}&price_min=${helpPriceMinValue.value}&price_max=${helpPriceMaxValue.value}&width_min=${helpWidthMinValue.value}&width_max=${helpWidthMaxValue.value}&length_min=${helpLengthMinValue.value}&length_max=${helpLengthMaxValue.value}`
+    )
     products.value = res
   } else {
-    let res = await useBaseFetch(`/catalog/products?categoryId=${categoryId.value}&subCategoryId=${subCat}&filter=${radio.value}&price_min=${priceMinValue.value}&price_max=${priceMaxValue.value}`)
+    let res = await useBaseFetch(
+      `/catalog/products?categoryId=${categoryId.value}&subCategoryId=${subCat}&filter=${radio.value}&price_min=${helpPriceMinValue.value}&price_max=${helpPriceMaxValue.value}`
+    )
     products.value = res
   }
 }
@@ -569,29 +714,27 @@ watch(radio, async () => {
 })
 
 watch(radioPrice, async (newValue) => {
-  console.log('newValue', newValue);
-  if (categoryName.value.length) {
-    await getProducts(subCategoryId.value === 0 ? '' : subCategoryId.value)
-  } else {
-    await getProducts('')
-  }
+  await getValidatedProducts()
 })
 
-watch(() => route.query['id'], () => {
-  if (route.query['id']) {
-    let id = Number(route.query.id)
+watch(
+  () => route.query['id'],
+  () => {
+    if (route.query['id']) {
+      let id = Number(route.query.id)
 
-    if (Number.isNaN(id)) {
-      id = 1
+      if (Number.isNaN(id)) {
+        id = 1
+      }
+      const categoryTitle = categories.value.filter((category) => category.id === id)[0].title
+      setCategory(id, categoryTitle)
+    } else {
+      const categoryTitle = categories.value[0].title
+      setCategory(1, categoryTitle)
+      slideDown(subCatListsRef.value[0])
     }
-    const categoryTitle = categories.value.filter((category) => category.id === id)[0].title
-    setCategory(id, categoryTitle)
-  } else {
-    const categoryTitle = categories.value[0].title
-    setCategory(1, categoryTitle)
-    slideDown(subCatListsRef.value[0])
   }
-})
+)
 </script>
 
 <style lang="scss">

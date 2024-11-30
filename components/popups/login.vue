@@ -109,7 +109,7 @@ const onResetPassword = () => {
 }
 
 const submitMessage = ref('')
-const emailOrPhone =  ref('')
+const emailOrPhone = ref('')
 const emailOrPasswordError = ref(false)
 
 const isValidEmailOrPhone = computed(() => {
@@ -152,12 +152,12 @@ function clear() {
 
 const onLog = async () => {
   const isCorrect = await v$.value.$validate()
-  console.log('isCorrect', isCorrect);
-  console.log('isValidEmailOrPhone', isValidEmailOrPhone.value);
-  console.log('isCorrect and isValidEmailOrPhone', !isCorrect || !isValidEmailOrPhone.value);
+  console.log('isCorrect', isCorrect)
+  console.log('isValidEmailOrPhone', isValidEmailOrPhone.value)
+  console.log('isCorrect and isValidEmailOrPhone', !isCorrect || !isValidEmailOrPhone.value)
 
   if (!isCorrect || !isValidEmailOrPhone.value) {
-    console.log('not valid');
+    console.log('not valid')
     emailOrPasswordError.value = true
     return
   }

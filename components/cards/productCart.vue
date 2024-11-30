@@ -16,11 +16,10 @@
       <div class="cartb__item-second-title">{{ product.title }}</div>
       <div class="cartb__item-second-prices">
         <div class="cartb__item-second-prices-reg">
-          <span>{{ product.price }}</span> <span>руб. за м²</span>
+          <span>{{ product.price }}</span>
+          <span v-if="product.squared_metres !== null">руб. за м²</span>
+          <span v-else>руб.</span>
         </div>
-        <!-- <div class="cartb__item-second-prices-pack">
-               <span>20 000</span> <span>руб. за уп.</span>
-            </div> -->
       </div>
     </div>
     <div class="cartb__item-third">

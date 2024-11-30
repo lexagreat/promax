@@ -165,7 +165,6 @@
                         Заказ от {{ formatDate(order.date) }}
                       </div>
                       <div class="body-orders__item-params">
-                        
                         <span>6 уп.</span><span>10 м²</span>
                       </div>
                       <div class="body-orders__item-price"><span>120 000</span> <span>₽</span></div>

@@ -22,7 +22,10 @@
                 </div>
               </div>
             </div>
-            <div class="singleprod-bar" :class="{no_calc: !(squaredMeters && squaredMeters > 0)}">
+            <div
+              class="singleprod-bar"
+              :class="{ no_calc: !(squaredMeters && squaredMeters > 0) }"
+            >
               <form class="singleprod-bar__item">
                 <div class="singleprod-bar__price">
                   <div
@@ -98,7 +101,10 @@
                   </div>
                 </div>
               </form>
-              <form v-if="squaredMeters && squaredMeters > 0" class="singleprod-bar__item">
+              <form
+                v-if="squaredMeters && squaredMeters > 0"
+                class="singleprod-bar__item"
+              >
                 <div class="singleprod-bar__calc">
                   <div class="singleprod-bar__calc-title">Калькулятор:</div>
                   <div class="singleprod-bar__calc-sizes">

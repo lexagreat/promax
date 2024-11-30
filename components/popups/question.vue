@@ -12,7 +12,10 @@
         <div class="popup-title">Введите ваши данные:</div>
         <form class="popup-form">
           <div class="popup-form__inputs">
-            <label v-if="!accountStore.isLogin" for="name_1">
+            <label
+              v-if="!accountStore.isLogin"
+              for="name_1"
+            >
               <input
                 v-model="vForms.name"
                 @blur="vForms.name.$touch"
@@ -24,9 +27,14 @@
                 :class="{ error: v$.name.$dirty && v$.name.required.$invalid }"
               />
             </label>
-            <p v-if="!accountStore.isLogin && v$.name.$dirty && v$.name.required.$invalid">Поле Имя должно быть заполнено</p>
+            <p v-if="!accountStore.isLogin && v$.name.$dirty && v$.name.required.$invalid">
+              Поле Имя должно быть заполнено
+            </p>
 
-            <label v-if="!accountStore.isLogin" for="email_1">
+            <label
+              v-if="!accountStore.isLogin"
+              for="email_1"
+            >
               <input
                 @blur="vForms.email.$touch"
                 v-model="vForms.email"
@@ -42,9 +50,14 @@
             <p v-if="!accountStore.isLogin && v$.email.$dirty && v$.email.required.$invalid">
               Поле Email должно быть заполнено
             </p>
-            <p v-if="!accountStore.isLogin && v$.email.$dirty && v$.email.email.$invalid">Невалидный email</p>
+            <p v-if="!accountStore.isLogin && v$.email.$dirty && v$.email.email.$invalid">
+              Невалидный email
+            </p>
 
-            <label v-if="!accountStore.isLogin" for="phone_1">
+            <label
+              v-if="!accountStore.isLogin"
+              for="phone_1"
+            >
               <input
                 @blur="vForms.phone.$touch"
                 v-model="vForms.phone"
@@ -63,7 +76,9 @@
             <p v-if="!accountStore.isLogin && v$.phone.$dirty && v$.phone.required.$invalid">
               Поле Телефон должно быть заполнено
             </p>
-            <p v-if="!accountStore.isLogin && v$.phone.$dirty && v$.phone.minLength.$invalid">Должно быть 11 цифр</p>
+            <p v-if="!accountStore.isLogin && v$.phone.$dirty && v$.phone.minLength.$invalid">
+              Должно быть 11 цифр
+            </p>
 
             <label for="question_1">
               <textarea
@@ -126,7 +141,7 @@ const vForms = reactive({
   name: '',
   email: '',
   phone: '',
-  question: '',
+  question: ''
 })
 
 const rules = {

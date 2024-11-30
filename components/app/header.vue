@@ -285,10 +285,10 @@ onMounted(async () => {
 }
 
 .header__profile-title {
-    max-width: 100px;
-    word-break: break-all;
-    display: flex;
-  }
+  max-width: 100px;
+  word-break: break-all;
+  display: flex;
+}
 
 header.header {
   position: relative;

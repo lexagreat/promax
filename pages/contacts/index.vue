@@ -42,7 +42,12 @@
             </div>
           </div>
           <div class="contacts-btn-wrapper">
-            <button @click="openWriteUsPopup = true" class="contacts-btn _btn">НАПИСАТЬ НАМ</button>
+            <button
+              @click="openWriteUsPopup = true"
+              class="contacts-btn _btn"
+            >
+              НАПИСАТЬ НАМ
+            </button>
           </div>
         </div>
         <div class="contacts-map">
@@ -358,7 +363,7 @@ p {
     margin-top: -160px;
     width: 100%;
     height: 100%;
-    background-color: #F3F3F3;
+    background-color: #f3f3f3;
   }
 }
 

@@ -28,8 +28,14 @@
         </div>
       </div>
       <div class="bar-inner">
-        <div class="bar-inner-left" @click="onInnerBarLeftClick"></div>
-        <div class="bar-inner-right" @click="onInnerBarRightClick"></div>
+        <div
+          class="bar-inner-left"
+          @click="onInnerBarLeftClick"
+        ></div>
+        <div
+          class="bar-inner-right"
+          @click="onInnerBarRightClick"
+        ></div>
       </div>
       <input
         class="input-type-range input-type-range-max"
@@ -56,15 +62,36 @@
         @click="onBarRightClick"
       ></div>
     </div>
-    <div class="ruler" v-if="ruler">
-      <div v-for="n in stepCount" :key="n" class="ruler-rule"></div>
+    <div
+      class="ruler"
+      v-if="ruler"
+    >
+      <div
+        v-for="n in stepCount"
+        :key="n"
+        class="ruler-rule"
+      ></div>
     </div>
-    <div class="sub-ruler" v-if="subStepCount">
-      <div v-for="n in subStepCount" :key="n" class="ruler-sub-rule"></div>
+    <div
+      class="sub-ruler"
+      v-if="subStepCount"
+    >
+      <div
+        v-for="n in subStepCount"
+        :key="n"
+        class="ruler-sub-rule"
+      ></div>
     </div>
 
-    <div class="labels" v-if="label">
-      <div class="label" v-for="label in scaleLabels" :key="label">
+    <div
+      class="labels"
+      v-if="label"
+    >
+      <div
+        class="label"
+        v-for="label in scaleLabels"
+        :key="label"
+      >
         {{ label }}
       </div>
     </div>
@@ -73,11 +100,11 @@
 
 <script>
 export default {
-  name: "MultiRangeSlider",
+  name: 'MultiRangeSlider',
   props: {
     baseClassName: {
       type: String,
-      default: "multi-range-slider"
+      default: 'multi-range-slider'
     },
     min: { type: Number },
     max: { type: Number },
@@ -93,29 +120,28 @@ export default {
     rangeMargin: { type: Number }
   },
   data() {
-    let _labels = this.labels || [];
-    let _minimum = this.min === undefined ? 0 : this.min;
-    let max = _labels.length ? _labels.length - 1 : 100;
-    let _maximum = this.max === undefined ? max : this.max;
-    let _minValue = this.minValue === undefined ? 25 : this.minValue;
+    let _labels = this.labels || []
+    let _minimum = this.min === undefined ? 0 : this.min
+    let max = _labels.length ? _labels.length - 1 : 100
+    let _maximum = this.max === undefined ? max : this.max
+    let _minValue = this.minValue === undefined ? 25 : this.minValue
     if (_labels.length && this.minValue === undefined) {
-      _minValue = 1;
+      _minValue = 1
     }
-    let _maxValue = this.maxValue || 75;
+    let _maxValue = this.maxValue || 75
     if (_labels.length && this.maxValue === undefined) {
-      _maxValue = _labels.length - 2;
+      _maxValue = _labels.length - 2
     }
     if (_maximum <= _minimum) {
-      throw new Error("Invalid props min or max");
+      throw new Error('Invalid props min or max')
     }
     if (_minValue > _maxValue) {
-      throw new Error("Invalid props minValue or maxValue");
+      throw new Error('Invalid props minValue or maxValue')
     }
-    let _rangeMargin =
-      this.rangeMargin === undefined ? this.step : this.rangeMargin;
+    let _rangeMargin = this.rangeMargin === undefined ? this.step : this.rangeMargin
 
-    let m = _rangeMargin % this.step;
-    m && (_rangeMargin = _rangeMargin + this.step - m);
+    let m = _rangeMargin % this.step
+    m && (_rangeMargin = _rangeMargin + this.step - m)
 
     return {
       valueMin: _minValue < _minimum ? _minimum : _minValue,
@@ -126,291 +152,285 @@ export default {
       barBox: null,
       barValue: 0,
       rangeMarginValue: _rangeMargin
-    };
+    }
   },
   methods: {
     onBarLeftClick() {
       if (this.valueMin - this.step >= this.minimum) {
-        this.valueMin -= this.step;
+        this.valueMin -= this.step
       } else {
-        this.valueMin = this.minimum;
+        this.valueMin = this.minimum
       }
     },
     onInnerBarLeftClick() {
-      console.log('left');
+      console.log('left')
       if (this.valueMin + this.rangeMarginValue < this.valueMax) {
-        this.valueMin += this.step;
+        this.valueMin += this.step
       }
 
       this.triggerInputBySlide()
     },
     onBarRightClick() {
-      console.log('right');
+      console.log('right')
       if (this.valueMax + this.step <= this.maximum) {
-        this.valueMax += this.step;
+        this.valueMax += this.step
       } else {
-        this.valueMax = this.maximum;
+        this.valueMax = this.maximum
       }
       this.triggerInputBySlide()
     },
     onInnerBarRightClick() {
       if (this.valueMax - this.rangeMarginValue > this.valueMin) {
-        this.valueMax -= this.step;
+        this.valueMax -= this.step
       }
     },
     onInputMinChange(e) {
-      let val = parseFloat(e.target.value);
+      let val = parseFloat(e.target.value)
       if (val <= this.valueMax - this.rangeMarginValue && val >= this.minimum) {
-        this.valueMin = val;
+        this.valueMin = val
       } else {
-        e.target.value = this.valueMin;
+        e.target.value = this.valueMin
       }
     },
     onInputMaxChange(e) {
-      let val = parseFloat(e.target.value);
+      let val = parseFloat(e.target.value)
       if (val >= this.valueMin + this.rangeMarginValue && val <= this.maximum) {
-        this.valueMax = val;
+        this.valueMax = val
       } else {
-        e.target.value = this.valueMax;
+        e.target.value = this.valueMax
       }
     },
     onLeftThumbMousedown(e) {
-      e.preventDefault();
-      this.startX = e.clientX;
-      if (e.type === "touchstart") {
+      e.preventDefault()
+      this.startX = e.clientX
+      if (e.type === 'touchstart') {
         if (e.touches.length === 1) {
-          this.startX = e.touches[0].clientX;
+          this.startX = e.touches[0].clientX
         } else {
-          return;
+          return
         }
       }
-      this.mouseMoveCounter = 0;
-      this.barValue = this.valueMin;
-      this.barBox = e.target.parentNode.getBoundingClientRect();
-      document.addEventListener("mousemove", this.onLeftThumbMousemove);
-      document.addEventListener("mouseup", this.onLeftThumbMouseup);
-      document.addEventListener("touchmove", this.onLeftThumbMousemove);
-      document.addEventListener("touchend", this.onLeftThumbMouseup);
+      this.mouseMoveCounter = 0
+      this.barValue = this.valueMin
+      this.barBox = e.target.parentNode.getBoundingClientRect()
+      document.addEventListener('mousemove', this.onLeftThumbMousemove)
+      document.addEventListener('mouseup', this.onLeftThumbMouseup)
+      document.addEventListener('touchmove', this.onLeftThumbMousemove)
+      document.addEventListener('touchend', this.onLeftThumbMouseup)
     },
     onLeftThumbMousemove(e) {
-      this.mouseMoveCounter++;
-      let clientX = e.clientX;
-      if (e.type === "touchmove") {
-        clientX = e.touches[0].clientX;
+      this.mouseMoveCounter++
+      let clientX = e.clientX
+      if (e.type === 'touchmove') {
+        clientX = e.touches[0].clientX
       }
-      let dx = clientX - this.startX;
-      let per = dx / this.barBox.width;
-      let val = this.barValue + (this.maximum - this.minimum) * per;
-      let mod = val % this.step;
-      val -= mod;
+      let dx = clientX - this.startX
+      let per = dx / this.barBox.width
+      let val = this.barValue + (this.maximum - this.minimum) * per
+      let mod = val % this.step
+      val -= mod
       if (val < this.minimum) {
-        val = this.minimum;
+        val = this.minimum
       } else if (val > this.valueMax - this.rangeMarginValue) {
-        val = this.valueMax - this.rangeMarginValue;
+        val = this.valueMax - this.rangeMarginValue
       }
-      this.valueMin = val;
+      this.valueMin = val
     },
     onLeftThumbMouseup() {
-      document.removeEventListener("mousemove", this.onLeftThumbMousemove);
-      document.removeEventListener("mouseup", this.onLeftThumbMouseup);
-      document.removeEventListener("touchmove", this.onLeftThumbMousemove);
-      document.removeEventListener("touchend", this.onLeftThumbMouseup);
+      document.removeEventListener('mousemove', this.onLeftThumbMousemove)
+      document.removeEventListener('mouseup', this.onLeftThumbMouseup)
+      document.removeEventListener('touchmove', this.onLeftThumbMousemove)
+      document.removeEventListener('touchend', this.onLeftThumbMouseup)
       this.triggerInputBySlide()
     },
     onRightThumbMousedown(e) {
-      e.preventDefault();
-      this.startX = e.clientX;
-      if (e.type === "touchstart") {
+      e.preventDefault()
+      this.startX = e.clientX
+      if (e.type === 'touchstart') {
         if (e.touches.length === 1) {
-          this.startX = e.touches[0].clientX;
+          this.startX = e.touches[0].clientX
         } else {
-          return;
+          return
         }
       }
-      this.mouseMoveCounter = 0;
-      this.barValue = this.valueMax;
-      this.barBox = e.target.parentNode.getBoundingClientRect();
-      document.addEventListener("mousemove", this.onRightThumbMousemove);
-      document.addEventListener("mouseup", this.onRightThumbMouseup);
-      document.addEventListener("touchmove", this.onRightThumbMousemove);
-      document.addEventListener("touchend", this.onRightThumbMouseup);
+      this.mouseMoveCounter = 0
+      this.barValue = this.valueMax
+      this.barBox = e.target.parentNode.getBoundingClientRect()
+      document.addEventListener('mousemove', this.onRightThumbMousemove)
+      document.addEventListener('mouseup', this.onRightThumbMouseup)
+      document.addEventListener('touchmove', this.onRightThumbMousemove)
+      document.addEventListener('touchend', this.onRightThumbMouseup)
     },
     onRightThumbMousemove(e) {
-      this.mouseMoveCounter++;
+      this.mouseMoveCounter++
 
-      let clientX = e.clientX;
-      if (e.type === "touchmove") {
-        clientX = e.touches[0].clientX;
+      let clientX = e.clientX
+      if (e.type === 'touchmove') {
+        clientX = e.touches[0].clientX
       }
-      let dx = clientX - this.startX;
-      let per = dx / this.barBox.width;
-      let val = this.barValue + (this.maximum - this.minimum) * per;
-      let mod = val % this.step;
-      val -= mod;
+      let dx = clientX - this.startX
+      let per = dx / this.barBox.width
+      let val = this.barValue + (this.maximum - this.minimum) * per
+      let mod = val % this.step
+      val -= mod
 
       if (val < this.valueMin + this.rangeMarginValue) {
-        val = this.valueMin + this.rangeMarginValue;
+        val = this.valueMin + this.rangeMarginValue
       } else if (val > this.maximum) {
-        val = this.maximum;
+        val = this.maximum
       }
-      this.valueMax = val;
+      this.valueMax = val
     },
     onRightThumbMouseup() {
-      document.removeEventListener("mousemove", this.onRightThumbMousemove);
-      document.removeEventListener("mouseup", this.onRightThumbMouseup);
-      document.removeEventListener("touchmove", this.onRightThumbMousemove);
-      document.removeEventListener("touchend", this.onRightThumbMouseup);
+      document.removeEventListener('mousemove', this.onRightThumbMousemove)
+      document.removeEventListener('mouseup', this.onRightThumbMouseup)
+      document.removeEventListener('touchmove', this.onRightThumbMousemove)
+      document.removeEventListener('touchend', this.onRightThumbMouseup)
       this.triggerInputBySlide()
     },
     onMouseWheel(e) {
       if (this.preventWheel === true) {
-        return;
+        return
       }
 
       if (!e.shiftKey && !e.ctrlKey) {
-        return;
+        return
       }
 
-      let val = this.step;
+      let val = this.step
 
       if (e.deltaY < 0) {
-        val = -val;
+        val = -val
       }
       if (e.shiftKey && e.ctrlKey) {
-        if (
-          this.valueMin + val >= this.minimum &&
-          this.valueMax + val <= this.maximum
-        ) {
-          this.valueMin = this.valueMin + val;
-          this.valueMax = this.valueMax + val;
+        if (this.valueMin + val >= this.minimum && this.valueMax + val <= this.maximum) {
+          this.valueMin = this.valueMin + val
+          this.valueMax = this.valueMax + val
         }
       } else if (e.ctrlKey) {
-        val = this.valueMax + val;
+        val = this.valueMax + val
 
         if (val < this.valueMin + this.rangeMarginValue) {
-          val = this.valueMin + this.rangeMarginValue;
+          val = this.valueMin + this.rangeMarginValue
         } else if (val > this.maximum) {
-          val = this.maximum;
+          val = this.maximum
         }
-        this.valueMax = val;
+        this.valueMax = val
       } else if (e.shiftKey) {
-        val = this.valueMin + val;
+        val = this.valueMin + val
         if (val < this.minimum) {
-          val = this.minimum;
+          val = this.minimum
         } else if (val > this.valueMax - this.rangeMarginValue) {
-          val = this.valueMax - this.rangeMarginValue;
+          val = this.valueMax - this.rangeMarginValue
         }
-        this.valueMin = val;
+        this.valueMin = val
       }
     },
     triggerInput() {
-      console.log('trigger');
-      let fixed = 0;
-      if (this.step.toString().includes(".")) {
-        fixed = 2;
+      console.log('trigger')
+      let fixed = 0
+      if (this.step.toString().includes('.')) {
+        fixed = 2
       }
-      console.log(this.valueMin, this.valueMax);
+      console.log(this.valueMin, this.valueMax)
       let retObj = {
         min: this.minimum,
         max: this.maximum,
         minValue: parseFloat(this.valueMin.toFixed(fixed)),
         maxValue: parseFloat(this.valueMax.toFixed(fixed))
-      };
-      this.$emit("input", retObj);
+      }
+      this.$emit('input', retObj)
     },
     triggerInputBySlide() {
-      console.log('trigger slide');
-      let fixed = 0;
-      if (this.step.toString().includes(".")) {
-        fixed = 2;
+      console.log('trigger slide')
+      let fixed = 0
+      if (this.step.toString().includes('.')) {
+        fixed = 2
       }
 
-      console.log(this.valueMin, this.valueMax);
-      console.log(this.valueMin.toFixed(2), this.valueMax.toFixed(2));
+      console.log(this.valueMin, this.valueMax)
+      console.log(this.valueMin.toFixed(2), this.valueMax.toFixed(2))
       let retObj = {
         min: this.minimum,
         max: this.maximum,
         minValue: parseFloat(this.valueMin.toFixed(fixed)),
         maxValue: parseFloat(this.valueMax.toFixed(fixed))
-      };
-      this.$emit("inputBySlide", retObj);
-    },
+      }
+      this.$emit('inputBySlide', retObj)
+    }
   },
   computed: {
     minimum() {
-      return this.min === undefined ? 0 : this.min;
+      return this.min === undefined ? 0 : this.min
     },
     maximum() {
-      let _labels = this.labels || [];
-      let max = _labels.length ? _labels.length - 1 : 100;
-      return this.max === undefined ? max : this.max;
+      let _labels = this.labels || []
+      let max = _labels.length ? _labels.length - 1 : 100
+      return this.max === undefined ? max : this.max
     },
     stepCount() {
-      let _labels = this.labels || [];
+      let _labels = this.labels || []
       if (_labels.length) {
-        return _labels.length - 1;
+        return _labels.length - 1
       }
-      return Math.floor((this.maximum - this.minimum) / this.step);
+      return Math.floor((this.maximum - this.minimum) / this.step)
     },
     subStepCount() {
-      let _labels = this.labels || [];
+      let _labels = this.labels || []
       if (_labels.length && this.step > 1) {
-        return (this.maximum - this.minimum) / this.step;
+        return (this.maximum - this.minimum) / this.step
       }
-      return 0;
+      return 0
     },
     barMin() {
-      let per =
-        ((this.valueMin - this.minimum) / (this.maximum - this.minimum)) * 100;
-      return per;
+      let per = ((this.valueMin - this.minimum) / (this.maximum - this.minimum)) * 100
+      return per
     },
     barMax() {
-      let per =
-        100 -
-        ((this.valueMax - this.minimum) / (this.maximum - this.minimum)) * 100;
-      return per;
+      let per = 100 - ((this.valueMax - this.minimum) / (this.maximum - this.minimum)) * 100
+      return per
     },
     barMinVal() {
-      let fixed = 0;
-      if (this.step.toString().includes(".")) {
-        fixed = 2;
+      let fixed = 0
+      if (this.step.toString().includes('.')) {
+        fixed = 2
       }
-      return (this.valueMin || 0).toFixed(fixed);
+      return (this.valueMin || 0).toFixed(fixed)
     },
     barMaxVal() {
-      let fixed = 0;
-      if (this.step.toString().includes(".")) {
-        fixed = 2;
+      let fixed = 0
+      if (this.step.toString().includes('.')) {
+        fixed = 2
       }
-      return (this.valueMax || 100).toFixed(fixed);
+      return (this.valueMax || 100).toFixed(fixed)
     },
     scaleLabels() {
-      let _labels = this.labels || [];
+      let _labels = this.labels || []
       if (_labels.length === 0) {
-        _labels = [];
-        _labels.push(this.minimum);
-        _labels.push(this.maximum);
+        _labels = []
+        _labels.push(this.minimum)
+        _labels.push(this.maximum)
       }
 
-      return _labels;
+      return _labels
     }
   },
   watch: {
     valueMin() {
-      this.triggerInput();
+      this.triggerInput()
     },
     valueMax() {
-      this.triggerInput();
+      this.triggerInput()
     },
     minValue(newValue) {
-      this.valueMin = newValue < this.minimum ? this.minimum : newValue;
+      this.valueMin = newValue < this.minimum ? this.minimum : newValue
     },
     maxValue(newValue) {
-      this.valueMax = newValue > this.maximum ? this.maximum : newValue;
+      this.valueMax = newValue > this.maximum ? this.maximum : newValue
     }
   },
   mounted() {}
-};
+}
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
@@ -475,20 +495,22 @@ export default {
   cursor: pointer;
 }
 .multi-range-slider .thumb::before {
-  content: "";
+  content: '';
   background-color: white;
   position: absolute;
   width: 20px;
   height: 20px;
   border: solid 1px black;
-  box-shadow: 0px 0px 3px black, inset 0px 0px 5px gray;
+  box-shadow:
+    0px 0px 3px black,
+    inset 0px 0px 5px gray;
   border-radius: 50%;
   z-index: 1;
   margin: -8px;
   cursor: pointer;
 }
 .multi-range-slider .input-type-range:focus + .thumb::after {
-  content: "";
+  content: '';
   position: absolute;
   top: -4px;
   left: -4px;
@@ -497,7 +519,9 @@ export default {
   z-index: 2;
   border-radius: 50%;
   border: dotted 1px black;
-  box-shadow: 0px 0px 5px white, inset 0px 0px 10px black;
+  box-shadow:
+    0px 0px 5px white,
+    inset 0px 0px 10px black;
 }
 .multi-range-slider .caption {
   position: absolute;

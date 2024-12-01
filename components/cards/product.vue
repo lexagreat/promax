@@ -75,7 +75,7 @@
         </div>
         <div
           class="products__item-addtocart-btn"
-          @click="addToCart"
+          @click="toggleProductInCart"
           :class="{ _active: isInCart }"
         >
           <span class="i-addtocart"></span
@@ -108,7 +108,7 @@
   </div>
 </template>
 <script setup>
-import { addProductToCart, isAlreadyInCart } from '~/assets/js/cart'
+import { addProductToCart, isAlreadyInCart, removeProductFromCart } from '~/assets/js/cart'
 import { useAccountStore } from '~/store/accountStore'
 import { useProductsStore } from '~/store/productsStore'
 import { useRoute } from 'vue-router'
@@ -144,9 +144,14 @@ onBeforeRouteLeave(() => {
   })
 })
 
-const addToCart = () => {
-  addProductToCart(props.product)
-  isInCart.value = true
+const toggleProductInCart = () => {
+  if (!isInCart.value) {
+    addProductToCart(props.product)
+    isInCart.value = true
+  } else {
+    removeProductFromCart(props.product.slug)
+    isInCart.value = false
+  }
 }
 const chars = ref([])
 if (props.product.detail_chars) {

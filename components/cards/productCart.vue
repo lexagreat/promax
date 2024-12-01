@@ -17,7 +17,7 @@
       <div class="cartb__item-second-prices">
         <div class="cartb__item-second-prices-reg">
           <span>{{ product.price }}</span>
-          <span v-if="product.squared_metres !== null">руб. за м²</span>
+          <span v-if="product.squared_metres">руб. за м²</span>
           <span v-else>руб.</span>
         </div>
       </div>
@@ -37,7 +37,7 @@
             ></span>
           </div>
           <div class="add-prod-ctrl-sum-pcs">уп.</div>
-          <div class="add-prod-ctrl-sum-square">
+          <div v-if="product.squared_metres" class="add-prod-ctrl-sum-square">
             <span>{{ product.squared_metres * count }}</span> <span>м²</span>
           </div>
         </div>
@@ -49,7 +49,9 @@
         </div>
       </div>
       <div class="cartb__item-third-price">
-        <span>{{ product.price * product.squared_metres * count }}</span> <span>₽</span>
+        <span v-if="product.squared_metres">{{ product.price * product.squared_metres * count }}</span>
+        <span v-else>{{ product.price  * count }}</span>
+        <span>₽</span>
       </div>
     </div>
   </div>

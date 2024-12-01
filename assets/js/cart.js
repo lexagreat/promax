@@ -113,11 +113,10 @@ export function getFullPrice(products) {
    let res = 0;
 
    products.forEach((product) => {
-      let value = product.price;
-      if (typeof value == "number") {
-         res += value * product.count * product.squared_metres;
+      if (product.squared_metres) {
+         res += product.price * product.count * product.squared_metres
       } else {
-         res += Number(value.replace(/\s+/g, "")) * product.count * product.squared_metres;
+         res += product.price * product.count
       }
    });
    return res;

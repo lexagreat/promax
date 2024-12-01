@@ -51,14 +51,13 @@
                         <li
                           v-for="category in categories"
                           :key="category"
-                          :data-id="category.id"
                           ref="categ"
                           :class="{ _active: categoryId === category.id }"
                         >
                           <span @click="setCategory(category.id, category.title)">{{
                             category.title
                           }}</span>
-                          <ul ref="sub-categ">
+                          <ul :data-id="category.id" ref="sub-categ">
                             <li
                               v-for="sub in category.sub_categories"
                               :key="sub"
@@ -391,6 +390,7 @@ async function slideUp(element, duration = 500) {
 }
 
 async function slideDown(element, duration = 500) {
+  console.log('element', element);
   return new Promise((resolve) => {
     element.style.display = 'block'
     const height = element.offsetHeight // Вычисляем полную высоту
@@ -439,7 +439,6 @@ onMounted(async () => {
   } else {
     const categoryTitle = categories.value[0].title
     await setCategory(1, categoryTitle)
-    await slideDown(subCatListsRef.value[0])
   }
 
   updateHelpPrices()
@@ -647,9 +646,17 @@ const setCategory = async (id, title) => {
   categoryId.value = id
   subCategoryId.value = 0
   subcategoryName.value = ''
-  await slideDown(subCatListsRef.value[id - 1])
-  await getData('')
   categoryName.value = title
+
+  for (const sub of subCatListsRef.value) {
+    const catId = Number(sub.getAttribute('data-id'))
+    if (catId === id) {
+      await slideDown(sub)
+    }
+  }
+
+  await getData('')
+
 }
 const setSubcategory = async (id, title) => {
   subCategoryId.value = id

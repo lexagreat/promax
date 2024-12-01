@@ -40,6 +40,36 @@
                 </div>
               </div>
             </div>
+            <div class="contacts-info__right--mobile">
+              <div class="contacts-info__row">
+                <p class="contacts-info__row-title">
+                  Адрес
+                </p>
+                <div class="contacts-info__row-content">
+                  <p class="contacts-info__row-subtitle">Санкт-Петербург, 198095</p>
+                  <p class="contacts-info__row-subtitle">ул. Балтийская д. 56</p>
+                </div>
+              </div>
+              <div class="contacts-info__row">
+                <p class="contacts-info__row-title">
+                  Электронная почта
+                </p>
+                <div class="contacts-info__row-content">
+                  <p class="contacts-info__row-subtitle">
+                    info@parket-promax.ru
+                  </p>
+                </div>
+              </div>
+              <div class="contacts-info__row">
+                <p class="contacts-info__row-title">
+                  Телефон
+                </p>
+                <div class="contacts-info__row-content">
+                  <p class="contacts-info__row-subtitle">+7 (812) 409-93-20</p>
+                  <p class="contacts-info__row-subtitle">+7 (812) 924-45-04</p>
+                </div>
+              </div>
+            </div>
           </div>
           <div class="contacts-btn-wrapper">
             <button
@@ -75,11 +105,6 @@
         </div>
       </div>
     </div>
-    <!-- <PopupsWriteUs
-      :isOpen="openWriteUsPopup"
-      @closePopup="openWriteUsPopup = false"
-      @success="openSuccessPopup = true"
-    /> -->
     <PopupsQuestion
       :isOpen="openWriteUsPopup"
       @closePopup="openWriteUsPopup = false"
@@ -320,6 +345,10 @@ p {
       flex-direction: column;
     }
 
+    &__right--mobile {
+      display: none;
+    }
+
     .divider {
       margin: 10px 0;
       display: block;
@@ -381,6 +410,52 @@ p {
   }
 }
 
+@media (max-width: 968px) {
+  .contacts {
+    &-info {
+      &__body {
+        gap: 20px;
+      }
+
+      &__right {
+        display: none;
+
+        &--mobile {
+          display: flex;
+          flex-direction: column;
+          text-align: center;
+          gap: 30px;
+        }
+      }
+
+      &__row {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+      }
+
+      &__row-title {
+        font-size: 20px;
+        font-weight: 400;
+        line-height: 22px;
+        color: #989898;
+      }
+
+      &__row-content {
+        display: flex;
+        flex-direction: column;
+      }
+
+      &__row-subtitle {
+        font-size: 20px;
+        font-weight: 600;
+        line-height: 24px;
+        color: #000000;
+      }
+    }
+  }
+}
+
 @media (max-width: 768px) {
   .contacts {
     &-info {
@@ -390,6 +465,21 @@ p {
 
       &__content {
         gap: 10px;
+      }
+
+      &__left {
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+      }
+
+      &__left-title {
+        font-size: 20px;
+      }
+
+      &__left-subtitle {
+        font-size: 16px;
       }
     }
   }

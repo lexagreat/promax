@@ -38,7 +38,7 @@
           </div>
           <div class="add-prod-ctrl-sum-pcs">уп.</div>
           <div v-if="product.squared_metres" class="add-prod-ctrl-sum-square">
-            <span>{{ product.squared_metres * count }}</span> <span>м²</span>
+            <span>{{ Math.floor(product.squared_metres * count) }}</span> <span>м²</span>
           </div>
         </div>
         <div
@@ -49,7 +49,7 @@
         </div>
       </div>
       <div class="cartb__item-third-price">
-        <span v-if="product.squared_metres">{{ product.price * product.squared_metres * count }}</span>
+        <span v-if="product.squared_metres">{{ Math.floor(product.price * product.squared_metres * count) }}</span>
         <span v-else>{{ product.price  * count }}</span>
         <span>₽</span>
       </div>

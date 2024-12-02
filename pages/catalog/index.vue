@@ -638,6 +638,7 @@ const getData = async (subCat = '') => {
   await getProducts(subCat)
 }
 const setCategory = async (id, title) => {
+  console.log('id', id, 'title', title);
   for (const cat of catRef.value) {
     if (cat.classList.contains('_active')) {
       await slideUp(cat.querySelector('ul'), 500)

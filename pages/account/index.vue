@@ -165,20 +165,21 @@
                         Заказ от {{ formatDate(order.date) }}
                       </div>
                       <div class="body-orders__item-params">
-                        <span>6 уп.</span><span>10 м²</span>
+                        <span v-if="order.total_packages">{{ order.total_packages }} уп.</span>
+                        <span v-if="order.total_square_meters">{{ order.total_square_meters }} м²</span>
                       </div>
-                      <div class="body-orders__item-price"><span>120 000</span> <span>₽</span></div>
+                      <div class="body-orders__item-price"><span>{{ order.total_sum }}</span> <span>₽</span></div>
                     </div>
-                    <div class="body-orders__item-body">
+                    <div v-for="product of order.order_items" class="body-orders__item-body">
                       <div class="body-orders__item-img">
                         <img
-                          src="@/assets/img/orders-img.png"
-                          alt="Рисунки карандашом «Print»"
+                          :src="product.images[0]"
+                          :alt="product.title"
                         />
                       </div>
                       <div class="body-orders__item-title">
-                        <div class="body-orders__item-title-first">Дизайнерский паркет</div>
-                        <h2 class="body-orders__item-title-second">Рисунки карандашом «Print»</h2>
+                        <div class="body-orders__item-title-first">{{ product.sub_category }}</div>
+                        <h2 class="body-orders__item-title-second">{{ product.title }}</h2>
                       </div>
                     </div>
                   </div>

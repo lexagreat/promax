@@ -110,7 +110,7 @@
                       v-for="item in services"
                       :key="item"
                     >
-                      <NuxtLink :to="'/services/' + item.slug">{{ item.title }}</NuxtLink>
+                      <NuxtLink class="header-link" :to="'/services/' + item.slug">{{ item.title }}</NuxtLink>
                     </li>
                     <!-- <li>
                                  <NuxtLink to="/services/1">Циклевка</NuxtLink>
@@ -313,6 +313,12 @@ li.has-children._active > a::after {
   background-image: url(@/assets/img/nav-arrow-open.svg);
 }
 
+.header-link {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
 .header-main-first {
   display: flex;
   align-items: center;
@@ -427,7 +433,7 @@ li.has-children._active > a::after {
   background-color: #fff;
   left: 0;
   right: 0;
-  min-width: 190px;
+  min-width: 350px;
   bottom: -2px;
   transform: translateY(100%);
   font-size: 16px;

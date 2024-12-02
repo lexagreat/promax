@@ -218,7 +218,7 @@
                       <div class="singleprod-bar__calc-out-item-val">
                         <span class="out_pack_count_2">{{ packageCount }}</span
                         ><span>уп.</span>
-                        <span class="singleprod-gray">({{ packageCount * squaredMeters }} м²)</span>
+                        <span class="singleprod-gray">({{ squareWithPercent }} м²)</span>
                       </div>
                     </div>
                   </div>
@@ -319,9 +319,11 @@ const price = computed(() => {
   return priceForPackage * packageCount.value
 })
 
-await productsStore.getFavoriteProducts()
 
-onMounted(() => {
+onMounted(async () => {
+  if (accountStore.isLogin) {
+    await productsStore.getFavoriteProducts()
+  }
   makeTabs()
 })
 const count = ref(0)

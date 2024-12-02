@@ -81,7 +81,7 @@
             ></NuxtLink>
           </div>
         </div>
-        <div class="added-main__related">
+        <div v-if="props.product.useful_product.length" class="added-main__related">
           <div class="added-main__related-label">Вам могут пригодиться</div>
           <div class="added-main__related-list">
             <div
@@ -195,12 +195,16 @@ onMounted(() => {
   sumOfProducts.value = getSumOfProducts()
   countOfProducts.value = getCountOfProducts()
 
-  for (let btn of addToCartBtns.value) {
-    const slug = btn.getAttribute('data-slug')
+  console.log('addToCartBtns.value', addToCartBtns.value);
 
-    if (isAlreadyInCart(slug)) {
-      btn.children[1].innerText = 'В корзине'
-      btn.classList.add('_active')
+  if (addToCartBtns.value && addToCartBtns.value.length) {
+    for (let btn of addToCartBtns.value) {
+      const slug = btn.getAttribute('data-slug')
+  
+      if (isAlreadyInCart(slug)) {
+        btn.children[1].innerText = 'В корзине'
+        btn.classList.add('_active')
+      }
     }
   }
 })

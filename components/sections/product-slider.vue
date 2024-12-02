@@ -59,3 +59,16 @@ const props = defineProps({
   images: Array
 })
 </script>
+<style lang="scss" scoped>
+.slick-slide img {
+   @media (max-width: 1440px) {
+      max-height: 269px;
+      max-width: 100%;
+      object-fit: contain;
+   }
+
+   @media (max-width: 768px) {
+      max-height: 160px;
+   }
+}
+</style>

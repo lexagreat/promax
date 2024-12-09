@@ -17,10 +17,7 @@ export const useAccountStore = defineStore("useAccountStore", {
             method: "POST",
          });
 
-         console.log('response', response['phone_number']);
-
          if (response['phone_number']) {
-            console.log('make login');
             await this.login(localData);
             return
          }
@@ -40,8 +37,6 @@ export const useAccountStore = defineStore("useAccountStore", {
             body: data,
             method: "POST",
          });
-
-         console.log('response', response);
 
          if (response.token) {
             this.saveToken(response.token);
@@ -107,7 +102,6 @@ export const useAccountStore = defineStore("useAccountStore", {
          })
 
          if (res) {
-            console.log('res', res);
             this.orders = res
          }
          // return res
@@ -115,7 +109,6 @@ export const useAccountStore = defineStore("useAccountStore", {
    },
    getters: {
       isLogin() {
-         console.log('islogin', this.token.length || false);
          return this.token.length || false
       }
    }

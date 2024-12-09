@@ -365,9 +365,6 @@ function formatDate(date) {
 
   const newDate = new Date(date)
   const day = newDate.getDate()
-  console.log('date', date)
-  console.log('newDate', newDate)
-  console.log('day', day)
   const month = months[newDate.getMonth()]
 
   return `${day} ${month}`

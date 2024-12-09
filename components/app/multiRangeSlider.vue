@@ -163,7 +163,6 @@ export default {
       }
     },
     onInnerBarLeftClick() {
-      console.log('left')
       if (this.valueMin + this.rangeMarginValue < this.valueMax) {
         this.valueMin += this.step
       }
@@ -171,7 +170,6 @@ export default {
       this.triggerInputBySlide()
     },
     onBarRightClick() {
-      console.log('right')
       if (this.valueMax + this.step <= this.maximum) {
         this.valueMax += this.step
       } else {
@@ -327,12 +325,10 @@ export default {
       }
     },
     triggerInput() {
-      console.log('trigger')
       let fixed = 0
       if (this.step.toString().includes('.')) {
         fixed = 2
       }
-      console.log(this.valueMin, this.valueMax)
       let retObj = {
         min: this.minimum,
         max: this.maximum,
@@ -342,14 +338,11 @@ export default {
       this.$emit('input', retObj)
     },
     triggerInputBySlide() {
-      console.log('trigger slide')
       let fixed = 0
       if (this.step.toString().includes('.')) {
         fixed = 2
       }
 
-      console.log(this.valueMin, this.valueMax)
-      console.log(this.valueMin.toFixed(2), this.valueMax.toFixed(2))
       let retObj = {
         min: this.minimum,
         max: this.maximum,

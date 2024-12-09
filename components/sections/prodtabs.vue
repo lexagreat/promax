@@ -49,11 +49,9 @@ const products = ref([])
 let base = '/catalog/'
 const url = ref('hit/')
 async function setTab(slug) {
-  console.log('slug', slug)
   if (slug == url.value) return
   url.value = slug
 
-  console.log('url.value', url.value)
   let res = await useBaseFetch(`${base}${url.value}`)
   products.value = res.products
 }

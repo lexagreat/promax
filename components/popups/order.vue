@@ -214,8 +214,6 @@ async function submit() {
   }
 
   const isCorrect = await v$.value.$validate()
-  console.log('errors', v$.value.$errors)
-  console.log('vForms', vForms)
 
   if (!isCorrect) {
     return

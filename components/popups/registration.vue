@@ -215,7 +215,6 @@ const onReg = async () => {
   }
 
   let res = await accountStore.registr(form)
-  console.log('regist res', res)
 
   if (res && res.length) {
     submitMessage.value = res

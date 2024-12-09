@@ -152,12 +152,8 @@ function clear() {
 
 const onLog = async () => {
   const isCorrect = await v$.value.$validate()
-  console.log('isCorrect', isCorrect)
-  console.log('isValidEmailOrPhone', isValidEmailOrPhone.value)
-  console.log('isCorrect and isValidEmailOrPhone', !isCorrect || !isValidEmailOrPhone.value)
 
   if (!isCorrect || !isValidEmailOrPhone.value) {
-    console.log('not valid')
     emailOrPasswordError.value = true
     return
   }
@@ -170,7 +166,6 @@ const onLog = async () => {
   }
 
   let res = await store.login(form)
-  console.log('res', res)
   if (res && res.length) {
     submitMessage.value = res
     return

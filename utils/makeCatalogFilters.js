@@ -52,10 +52,7 @@ export const initializeRangeSlider = (
    }
 };
 export const makeFilters = (id = null) => {
-   console.log('makeFilters');
    $(".filterbar__param_1>ul>li>ul>li").removeClass("_active"); // Удаляем класс у категорий
-   console.log('categories', $(".filterbar__param_1>ul>li>ul>li"));
-   console.log('id === null', id === null);
    if (id === null) {
       $(".filterbar__param_1>ul>li>ul>li").children("ul").slideUp(); // скрываем подкатегории
       $(".filterbar__param_1>ul>li>ul>li:first-child").addClass("_active"); // открываем первую категорию
@@ -63,7 +60,6 @@ export const makeFilters = (id = null) => {
    }
 
    $(".filterbar__param_1>ul>li>ul>li>span").on("click", function () { // нажатие на span категории
-      console.log('click');
       const $currentLi = $(this).closest("li"); // li категории
       const $currentUl = $currentLi.children("ul"); // ul подкатегории
 

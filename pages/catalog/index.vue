@@ -390,7 +390,6 @@ async function slideUp(element, duration = 500) {
 }
 
 async function slideDown(element, duration = 500) {
-  console.log('element', element);
   return new Promise((resolve) => {
     element.style.display = 'block'
     const height = element.offsetHeight // Вычисляем полную высоту
@@ -489,7 +488,6 @@ const validateHelpPriceMin = async (e) => {
   ) {
     helpPriceMinValue.value = priceMinValue.value
   } else if (min !== priceMinValue.value) {
-    console.log('ok');
     helpPriceMinValue.value = min
     await getValidatedProducts()
   }
@@ -594,9 +592,6 @@ const validateHelpLengthMin = async (e) => {
 }
 const validateHelpLengthMax = async (e) => {
   const max = Number(e.target.value)
-  console.log('max', max)
-  console.log('lengthMaxValue.value', lengthMaxValue.value)
-  console.log('lengthMinValue.value', lengthMinValue.value)
   if (max > lengthMaxValue.value || max < lengthMinValue.value + stepLength.value) {
     helpLengthMaxValue.value = lengthMaxValue.value
   } else {
@@ -638,7 +633,6 @@ const getData = async (subCat = '') => {
   await getProducts(subCat)
 }
 const setCategory = async (id, title) => {
-  console.log('id', id, 'title', title);
   for (const cat of catRef.value) {
     if (cat.classList.contains('_active')) {
       await slideUp(cat.querySelector('ul'), 500)

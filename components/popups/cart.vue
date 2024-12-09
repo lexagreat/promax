@@ -195,8 +195,6 @@ onMounted(() => {
   sumOfProducts.value = getSumOfProducts()
   countOfProducts.value = getCountOfProducts()
 
-  console.log('addToCartBtns.value', addToCartBtns.value);
-
   if (addToCartBtns.value && addToCartBtns.value.length) {
     for (let btn of addToCartBtns.value) {
       const slug = btn.getAttribute('data-slug')

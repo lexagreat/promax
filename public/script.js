@@ -1,6 +1,4 @@
 $(document).ready(function () {
-   console.log("old scripts are working");
-
    $("li.has-children ul").hide();
    if ($(window).width() > 768) {
       $(".header-nav > ul > li").hover(
@@ -139,7 +137,6 @@ $(document).ready(function () {
    //       $("html").addClass("_hidden");
    //       isFirstClick = true;
    //    } else {
-   //       console.log('Перейти на страницу "Оформление"');
    //    }
    // });
 
@@ -274,11 +271,11 @@ $(document).ready(function () {
    // // END account
 
    // START single-ourserv
-   $(".singleserv__pop-item").on("click", function () {
-      $(".singleserv__pop-item").removeClass("_active");
-      $(this).addClass("_active");
-      var index = $(this).index();
-   });
+   // $(".singleserv__pop-item").on("click", function () {
+   //    $(".singleserv__pop-item").removeClass("_active");
+   //    $(this).addClass("_active");
+   //    var index = $(this).index();
+   // });
    // END single-ourserv
 
    // START Маска для телефона
@@ -397,8 +394,6 @@ $(document).ready(function () {
    //       },
    //    });
    //    function updateSliderValues() {
-   //       console.log(minVal);
-   //       console.log(maxVal);
    //       var minValue = parseInt($minInput.val()) || minVal;
    //       var maxValue = parseInt($maxInput.val()) || maxVal;
    //       minValue = Math.max(minValue, $slider.slider("option", "min"));

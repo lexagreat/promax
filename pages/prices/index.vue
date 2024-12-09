@@ -31,7 +31,7 @@
                   <strong>Хотите быстро узнать стоимость работ?</strong><br />
                   Отправьте фото паркета и получите ответ за 15 минут.
                 </div>
-                <div class="foundserv-btn">Подробнее</div>
+                <div @click="openPricesPopup = true" class="foundserv-btn">Подробнее</div>
               </div>
             </div>
           </div>
@@ -42,7 +42,7 @@
 
           <div class="singleserv__price-table">
             <div class="singleserv__price-table-header">
-              <div class="singleserv__price-table-serv">НАИМЕНОВАНИЕ УЛСУГИ</div>
+              <div class="singleserv__price-table-serv">НАИМЕНОВАНИЕ УСЛУГИ</div>
               <div class="singleserv__price-table-price">РУБ@/М2</div>
             </div>
             <div class="singleserv__price-table-body">
@@ -56,7 +56,7 @@
                   <div class="singleserv__price-table-price">{{ item.price }}</div>
                   <div
                     class="singleserv__price-table-icon"
-                    @click="openPopup(item.id)"
+                    @click="openPricesPopup = true"
                   >
                     <span class="i-singleserv-arrow"></span>
                   </div>
@@ -88,9 +88,7 @@
 const openPricesPopup = ref(false)
 const openSuccessPopup = ref(false)
 
-const currentId = ref(0)
-const openPopup = (id) => {
-  currentId.value = id
+const openPopup = () => {
   openPricesPopup.value = true
 }
 let prices = await useBaseFetch('/blog/services/prices/')

@@ -7,7 +7,7 @@
           {{ data.subtitle }}
         </div>
 
-        <div class="singleserv__pop-wrp">
+        <div v-if="data.id === 3" class="singleserv__pop-wrp">
           <div class="container">
             <div class="singleserv__pop">
               <div class="singleserv__pop-label">
@@ -23,51 +23,6 @@
                   </div>
                   <div class="singleserv__pop-item-txt">{{ item.text }}</div>
                 </div>
-                <!-- <div class="singleserv__pop-item">
-                  <div class="singleserv__pop-item-img">
-                    <img
-                      src="@/assets/img/ourserv/singleserv__pop2.svg"
-                      alt="Укладка художественного паркета"
-                    />
-                  </div>
-                  <div class="singleserv__pop-item-txt">Укладка художественного паркета</div>
-                </div>
-                <div class="singleserv__pop-item">
-                  <div class="singleserv__pop-item-img">
-                    <img
-                      src="@/assets/img/ourserv/singleserv__pop3.svg"
-                      alt="Укладка французской елочки"
-                    />
-                  </div>
-                  <div class="singleserv__pop-item-txt">Укладка французской елочки</div>
-                </div>
-                <div class="singleserv__pop-item">
-                  <div class="singleserv__pop-item-img">
-                    <img
-                      src="@/assets/img/ourserv/singleserv__pop4.svg"
-                      alt="Укладка модульного паркета"
-                    />
-                  </div>
-                  <div class="singleserv__pop-item-txt">Укладка модульного паркета</div>
-                </div>
-                <div class="singleserv__pop-item">
-                  <div class="singleserv__pop-item-img">
-                    <img
-                      src="@/assets/img/ourserv/singleserv__pop5.svg"
-                      alt="Укладка паркета в ванных комнатах"
-                    />
-                  </div>
-                  <div class="singleserv__pop-item-txt">Укладка паркета в ванных комнатах</div>
-                </div>
-                <div class="singleserv__pop-item">
-                  <div class="singleserv__pop-item-img">
-                    <img
-                      src="@/assets/img/ourserv/singleserv__pop6.svg"
-                      alt="Укладка штучного паркета"
-                    />
-                  </div>
-                  <div class="singleserv__pop-item-txt">Укладка штучного паркета</div>
-                </div> -->
               </div>
             </div>
           </div>

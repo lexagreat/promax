@@ -69,15 +69,15 @@ const openSuccessPopup = ref(false)
 const cart = ref([])
 onMounted(() => {
   cart.value = getCart()
-  price.value = getFullPrice(getCart())
+  price.value = getFullPrice()
 })
 
 const onRemove = () => {
   cart.value = getCart()
-  price.value = getFullPrice(getCart())
+  price.value = getFullPrice()
 }
 const onChangeCount = () => {
-  price.value = getFullPrice(getCart())
+  price.value = getFullPrice()
 }
 
 async function success() {

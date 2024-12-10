@@ -86,7 +86,9 @@
                 />
               </div>
               <div class="try-img-btns">
-                <div class="try-img-btns__item btn_try_plus"><span class="i-plus-white"></span></div>
+                <div class="try-img-btns__item btn_try_plus">
+                  <span class="i-plus-white"></span>
+                </div>
                 <div class="try-img-btns__item btn_try_link"><span class="i-link-gray"></span></div>
                 <div class="try-img-btns__item btn_try_cube"><span class="i-cube-gray"></span></div>
                 <div class="try-img-btns__item btn_try_compare">

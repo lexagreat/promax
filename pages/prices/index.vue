@@ -31,7 +31,12 @@
                   <strong>Хотите быстро узнать стоимость работ?</strong><br />
                   Отправьте фото паркета и получите ответ за 15 минут.
                 </div>
-                <div @click="openPricesPopup = true" class="foundserv-btn">Подробнее</div>
+                <div
+                  @click="openPricesPopup = true"
+                  class="foundserv-btn"
+                >
+                  Подробнее
+                </div>
               </div>
             </div>
           </div>

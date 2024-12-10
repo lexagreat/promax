@@ -27,10 +27,12 @@
             <div class="added-main__product-price">
               <div class="added-main__product-price-lbl">Цена:</div>
               <div class="added-main__product-price-val">
-                <span>{{ product.price }}</span> <span>руб. за м²</span>
+                <span>{{ product.price }}</span>
+                <span v-if="product.squared_metres">руб. за м²</span>
+                <span v-else>руб</span>
               </div>
             </div>
-            <div class="added-main__product-price-pack">
+            <div v-if="product.squared_metres" class="added-main__product-price-pack">
               <div class="added-main__product-price-pack-lbl">Цена за упаковку:</div>
               <div class="added-main__product-price-pack-val">
                 <span>{{ product.price * product.squared_metres }}</span> <span>руб. за уп.</span>
@@ -40,7 +42,12 @@
           <div class="added-main__product-ctrl">
             <div class="added-main__product-ctrl-sum">
               <div class="added-main__product-ctrl-sum-val">
-                <span>{{ product.price * product.squared_metres * localCount }}</span>
+                <span v-if="product.squared_metres">
+                  {{ product.price * product.squared_metres * localCount }}
+                </span>
+                <span v-else>
+                  {{ product.price * localCount }}
+                </span>
                 <span>₽</span>
               </div>
               <div class="add-prod-ctrl-sum-right">
@@ -81,7 +88,10 @@
             ></NuxtLink>
           </div>
         </div>
-        <div v-if="props.product.useful_product.length" class="added-main__related">
+        <div
+          v-if="props.product.useful_product.length"
+          class="added-main__related"
+        >
           <div class="added-main__related-label">Вам могут пригодиться</div>
           <div class="added-main__related-list">
             <div
@@ -132,9 +142,9 @@ import {
   plusProductCount,
   getProductCount,
   isAlreadyInCart,
-  getSumOfProducts,
   getCountOfProducts,
-  addProductToCart
+  addProductToCart,
+  getFullPrice
 } from '~/assets/js/cart'
 const props = defineProps({
   isOpen: Boolean,
@@ -154,12 +164,12 @@ const addToCartBtns = useTemplateRef('addtocart-btn')
 const plus = () => {
   localCount.value++
   plusProductCount(props.product.slug)
-  sumOfProducts.value = getSumOfProducts()
+  sumOfProducts.value = getFullPrice()
 }
 const minus = () => {
   localCount.value--
   minusProductCount(props.product.slug)
-  sumOfProducts.value = getSumOfProducts()
+  sumOfProducts.value = getFullPrice()
 }
 
 const addUsefulProductToCart = async (slug) => {
@@ -167,7 +177,7 @@ const addUsefulProductToCart = async (slug) => {
 
   if (typeof product === 'object' && !isAlreadyInCart(slug)) {
     addProductToCart(product)
-    sumOfProducts.value = getSumOfProducts()
+    sumOfProducts.value = getFullPrice()
     countOfProducts.value = getCountOfProducts()
 
     for (let btn of addToCartBtns.value) {
@@ -185,20 +195,20 @@ watch(
   () => props.countPackages,
   (newValue) => {
     localCount.value = newValue
-    sumOfProducts.value = getSumOfProducts()
+    sumOfProducts.value = getFullPrice()
     countOfProducts.value = getCountOfProducts()
   }
 )
 
 onMounted(() => {
   localCount.value = getProductCount(props.product.slug)
-  sumOfProducts.value = getSumOfProducts()
+  sumOfProducts.value = getFullPrice()
   countOfProducts.value = getCountOfProducts()
 
   if (addToCartBtns.value && addToCartBtns.value.length) {
     for (let btn of addToCartBtns.value) {
       const slug = btn.getAttribute('data-slug')
-  
+
       if (isAlreadyInCart(slug)) {
         btn.children[1].innerText = 'В корзине'
         btn.classList.add('_active')

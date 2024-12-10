@@ -42,28 +42,20 @@
             </div>
             <div class="contacts-info__right--mobile">
               <div class="contacts-info__row">
-                <p class="contacts-info__row-title">
-                  Адрес
-                </p>
+                <p class="contacts-info__row-title">Адрес</p>
                 <div class="contacts-info__row-content">
                   <p class="contacts-info__row-subtitle">Санкт-Петербург, 198095</p>
                   <p class="contacts-info__row-subtitle">ул. Балтийская д. 56</p>
                 </div>
               </div>
               <div class="contacts-info__row">
-                <p class="contacts-info__row-title">
-                  Электронная почта
-                </p>
+                <p class="contacts-info__row-title">Электронная почта</p>
                 <div class="contacts-info__row-content">
-                  <p class="contacts-info__row-subtitle">
-                    info@parket-promax.ru
-                  </p>
+                  <p class="contacts-info__row-subtitle">info@parket-promax.ru</p>
                 </div>
               </div>
               <div class="contacts-info__row">
-                <p class="contacts-info__row-title">
-                  Телефон
-                </p>
+                <p class="contacts-info__row-title">Телефон</p>
                 <div class="contacts-info__row-content">
                   <p class="contacts-info__row-subtitle">+7 (812) 409-93-20</p>
                   <p class="contacts-info__row-subtitle">+7 (812) 924-45-04</p>

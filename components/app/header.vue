@@ -110,23 +110,12 @@
                       v-for="item in services"
                       :key="item"
                     >
-                      <NuxtLink class="header-link" :to="'/services/' + item.slug">{{ item.title }}</NuxtLink>
+                      <NuxtLink
+                        class="header-link"
+                        :to="'/services/' + item.slug"
+                        >{{ item.title }}</NuxtLink
+                      >
                     </li>
-                    <!-- <li>
-                                 <NuxtLink to="/services/1">Циклевка</NuxtLink>
-                              </li>
-                              <li>
-                                 <NuxtLink to="/services/1">Ремонт</NuxtLink>
-                              </li>
-                              <li>
-                                 <NuxtLink to="/services/1">Реставрация</NuxtLink>
-                              </li>
-                              <li>
-                                 <NuxtLink to="/services/1">Шлифовка</NuxtLink>
-                              </li>
-                              <li>
-                                 <NuxtLink to="/services/1">Установка плинтуса</NuxtLink>
-                              </li> -->
                   </ul>
                 </li>
                 <li>

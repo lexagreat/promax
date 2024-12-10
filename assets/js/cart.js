@@ -76,6 +76,7 @@ export function getSumOfProducts() {
    let cart = JSON.parse(localStorage.cart);
    let sum = 0
    if (!cart.length) {
+      console.log('no products in cart');
       return 0
    }
 
@@ -109,16 +110,25 @@ export function removeProductFromCart(slug) {
 export function clearCart() {
    localStorage.cart = JSON.stringify([]);
 }
-export function getFullPrice(products) {
+export function getFullPrice() {
+   const cart = JSON.parse(localStorage.cart);
    let res = 0;
 
-   products.forEach((product) => {
+   for (const product of cart) {
       if (product.squared_metres) {
          res += product.price * product.count * product.squared_metres
       } else {
          res += product.price * product.count
       }
-   });
+   }
+
+   // products.forEach((product) => {
+   //    if (product.squared_metres) {
+   //       res += product.price * product.count * product.squared_metres
+   //    } else {
+   //       res += product.price * product.count
+   //    }
+   // });
    return res;
 }
 export function recordCart(products) {

@@ -7,14 +7,23 @@
           {{ data.subtitle }}
         </div>
 
-        <div v-if="data.id === 3" class="singleserv__pop-wrp">
+        <div
+          v-if="data.id === 3"
+          class="singleserv__pop-wrp"
+        >
           <div class="container">
             <div class="singleserv__pop">
               <div class="singleserv__pop-label">
                 <b>Самые популярные</b> укладки деревянных напольных покрытий:
               </div>
               <div class="singleserv__pop-list">
-                <div v-for="item of popItmes" :key="item.id" @click="togglePopItem(item.id)" class="singleserv__pop-item" :class="{ _active: item.active }">
+                <div
+                  v-for="item of popItmes"
+                  :key="item.id"
+                  @click="togglePopItem(item.id)"
+                  class="singleserv__pop-item"
+                  :class="{ _active: item.active }"
+                >
                   <div class="singleserv__pop-item-img">
                     <img
                       :src="item.img"
@@ -28,14 +37,20 @@
           </div>
         </div>
 
-        <div v-if="data.prices?.title" class="singleserv__price">
+        <div
+          v-if="data.prices?.title"
+          class="singleserv__price"
+        >
           <div class="container">
             <div class="singleserv__price-inner">
               <h2 class="singleserv__price-label">
                 {{ data?.title }}
               </h2>
               <div class="singleserv__price-table">
-                <div v-if="data.prices?.title" class="singleserv__price-table-header">
+                <div
+                  v-if="data.prices?.title"
+                  class="singleserv__price-table-header"
+                >
                   <div class="singleserv__price-table-serv">{{ data.prices?.title }}</div>
                   <div class="singleserv__price-table-price">РУБ@/М2</div>
                 </div>
@@ -132,46 +147,44 @@ let data = await useBaseFetch(`/blog/service/${slug}/`)
 const serviceId = ref(0)
 const priceId = ref(0)
 
-const popItmes = ref(
-  [
-    {
-      id: 1,
-      text: 'Укладка паркетной и инженерной доски',
-      img: (await import('@/assets/img/ourserv/singleserv__pop1.svg')).default,
-      active: true
-    },
-    {
-      id: 2,
-      text: 'Укладка художественного паркета',
-      img: (await import('@/assets/img/ourserv/singleserv__pop2.svg')).default,
-      active: false
-    },
-    {
-      id: 3,
-      text: 'Укладка французской елочки',
-      img: (await import('@/assets/img/ourserv/singleserv__pop3.svg')).default,
-      active: false
-    },
-    {
-      id: 4,
-      text: 'Укладка модульного паркета',
-      img: (await import('@/assets/img/ourserv/singleserv__pop4.svg')).default,
-      active: false
-    },
-    {
-      id: 5,
-      text: 'Укладка паркета в ванных комнатах',
-      img: (await import('@/assets/img/ourserv/singleserv__pop5.svg')).default,
-      active: false
-    },
-    {
-      id: 6,
-      text: 'Укладка штучного паркета',
-      img: (await import('@/assets/img/ourserv/singleserv__pop6.svg')).default,
-      active: false
-    },
-  ]
-)
+const popItmes = ref([
+  {
+    id: 1,
+    text: 'Укладка паркетной и инженерной доски',
+    img: (await import('@/assets/img/ourserv/singleserv__pop1.svg')).default,
+    active: true
+  },
+  {
+    id: 2,
+    text: 'Укладка художественного паркета',
+    img: (await import('@/assets/img/ourserv/singleserv__pop2.svg')).default,
+    active: false
+  },
+  {
+    id: 3,
+    text: 'Укладка французской елочки',
+    img: (await import('@/assets/img/ourserv/singleserv__pop3.svg')).default,
+    active: false
+  },
+  {
+    id: 4,
+    text: 'Укладка модульного паркета',
+    img: (await import('@/assets/img/ourserv/singleserv__pop4.svg')).default,
+    active: false
+  },
+  {
+    id: 5,
+    text: 'Укладка паркета в ванных комнатах',
+    img: (await import('@/assets/img/ourserv/singleserv__pop5.svg')).default,
+    active: false
+  },
+  {
+    id: 6,
+    text: 'Укладка штучного паркета',
+    img: (await import('@/assets/img/ourserv/singleserv__pop6.svg')).default,
+    active: false
+  }
+])
 
 function togglePopItem(id) {
   for (const item of popItmes.value) {

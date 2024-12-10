@@ -57,7 +57,10 @@
                           <span @click="setCategory(category.id, category.title)">{{
                             category.title
                           }}</span>
-                          <ul :data-id="category.id" ref="sub-categ">
+                          <ul
+                            :data-id="category.id"
+                            ref="sub-categ"
+                          >
                             <li
                               v-for="sub in category.sub_categories"
                               :key="sub"
@@ -651,7 +654,6 @@ const setCategory = async (id, title) => {
   }
 
   await getData('')
-
 }
 const setSubcategory = async (id, title) => {
   subCategoryId.value = id

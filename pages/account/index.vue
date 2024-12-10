@@ -166,11 +166,18 @@
                       </div>
                       <div class="body-orders__item-params">
                         <span v-if="order.total_packages">{{ order.total_packages }} уп.</span>
-                        <span v-if="order.total_square_meters">{{ order.total_square_meters }} м²</span>
+                        <span v-if="order.total_square_meters"
+                          >{{ order.total_square_meters }} м²</span
+                        >
                       </div>
-                      <div class="body-orders__item-price"><span>{{ order.total_sum }}</span> <span>₽</span></div>
+                      <div class="body-orders__item-price">
+                        <span>{{ order.total_sum }}</span> <span>₽</span>
+                      </div>
                     </div>
-                    <div v-for="product of order.order_items" class="body-orders__item-body">
+                    <div
+                      v-for="product of order.order_items"
+                      class="body-orders__item-body"
+                    >
                       <div class="body-orders__item-img">
                         <img
                           :src="product.images[0]"

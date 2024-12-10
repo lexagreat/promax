@@ -42,7 +42,7 @@
       ></div>
     </div>
     <div
-      v-if="product.squared_meters"
+      v-if="product.squared_metres"
       class="products__item-size"
     >
       <span class="i-size-gray"></span>
@@ -84,7 +84,7 @@
         <div class="products__item-price">
           <span class="products__item-price-val">{{ product?.price }}</span>
           <span
-            v-if="product.squared_meters"
+            v-if="product.squared_metres"
             class="products__item-price-in"
             >руб. за м²</span
           >

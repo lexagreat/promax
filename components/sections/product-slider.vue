@@ -61,7 +61,7 @@ const props = defineProps({
 </script>
 <style lang="scss" scoped>
 .slick-slide img {
-  @media (max-width: 1440px) {
+  @media (max-width: 1470px) {
     max-height: 269px;
     max-width: 100%;
     object-fit: contain;

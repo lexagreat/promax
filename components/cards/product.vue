@@ -154,13 +154,16 @@ const toggleProductInCart = () => {
   }
 }
 const chars = ref([])
+
 if (props.product.detail_chars) {
   for (let key in props.product.detail_chars) {
-    let obj = {
-      key: key.charAt(0).toUpperCase() + key.slice(1),
-      value: props.product.detail_chars[key]
+    if (chars.value.length < 4) {
+      let obj = {
+        key: key.charAt(0).toUpperCase() + key.slice(1),
+        value: props.product.detail_chars[key]
+      }
+      chars.value.push(obj)
     }
-    chars.value.push(obj)
   }
 }
 </script>

@@ -119,10 +119,10 @@
                   </ul>
                 </li>
                 <li>
-                  <NuxtLink to="/blog">Блог</NuxtLink>
+                  <NuxtLink to="/cases">Кейсы</NuxtLink>
                 </li>
                 <li>
-                  <NuxtLink to="/cases">Кейсы</NuxtLink>
+                  <NuxtLink to="/blog">Блог</NuxtLink>
                 </li>
                 <li>
                   <NuxtLink to="/contacts">Контакты</NuxtLink>

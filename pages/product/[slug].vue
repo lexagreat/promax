@@ -56,8 +56,16 @@
                     <span v-if="data.squared_metres === null">руб.</span>
                     <span v-else>руб. за м²</span>
                   </div>
-                  <div v-if="data.squared_metres !== null" class="singleprod-bar__price-text">Цена за упаковку:</div>
-                  <div v-if="data.squared_metres !== null" class="singleprod__pack-price">
+                  <div
+                    v-if="data.squared_metres !== null"
+                    class="singleprod-bar__price-text"
+                  >
+                    Цена за упаковку:
+                  </div>
+                  <div
+                    v-if="data.squared_metres !== null"
+                    class="singleprod__pack-price"
+                  >
                     <span>{{ data.price * data.squared_metres }}</span
                     ><span>руб. за уп.</span>
                   </div>

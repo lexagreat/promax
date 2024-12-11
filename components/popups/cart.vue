@@ -32,7 +32,10 @@
                 <span v-else>руб</span>
               </div>
             </div>
-            <div v-if="product.squared_metres" class="added-main__product-price-pack">
+            <div
+              v-if="product.squared_metres"
+              class="added-main__product-price-pack"
+            >
               <div class="added-main__product-price-pack-lbl">Цена за упаковку:</div>
               <div class="added-main__product-price-pack-val">
                 <span>{{ product.price * product.squared_metres }}</span> <span>руб. за уп.</span>

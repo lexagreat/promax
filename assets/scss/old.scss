@@ -3746,6 +3746,10 @@ h2.ourservb__item-title {
 
 .filterbar__param_1 > ul > li > ul > li > ul > li > span {
    transition: all 0.2s ease;
+   width: 297px;
+   text-overflow: ellipsis;
+   overflow: hidden;
+   white-space: nowrap;
 }
 
 .filterbar__param_1 > ul > li > ul > li > ul > li._active > span {
@@ -4102,6 +4106,7 @@ label.filterbar-block__range-radio-item input {
    .filterbar__param_1 > ul > li > ul > li > ul > li._active > span {
       padding: 1px 8px;
       margin-left: -5px;
+      width: unset;
    }
 
    .filterbar__param_1 > ul > li > ul > li > ul {

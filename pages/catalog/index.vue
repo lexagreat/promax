@@ -341,7 +341,6 @@
   </main>
 </template>
 <script setup>
-import MultiRangeSlider from 'multi-range-slider-vue'
 import { useAccountStore } from '~/store/accountStore'
 import { useProductsStore } from '~/store/productsStore'
 import { makeCatalogFilters } from '~/utils/makeCatalogFilters'
@@ -484,13 +483,9 @@ const updateHelpPrices = () => {
 const validateHelpPriceMin = async (e) => {
   const min = Number(e.target.value)
 
-  if (
-    min < priceMinValue.value ||
-    min > priceMaxValue.value ||
-    priceMaxValue.value - min >= stepPrice
-  ) {
+  if (min > priceMaxValue.value - stepPrice.value || min < priceMinValue.value + stepPrice.value) {
     helpPriceMinValue.value = priceMinValue.value
-  } else if (min !== priceMinValue.value) {
+  } else {
     helpPriceMinValue.value = min
     await getValidatedProducts()
   }
@@ -584,7 +579,7 @@ const updateHelpLength = () => {
 const validateHelpLengthMin = async (e) => {
   const min = Number(e.target.value)
   if (
-    min > priceMaxValue.value - stepLength.value ||
+    min > lengthMaxValue.value - stepLength.value ||
     min < lengthMinValue.value + stepLength.value
   ) {
     helpLengthMinValue.value = lengthMinValue.value
@@ -632,6 +627,7 @@ const setSizes = () => {
 }
 
 const getData = async (subCat = '') => {
+  console.log('getData')
   await getPricesAndSizes(subCat)
   await getProducts(subCat)
 }
@@ -666,26 +662,47 @@ const getPricesAndSizes = async (subCat = '') => {
     `/catalog/prices-and-sizes?categoryId=${categoryId.value}&subCategoryId=${subCat}`
   )
 
-  if (res.prices.min !== null) {
-    priceMin.value = Number(res.prices.min)
-    priceMax.value = Number(res.prices.max)
-  } else {
+  if (res.prices.min === res.prices.max && res.prices.min === null && res.prices.max === null) {
     priceMin.value = 0
     priceMax.value = 10000
+  } else if (res.prices.min === res.prices.max) {
+    priceMin.value = Number(res.prices.min)
+    priceMax.value = Number(res.prices.min) + stepPrice.value
+  } else {
+    priceMin.value = Number(res.prices.min)
+    priceMax.value = Number(res.prices.max)
+    console.log('priceMin.value', priceMin.value)
+    console.log('priceMax.value', priceMax.value)
   }
 
   setPrices()
 
-  if (res.width.min !== null && res['length'].min !== null) {
+  if (res.width.min === res.width.max && res.width.min === null && res.width.max === null) {
+    widthMin.value = 0
+    widthMax.value = 1000
+    hasWidthAndLength.value = false
+  } else if (res.width.min === res.width.max) {
+    widthMin.value = Number(res.width.min)
+    widthMax.value = Number(res.width.min) + stepWidth.value
+    hasWidthAndLength.value = true
+  } else {
     widthMin.value = Number(res.width.min)
     widthMax.value = Number(res.width.max)
-    lengthMin.value = Number(res['length'].min)
-    lengthMax.value = Number(res['length'].max)
     hasWidthAndLength.value = true
-    setSizes()
-  } else {
-    hasWidthAndLength.value = false
   }
+
+  if (res.length.min === res.length.max && res.length.min === null && res.length.max === null) {
+    lengthMin.value = 0
+    lengthMax.value = 1000
+  } else if (res.length.min === res.length.max) {
+    lengthMin.value = Number(res.length.min)
+    lengthMax.value = Number(res.length.min) + stepLength.value
+  } else {
+    lengthMin.value = Number(res.length.min)
+    lengthMax.value = Number(res.length.max)
+  }
+
+  setSizes()
 }
 
 const getValidatedProducts = async () => {
@@ -700,11 +717,13 @@ const getProducts = async (subCat = '') => {
     let res = await useBaseFetch(
       `catalog/products?categoryId=${categoryId.value}&subCategoryId=${subCat}&filter=${radio.value}&price_min=${helpPriceMinValue.value}&price_max=${helpPriceMaxValue.value}&width_min=${helpWidthMinValue.value}&width_max=${helpWidthMaxValue.value}&length_min=${helpLengthMinValue.value}&length_max=${helpLengthMaxValue.value}`
     )
+    console.log('products', res)
     products.value = res
   } else {
     let res = await useBaseFetch(
       `/catalog/products?categoryId=${categoryId.value}&subCategoryId=${subCat}&filter=${radio.value}&price_min=${helpPriceMinValue.value}&price_max=${helpPriceMaxValue.value}`
     )
+    console.log('products', res)
     products.value = res
   }
 }

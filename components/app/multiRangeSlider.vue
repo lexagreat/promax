@@ -120,6 +120,7 @@ export default {
     rangeMargin: { type: Number }
   },
   data() {
+    console.log('data()')
     let _labels = this.labels || []
     let _minimum = this.min === undefined ? 0 : this.min
     let max = _labels.length ? _labels.length - 1 : 100

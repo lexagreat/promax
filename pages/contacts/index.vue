@@ -87,7 +87,16 @@
             >
               <YandexMapDefaultMarker
                 :settings="{
-                  coordinates: [30.291838, 59.900953]
+                  coordinates: [30.291838, 59.900953],
+                  title: 'Склад',
+                  subtitle: 'Вход'
+                }"
+              />
+              <YandexMapDefaultMarker
+                :settings="{
+                  coordinates: [30.290185, 59.900917],
+                  title: 'Шоу-Рум',
+                  subtitle: 'Вход'
                 }"
               />
               <YandexMapDefaultFeaturesLayer />

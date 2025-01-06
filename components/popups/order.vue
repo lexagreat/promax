@@ -232,10 +232,18 @@ async function submit() {
   }
 
   for (const product of cart) {
-    form.order_items.push({
+    console.log('product', product);
+    const obj = {
       id: product.id,
       count: product.count
-    })
+    }
+
+    if (product.artikulVolume) {
+      obj.artikul = product.artikulVolume
+    }
+
+    console.log('form', obj);
+    form.order_items.push(obj)
   }
 
   const orderRes = await productsStore.makeOrder(form)

@@ -48,12 +48,6 @@ onMounted(() => {
     asNavFor: '.singleprod-imgs-first'
   })
 })
-onBeforeRouteLeave(() => {
-  $(document).ready(function () {
-    slider.slick('unslick')
-    slider2.slick('unslick')
-  })
-})
 
 const props = defineProps({
   images: Array

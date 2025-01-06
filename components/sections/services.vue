@@ -80,11 +80,5 @@ onMounted(() => {
   })
 })
 
-onBeforeRouteLeave(() => {
-  $(document).ready(function () {
-    slider.slick('unslick')
-  })
-})
-
 let services = await useBaseFetch('/blog/services/')
 </script>

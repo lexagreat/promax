@@ -11,6 +11,21 @@
 
             <div class="singleprod-char">
               <h1 class="singleprod-char__title">{{ data.title }}</h1>
+              {{ activeVolume }}
+              <div
+                v-if="data.volume"
+                class="singleprod-char__volumes"
+              >
+                <button
+                  v-for="volume of volumes"
+                  class="singleprod-char__volumes-item"
+                  :class="{ '_active': Number(volume.artikul) === activeVolume }"
+                  :key="volume.artikul"
+                  @click="toggleVolume(Number(volume.artikul))"
+                >
+                  {{ volume.volume }}
+                </button>
+              </div>
               <div class="singleprod-char__list">
                 <div
                   class="singleprod-char__list-item"
@@ -52,7 +67,7 @@
                   </div>
                   <div class="singleprod-bar__price-text">Цена:</div>
                   <div class="singleprod__regular-price">
-                    <span>{{ data.price }}</span>
+                    <span>{{ volumes.length ? volumePrice : data.price }}</span>
                     <span v-if="data.squared_metres === null">руб.</span>
                     <span v-else>руб. за м²</span>
                   </div>
@@ -261,18 +276,64 @@
                 <div class="singleprod-tabs__ctrl-item">Паркетная химия</div>
               </div>
               <div class="singleprod-tabs__out">
-                <div
-                  class="singleprod-tabs__out-item _active"
-                  v-html="data.description"
-                ></div>
+                <div class="singleprod-tabs__out-item _active">
+                  <p>{{ data.description }}</p>
+                  <div class="attachments">
+                    <a
+                      v-if="data.attachment"
+                      class="attachments-link"
+                      :href="data.attachment.file"
+                      target="_blank"
+                      download
+                      >{{ data.attachment.title }}</a
+                    >
+                  </div>
+                </div>
                 <div
                   class="singleprod-tabs__out-item"
                   v-html="data.sposob_ukladki"
                 ></div>
-                <div
-                  class="singleprod-tabs__out-item"
-                  v-html="data.parketnaya_himia"
-                ></div>
+                <div class="singleprod-tabs__out-item">
+                  <div
+                    v-if="data.useful_product"
+                    class="added-main__related-list"
+                  >
+                    <div
+                      class="added-main__related-item"
+                      v-for="usefulProduct of data.useful_product"
+                      :key="usefulProduct.id"
+                    >
+                      <div class="added-main__related-item-img">
+                        <img
+                          :src="usefulProduct.images[0]"
+                          :alt="usefulProduct.sub_category.title"
+                        />
+                      </div>
+                      <div class="added-main__related-item-name">
+                        <div class="added-main__related-item-name-lbl">
+                          {{ usefulProduct.sub_category.category }}
+                        </div>
+                        <div class="added-main__related-item-name-title">
+                          {{ usefulProduct.sub_category.title }}
+                        </div>
+                      </div>
+                      <div class="added-main__related-item-price">
+                        <span>{{ usefulProduct.price }}</span> <span>руб.</span>
+                      </div>
+                      <div class="added-main__related-item-addcart">
+                        <div
+                          class="products__item-addtocart-btn"
+                          ref="addtocart-btn"
+                          :data-slug="usefulProduct.slug"
+                          @click="addUsefulProductToCart(usefulProduct.slug)"
+                        >
+                          <span class="i-addtocart"></span>
+                          <span class="products__item-addtocart-btn-txt">В корзину</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -283,6 +344,7 @@
     <PopupsCart
       :countPackages="count"
       :product="data"
+      :activeVolume="activeVolume"
       :isOpen="isPopupOpen"
       @closePopup="isPopupOpen = false"
     />
@@ -309,6 +371,21 @@ let data = await useBaseFetch('/catalog/product/' + route.params.slug + '/')
 const squaredMeters = data['squared_metres']
 const priceForMetr = data['price']
 
+const volumes = data['volume'] || []
+let activeVolume = ref(null)
+
+if (volumes.length) {
+  activeVolume.value = Number(volumes[0].artikul)
+}
+
+const volumePrice = computed(() => {
+  return volumes.filter((volume) => Number(volume.artikul) === activeVolume.value)[0].price
+})
+
+const toggleVolume = (artikul) => {
+  activeVolume.value = artikul
+}
+
 const calcWidth = ref(10)
 const calcHeight = ref(10)
 const calcSquare = computed(() => calcWidth.value * calcHeight.value)
@@ -323,7 +400,7 @@ const packageCount = computed(() => {
   return res <= 0 ? 1 : res
 })
 
-const price = computed(() => {
+const squaerdPrice = computed(() => {
   const priceForPackage = priceForMetr * squaredMeters
   return priceForPackage * packageCount.value
 })
@@ -334,6 +411,7 @@ onMounted(async () => {
   }
   makeTabs()
 })
+
 const count = ref(0)
 const inCart = ref(false)
 const path = ref([
@@ -357,9 +435,17 @@ for (let key in data.detail_chars) {
   }
   chars.value.push(obj)
 }
+
 const openPopup = (isCalcBtn) => {
   if (!inCart.value) {
-    addProductToCart(data)
+    if (volumes.length) {
+      const updatedProduct = JSON.parse(JSON.stringify(data))
+      updatedProduct.artikulVolume = activeVolume.value
+
+      addProductToCart(updatedProduct)
+    } else {
+      addProductToCart(data)
+    }
 
     if (isCalcBtn) {
       setProductCount(data.slug, packageCount.value)
@@ -377,11 +463,48 @@ const openPopup = (isCalcBtn) => {
   inCart.value = true
 }
 
+const addToCartBtns = useTemplateRef('addtocart-btn')
+
+const addUsefulProductToCart = async (slug) => {
+  const product = await useBaseFetch('/catalog/product/' + slug)
+
+  if (typeof product === 'object' && !isAlreadyInCart(slug)) {
+    addProductToCart(product)
+
+    for (let btn of addToCartBtns.value) {
+      const btnSlug = btn.getAttribute('data-slug')
+
+      if (isAlreadyInCart(slug) && btnSlug === slug) {
+        btn.children[1].innerText = 'В корзине'
+        btn.classList.add('_active')
+        btn.setAttribute('disabled', true)
+      }
+    }
+  }
+}
+
 onMounted(() => {
   inCart.value = isAlreadyInCart(data.slug)
 
   if (inCart.value) {
     count.value = getProductCount(data.slug)
   }
+
+  if (addToCartBtns.value && addToCartBtns.value.length) {
+    for (let btn of addToCartBtns.value) {
+      const slug = btn.getAttribute('data-slug')
+
+      if (isAlreadyInCart(slug)) {
+        btn.children[1].innerText = 'В корзине'
+        btn.classList.add('_active')
+        btn.setAttribute('disabled', true)
+      }
+    }
+  }
 })
 </script>
+<style scoped>
+.added-main__related-item:first-child {
+  border-top: none;
+}
+</style>

@@ -81,11 +81,6 @@ onMounted(() => {
     })
   })
 })
-onBeforeRouteLeave(() => {
-  $(document).ready(function () {
-    slider.slick('unslick')
-  })
-})
 
 let data = await useBaseFetch('/blog/floor_works/')
 data = data[0]

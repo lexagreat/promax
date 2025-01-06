@@ -1,9 +1,7 @@
 <template>
   <div class="cartb__item">
+    {{ volumePrice }}
     <div class="cartb__item-first">
-      <div class="cartb__item-first-mark _active">
-        <span class="i-grey-mark"></span>
-      </div>
       <div class="cartb__item-first-img">
         <img
           :src="product.images[0]"
@@ -16,7 +14,7 @@
       <div class="cartb__item-second-title">{{ product.title }}</div>
       <div class="cartb__item-second-prices">
         <div class="cartb__item-second-prices-reg">
-          <span>{{ product.price }}</span>
+          <span>{{ product.artikulVolume ? volumePrice : product.price }}</span>
           <span v-if="product.squared_metres">руб. за м²</span>
           <span v-else>руб.</span>
         </div>
@@ -43,6 +41,12 @@
           >
             <span>{{ Math.floor(product.squared_metres * count) }}</span> <span>м²</span>
           </div>
+          <div
+            v-if="product.artikulVolume"
+            class="add-prod-ctrl-sum-square"
+          >
+            {{ volumeValue }} <span>кг</span>
+          </div>
         </div>
         <div
           class="cartb__item-third-ctrl-delete"
@@ -55,7 +59,7 @@
         <span v-if="product.squared_metres">{{
           Math.floor(product.price * product.squared_metres * count)
         }}</span>
-        <span v-else>{{ product.price * count }}</span>
+        <span v-else>{{ product.artikulVolume ? volumePrice * count : product.price * count }}</span>
         <span>₽</span>
       </div>
     </div>
@@ -73,6 +77,23 @@ const props = defineProps({
 })
 const emit = defineEmits(['remove', 'changeCount'])
 const count = ref(0)
+
+const volumePrice = computed(() => {
+  console.log('product', props.product);
+  if (props.product.artikulVolume) {
+    return props.product.volume.filter((volume) => Number(volume.artikul) === props.product.artikulVolume)[0].price
+  } else {
+    return null
+  }
+})
+
+const volumeValue = computed(() => {
+  if (props.product.artikulVolume) {
+    return props.product.volume.filter((volume) => Number(volume.artikul) === props.product.artikulVolume)[0].volume
+  } else {
+    return null
+  }
+})
 
 const plus = () => {
   count.value++

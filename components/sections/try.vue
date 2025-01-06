@@ -118,10 +118,4 @@ onMounted(() => {
     nextArrow: $('.try-slider-control__next')
   })
 })
-
-onBeforeRouteLeave(() => {
-  $(document).ready(function () {
-    slider.slick('unslick')
-  })
-})
 </script>

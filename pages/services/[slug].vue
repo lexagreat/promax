@@ -52,7 +52,7 @@
                   class="singleserv__price-table-header"
                 >
                   <div class="singleserv__price-table-serv">{{ data.prices?.title }}</div>
-                  <div class="singleserv__price-table-price">РУБ@/М2</div>
+                  <div class="singleserv__price-table-price">РУБ/М2</div>
                 </div>
                 <div class="singleserv__price-table-body">
                   <div
@@ -102,8 +102,13 @@
                       class="p"
                     >
                       <div>
-                        <h2 v-if="item.title">{{ item.title }}</h2>
-                        <p>{{ item.text }}</p>
+                        <h2
+                          class="singleart__inner-title"
+                          v-if="item.title"
+                        >
+                          {{ item.title }}
+                        </h2>
+                        <p class="singleart__inner-text">{{ item.text }}</p>
                       </div>
                       <img
                         v-if="item.image"

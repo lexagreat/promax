@@ -59,8 +59,8 @@ onMounted(() => {
     dots: true,
     asNavFor: '.advant__slider_2',
     draggable: false,
-    autoplay: true,
-    autoplaySpeed: 3500,
+    // autoplay: true,
+    // autoplaySpeed: 3500,
     responsive: [
       {
         breakpoint: 1470,
@@ -79,12 +79,6 @@ onMounted(() => {
     arrows: false,
     asNavFor: '.advant__slider_1',
     draggable: false
-  })
-})
-onBeforeRouteLeave(() => {
-  $(document).ready(function () {
-    slider.slick('unslick')
-    slider2.slick('unslick')
   })
 })
 

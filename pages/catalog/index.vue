@@ -627,7 +627,6 @@ const setSizes = () => {
 }
 
 const getData = async (subCat = '') => {
-  console.log('getData')
   await getPricesAndSizes(subCat)
   await getProducts(subCat)
 }
@@ -671,8 +670,6 @@ const getPricesAndSizes = async (subCat = '') => {
   } else {
     priceMin.value = Number(res.prices.min)
     priceMax.value = Number(res.prices.max)
-    console.log('priceMin.value', priceMin.value)
-    console.log('priceMax.value', priceMax.value)
   }
 
   setPrices()
@@ -717,13 +714,11 @@ const getProducts = async (subCat = '') => {
     let res = await useBaseFetch(
       `catalog/products?categoryId=${categoryId.value}&subCategoryId=${subCat}&filter=${radio.value}&price_min=${helpPriceMinValue.value}&price_max=${helpPriceMaxValue.value}&width_min=${helpWidthMinValue.value}&width_max=${helpWidthMaxValue.value}&length_min=${helpLengthMinValue.value}&length_max=${helpLengthMaxValue.value}`
     )
-    console.log('products', res)
     products.value = res
   } else {
     let res = await useBaseFetch(
       `/catalog/products?categoryId=${categoryId.value}&subCategoryId=${subCat}&filter=${radio.value}&price_min=${helpPriceMinValue.value}&price_max=${helpPriceMaxValue.value}`
     )
-    console.log('products', res)
     products.value = res
   }
 }

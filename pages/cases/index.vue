@@ -6,58 +6,13 @@
         <h1 class="casesb__title">Кейсы</h1>
         <div class="casesb__main">
           <div class="casesb__list">
-            <div class="howwork">
+            <div
+              v-if="youtube?.items?.length"
+              class="howwork"
+            >
               <div class="container">
                 <div class="howwork__inner">
                   <div class="howwork__list">
-                    <div
-                      class="howwork__item"
-                      v-for="item in youtube.items"
-                    >
-                      <div class="howwork__item-poster">
-                        <!-- <img loading="lazy" src="@/assets/img/howwork/howwork-1.webp" alt="howwork"> -->
-                      </div>
-                      <div class="howwork__item-video-popup">
-                        <div class="howwork__item-video-close"></div>
-                        <div
-                          class="howwork__item-video-inner"
-                          v-html="item.iframe"
-                        ></div>
-                      </div>
-                      <h3 class="howwork__item-title">{{ item.title }}</h3>
-                    </div>
-                    <div
-                      class="howwork__item"
-                      v-for="item in youtube.items"
-                    >
-                      <div class="howwork__item-poster">
-                        <!-- <img loading="lazy" src="@/assets/img/howwork/howwork-1.webp" alt="howwork"> -->
-                      </div>
-                      <div class="howwork__item-video-popup">
-                        <div class="howwork__item-video-close"></div>
-                        <div
-                          class="howwork__item-video-inner"
-                          v-html="item.iframe"
-                        ></div>
-                      </div>
-                      <h3 class="howwork__item-title">{{ item.title }}</h3>
-                    </div>
-                    <div
-                      class="howwork__item"
-                      v-for="item in youtube.items"
-                    >
-                      <div class="howwork__item-poster">
-                        <!-- <img loading="lazy" src="@/assets/img/howwork/howwork-1.webp" alt="howwork"> -->
-                      </div>
-                      <div class="howwork__item-video-popup">
-                        <div class="howwork__item-video-close"></div>
-                        <div
-                          class="howwork__item-video-inner"
-                          v-html="item.iframe"
-                        ></div>
-                      </div>
-                      <h3 class="howwork__item-title">{{ item.title }}</h3>
-                    </div>
                     <div
                       class="howwork__item"
                       v-for="item in youtube.items"
@@ -85,7 +40,10 @@
                 </div>
               </div>
             </div>
-            <div class="howwork">
+            <div
+              v-if="tg?.items?.length"
+              class="howwork"
+            >
               <div class="container">
                 <div class="howwork__inner">
                   <div class="howwork__list">
@@ -116,7 +74,10 @@
                 </div>
               </div>
             </div>
-            <div class="howwork">
+            <div
+              v-if="inst?.items?.length"
+              class="howwork"
+            >
               <div class="container">
                 <div class="howwork__inner">
                   <div class="howwork__list">
@@ -138,7 +99,7 @@
                     </div>
                   </div>
                   <NuxtLink
-                    :to="tg.link"
+                    :to="inst.link"
                     class="howwork__btn_instagram"
                   >
                     <span class="i-instagram"></span>

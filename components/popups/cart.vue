@@ -27,7 +27,7 @@
             <div class="added-main__product-price">
               <div class="added-main__product-price-lbl">Цена:</div>
               <div class="added-main__product-price-val">
-                <span>{{ product.price }}</span>
+                <span>{{ activeVolume === null ? product.price : volumePrice }}</span>
                 <span v-if="product.squared_metres">руб. за м²</span>
                 <span v-else>руб</span>
               </div>
@@ -49,7 +49,7 @@
                   {{ product.price * product.squared_metres * localCount }}
                 </span>
                 <span v-else>
-                  {{ product.price * localCount }}
+                  {{ activeVolume === null ? product.price * localCount : volumePrice * localCount }}
                 </span>
                 <span>₽</span>
               </div>
@@ -149,10 +149,15 @@ import {
   addProductToCart,
   getFullPrice
 } from '~/assets/js/cart'
+
 const props = defineProps({
   isOpen: Boolean,
   product: Object,
-  countPackages: Number
+  countPackages: Number,
+  activeVolume: {
+    type: Number,
+    default: null
+  }
 })
 const emit = defineEmits(['closePopup'])
 const onClose = () => {
@@ -175,11 +180,18 @@ const minus = () => {
   sumOfProducts.value = getFullPrice()
 }
 
+// TODO: надо чтобы useful был заполнен volume если товар предполагает volume
 const addUsefulProductToCart = async (slug) => {
   const product = await useBaseFetch('/catalog/product/' + slug)
 
   if (typeof product === 'object' && !isAlreadyInCart(slug)) {
-    addProductToCart(product)
+    if (product.volume === null || !product.volume.length) {
+      addProductToCart(product)
+    } else {
+      const updatedProduct = JSON.parse(JSON.stringify(data))
+      updatedProduct.artikulVolume = data.volume[0].artikul
+      addProductToCart(updatedProduct)
+    }
     sumOfProducts.value = getFullPrice()
     countOfProducts.value = getCountOfProducts()
 
@@ -189,10 +201,15 @@ const addUsefulProductToCart = async (slug) => {
       if (isAlreadyInCart(slug) && btnSlug === slug) {
         btn.children[1].innerText = 'В корзине'
         btn.classList.add('_active')
+        btn.setAttribute('disabled', true)
       }
     }
   }
 }
+
+const volumePrice = computed(() => {
+  return props.product.volume.filter((volume) => Number(volume.artikul) === props.activeVolume)[0].price
+})
 
 watch(
   () => props.countPackages,
@@ -215,6 +232,7 @@ onMounted(() => {
       if (isAlreadyInCart(slug)) {
         btn.children[1].innerText = 'В корзине'
         btn.classList.add('_active')
+        btn.setAttribute('disabled', true)
       }
     }
   }

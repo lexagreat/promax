@@ -126,9 +126,7 @@ const route = useRoute()
 let slider
 const isInCart = ref(false)
 const isInFavor = ref(false)
-onBeforeUpdate(() => {
-  isInCart.value = isAlreadyInCart(props.product.slug)
-})
+
 onMounted(() => {
   slider = $(`[data-product-id='${props.id}'] .products__item-slider`).slick({
     infinite: true,
@@ -137,11 +135,8 @@ onMounted(() => {
     arrows: false,
     dots: true
   })
-})
-onBeforeRouteLeave(() => {
-  $(document).ready(function () {
-    slider.slick('unslick')
-  })
+
+  isInCart.value = isAlreadyInCart(props.product.slug)
 })
 
 const toggleProductInCart = () => {

@@ -11,7 +11,6 @@
 
             <div class="singleprod-char">
               <h1 class="singleprod-char__title">{{ data.title }}</h1>
-              {{ activeVolume }}
               <div
                 v-if="data.volume"
                 class="singleprod-char__volumes"

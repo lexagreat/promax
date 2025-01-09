@@ -3,33 +3,35 @@
     class="products__item"
     :data-product-id="id"
   >
-    <div class="products__item-slider-wrapper">
-      <div class="products__item-discount"></div>
-      <div class="products__item-slider">
-        <div
-          class="products__item-slider-item"
-          v-for="image in product?.images"
-        >
-          <img
-            loading="lazy"
-            :src="image"
-            alt="products-item"
-          />
+    <NuxtLink :to="'/product/' + product?.slug">
+      <div class="products__item-slider-wrapper">
+        <div class="products__item-discount"></div>
+        <div class="products__item-slider">
+          <div
+            class="products__item-slider-item"
+            v-for="image in product?.images"
+          >
+            <img
+              loading="lazy"
+              :src="image"
+              alt="products-item"
+            />
+          </div>
+        </div>
+        <div class="products__item-slider-dots">
+          <span class="products__item-slider-dots-item _bgred"></span>
+          <span class="products__item-slider-dots-item _bgblack"></span>
+          <span class="products__item-slider-dots-item _bgwhite"></span>
+          <span class="products__item-slider-dots-item _bgblue"></span>
+          <span class="products__item-slider-dots-item _bggreen"></span>
+          <span class="products__item-slider-dots-item _bgred"></span>
+          <span class="products__item-slider-dots-item _bgblack"></span>
+          <span class="products__item-slider-dots-item _bgwhite"></span>
+          <span class="products__item-slider-dots-item _bgblue"></span>
+          <span class="products__item-slider-dots-item _bggreen"></span>
         </div>
       </div>
-      <div class="products__item-slider-dots">
-        <span class="products__item-slider-dots-item _bgred"></span>
-        <span class="products__item-slider-dots-item _bgblack"></span>
-        <span class="products__item-slider-dots-item _bgwhite"></span>
-        <span class="products__item-slider-dots-item _bgblue"></span>
-        <span class="products__item-slider-dots-item _bggreen"></span>
-        <span class="products__item-slider-dots-item _bgred"></span>
-        <span class="products__item-slider-dots-item _bgblack"></span>
-        <span class="products__item-slider-dots-item _bgwhite"></span>
-        <span class="products__item-slider-dots-item _bgblue"></span>
-        <span class="products__item-slider-dots-item _bggreen"></span>
-      </div>
-    </div>
+    </NuxtLink>
     <h2 class="products__item-title">
       <NuxtLink :to="'/product/' + product?.slug">{{ product?.title }}</NuxtLink>
     </h2>

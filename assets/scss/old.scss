@@ -1655,6 +1655,13 @@ span.products__item-char-item-val {
    margin-bottom: 20px;
 }
 
+.products__item-bottom {
+   display: flex;
+   flex-direction: column;
+   flex-grow: 1;
+   justify-content: end;
+}
+
 .products__item-bottom-frst {
    display: flex;
    gap: 10px;

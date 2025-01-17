@@ -279,19 +279,18 @@
                   <p>{{ data.description }}</p>
                   <div class="attachments">
                     <a
-                      v-if="data.attachment"
+                      v-for="attachment of data.attachment"
                       class="attachments-link"
                       :href="data.attachment.file"
                       target="_blank"
                       download
-                      >{{ data.attachment.title }}</a
+                      >{{ attachment.title || attachment.file }}</a
                     >
                   </div>
                 </div>
-                <div
-                  class="singleprod-tabs__out-item"
-                  v-html="data.sposob_ukladki"
-                ></div>
+                <div class="singleprod-tabs__out-item">
+                  <p>{{ data.sposob_ukladki }}</p>
+                </div>
                 <div class="singleprod-tabs__out-item">
                   <div
                     v-if="data.useful_product"

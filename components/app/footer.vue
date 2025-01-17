@@ -11,7 +11,7 @@
             <div class="footer__first-socials-list">
               <NuxtLink to="https://www.youtube.com/user/parketpromax"><span class="i-soc-youtube"></span></NuxtLink>
               <NuxtLink to="https://t.me/parket_promaks"><span class="i-soc-tg"></span></NuxtLink>
-              <NuxtLink to="https://vk.com/parket_promax"><span class="i-soc-vk"></span></NuxtLink>
+              <NuxtLink to="https://vk.com/parket_promaks"><span class="i-soc-vk"></span></NuxtLink>
               <NuxtLink to="https://instagram.com/parket_promaks?igshid=YmMyMTA2M2Y="><span class="i-soc-inst"></span></NuxtLink>
             </div>
             <div class="footer__first-socials-info">

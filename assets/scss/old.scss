@@ -1757,9 +1757,9 @@ h2.ourserv__title {
    overflow: hidden;
 
    & img {
-      width: 339px !important;
+      width: 100% !important;
       height: 465px !important;
-      object-fit: contain;
+      object-fit: cover;
 
       @media (max-width: 768px) {
          width: 100% !important;

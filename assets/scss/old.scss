@@ -1200,7 +1200,7 @@ h2.try-slider__item-title {
 
 .homesec__top-left-first {
    width: 787px;
-   background-color: #f8c71a;
+   background-image: url(@/assets/img/homesec/connect.jpg);
    border-radius: 10px;
    padding: 110px 76px 113px 75px;
    margin-bottom: 20px;
@@ -1239,6 +1239,10 @@ ul.slick-dots li.slick-active {
 h2.homesec-title {
    margin: 0 0 32px;
    font-size: 30px;
+   font-weight: 600;
+   text-transform: uppercase;
+   line-height: 33px;
+   color: white;
 }
 
 p.homesec-desc {
@@ -1246,6 +1250,7 @@ p.homesec-desc {
    line-height: 48px;
    font-weight: 600;
    margin: 0;
+   color: white;
 }
 
 .homesec__top-left-sec {
@@ -2117,7 +2122,7 @@ h3.howwork__item-title {
 .footer-nav > ul > li > ul {
    display: flex;
    flex-direction: column;
-   gap: 12px;
+   gap: 8px;
    color: #989898;
    position: relative;
 }
@@ -6682,7 +6687,7 @@ input#prof-save._active {
 }
 
 .blogb__item-img {
-   max-height: 321px;
+   max-height: 160px;
    overflow: hidden;
 }
 

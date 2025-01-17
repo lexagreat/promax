@@ -98,8 +98,6 @@
         </div>
       </div>
       <div class="products__item-issample">
-        <span class="i-issample-gray"></span>
-        <span class="products__item-issample-text">есть образец</span>
         <span
           class="i-delete-btn delete-btn-absolute"
           v-if="route.path === '/account'"

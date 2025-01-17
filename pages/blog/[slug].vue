@@ -25,7 +25,7 @@
           >
             <div>
               <h2 v-if="item.title">{{ item.title }}</h2>
-              <p>{{ item.text }}</p>
+              <p v-if="item.text">{{ item.text }}</p>
             </div>
             <img
               v-if="item.image"
@@ -48,11 +48,12 @@ let data = await useBaseFetch(`/blog/${slug}/`)
 <style lang="scss" scoped>
 div.p {
   display: flex;
+  flex-direction: column;
   gap: 24px;
 
-  &:nth-child(even) {
-    flex-direction: row-reverse;
-  }
+  // &:nth-child(even) {
+  //   flex-direction: row-reverse;
+  // }
 
   img {
     max-width: 100%;

@@ -26,7 +26,7 @@
                 <NuxtLink to="/services">Услуги</NuxtLink>
                 <ul>
                   <li
-                    v-for="service of services"
+                    v-for="service of services.slice(0, 4)"
                     :key="service.id"
                   >
                     <NuxtLink :to="`/services/${service.slug}`">{{ service.title }}</NuxtLink>
@@ -43,7 +43,7 @@
                 <NuxtLink to="/catalog">Каталог</NuxtLink>
                 <ul>
                   <li
-                    v-for="category of categories"
+                    v-for="category of categories.slice(0, 4)"
                     :key="category.id"
                   >
                     <NuxtLink :to="`/catalog?id=${category.id}`">{{ category.title }}</NuxtLink>

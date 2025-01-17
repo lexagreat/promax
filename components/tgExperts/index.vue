@@ -8,10 +8,10 @@
           <div class="tgexperts-desc__sec">
             Telegram
             <NuxtLink
-              to="https://t.me/promaks_experts"
+              to="https://t.me/parket_promaks"
               target="_blank"
             >
-              @promaks_experts</NuxtLink
+              @parket_promaks</NuxtLink
             >
           </div>
         </div>

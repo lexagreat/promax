@@ -281,7 +281,7 @@
                     <a
                       v-for="attachment of data.attachment"
                       class="attachments-link"
-                      :href="data.attachment.file"
+                      :href="attachment.file"
                       target="_blank"
                       download
                       >{{ attachment.title || attachment.file }}</a

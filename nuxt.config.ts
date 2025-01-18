@@ -3,7 +3,7 @@ export default defineNuxtConfig({
    devtools: { enabled: true },
    runtimeConfig: {
       public: {
-         baseURL: process.env.BASE_URL || "http://188.225.18.241:8888",
+         baseURL: process.env.BASE_URL || "https://backend.xn----7sbbsydmpeeherg.xn--p1ai",
       },
    },
    app: {

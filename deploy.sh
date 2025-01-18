@@ -1,0 +1,1 @@
+putty.exe -ssh root@188.225.18.241 -pw "aqShrgyH3Qy^Jq" -m "commands.txt"

@@ -1,0 +1,1 @@
+cd /root/frontend/; git reset --hard; git pull; docker stop nuxt-app;docker rm nuxt-app;docker system prune -a -f; docker-compose pull; docker-compose  up -d

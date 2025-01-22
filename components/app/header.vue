@@ -105,7 +105,7 @@
                 </li>
                 <li class="has-children">
                   <NuxtLink to="/services">Все услуги</NuxtLink>
-                  <ul>
+                  <ul ref="services-list">
                     <li
                       v-for="item in services"
                       :key="item"
@@ -117,6 +117,7 @@
                       >
                     </li>
                   </ul>
+                  <span class="header-nav_arrow"></span>
                 </li>
                 <li>
                   <NuxtLink to="/cases">Кейсы</NuxtLink>
@@ -185,6 +186,8 @@ const openResetPasswordConfirm = ref(false)
 const openSuccess = ref(false)
 
 let services = await useBaseFetch('/blog/services/')
+
+const servicesList = useTemplateRef('services-list')
 
 const onSuccessLogin = () => {
   router.push('/account')
@@ -391,6 +394,7 @@ li.has-children._active > a::after {
 }
 
 .header-nav > ul > li > a {
+  width: fit-content;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -404,7 +408,6 @@ li.has-children._active > a::after {
   color: #373435;
   border-bottom: 3px solid #f8c71a;
   margin-bottom: -1px;
-  transform: scale(1.05);
   opacity: 1;
 }
 
@@ -485,8 +488,30 @@ a.header-btns__item > span:first-child {
 }
 
 @media (max-width: 768px) {
+  .header-nav {
+    width: 135px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
   .header-bar {
     display: none;
+  }
+
+  .header-nav li.has-children > ul li {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: 110px;
+  }
+
+  .header-nav li.has-children > ul li:not(:last-child) {
+    margin-bottom: 10px;
+  }
+
+  .header-link {
+    font-size: 13px;
+    line-height: 13px;
+    word-break: break-all;
   }
 
   .header-main-first {
@@ -540,7 +565,7 @@ a.header-btns__item > span:first-child {
     background-color: #fff;
     top: 0;
     right: 0;
-    padding: 23px 45px 26px 20px;
+    padding: 21px 6px 30px 18px;
     z-index: 999;
     border-radius: 0 0 0 20px;
   }
@@ -575,8 +600,6 @@ a.header-btns__item > span:first-child {
 
   span.header-nav_arrow {
     content: '';
-    // width: 8px;
-    // height: 12px;
     width: 35px;
     height: 14px;
     background-image: url(@/assets/img/nav-arrow-mob.svg);
@@ -585,10 +608,8 @@ a.header-btns__item > span:first-child {
     background-repeat: no-repeat;
     transition: all 0.2s ease;
     position: absolute;
-    // top: 8px;
-    // right: -20px;
-    top: 6px;
-    right: -36px;
+    top: 5px;
+    right: -5px;
   }
 
   span.header-nav_arrow._active {
@@ -605,9 +626,7 @@ a.header-btns__item > span:first-child {
     transform: none;
     box-shadow: none;
     border-bottom: none;
-    padding-bottom: 0;
-    padding-top: 5px;
-    padding-right: 0;
+    padding: 10px 0 0 0;
   }
 
   .header-nav > ul > li > a:hover {

@@ -5,6 +5,7 @@
         <div class="homesec__top">
           <div class="homesec__top-left">
             <div class="homesec__top-left-first">
+              <img src="@/assets/img/homesec/connect.png" alt="">
               <h2 class="homesec-title">{{ data.title }}</h2>
               <p class="homesec-desc">{{ data.subtitle }}</p>
             </div>
@@ -43,8 +44,7 @@
             </div>
             <div class="foundserv__inner">
               <div class="foundserv-desc">
-                <strong>Не нашли интересующую Вас услугу?</strong><br />
-                Просмотрите полный список цен на работы
+                <strong>Хотите стать нашим партнером?</strong>
               </div>
               <NuxtLink
                 to="/prices"

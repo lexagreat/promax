@@ -1198,12 +1198,26 @@ h2.try-slider__item-title {
    margin-bottom: 20px;
 }
 
+.homesec__top-left {
+   display: flex;
+   flex-direction: column;
+   justify-content: space-between;
+   gap: 26px;
+}
+
 .homesec__top-left-first {
+   display: flex;
+   flex-direction: column;
    width: 787px;
-   background-image: url(@/assets/img/homesec/connect.jpg);
    border-radius: 10px;
-   padding: 110px 76px 113px 75px;
-   margin-bottom: 20px;
+   background-color: #FFDB31;
+   padding: 16px 33px 53px 33px;
+}
+
+.homesec__top-left-first img {
+   width: 442px;
+   height: 157px;
+   align-self: center;
 }
 
 .homesec__top-right {
@@ -1237,20 +1251,21 @@ ul.slick-dots li.slick-active {
 }
 
 h2.homesec-title {
-   margin: 0 0 32px;
+   margin-top: 17px;
+   margin-bottom: 17px;
    font-size: 30px;
-   font-weight: 600;
-   text-transform: uppercase;
+   font-weight: 800;
    line-height: 33px;
-   color: white;
+   text-transform: uppercase;
+   color: #373435;
 }
 
 p.homesec-desc {
    font-size: 45px;
-   line-height: 48px;
-   font-weight: 600;
+   line-height: 49px;
+   font-weight: 500;
    margin: 0;
-   color: white;
+   color: #373435;
 }
 
 .homesec__top-left-sec {
@@ -1294,6 +1309,7 @@ p.homesec-desc {
    display: flex;
    flex: auto;
    justify-content: space-between;
+   align-items: center;
 }
 
 .foundserv-icon {
@@ -1312,7 +1328,6 @@ p.homesec-desc {
 .foundserv-btn {
    width: 186px;
    height: 44px;
-   margin-top: auto;
    display: flex;
    align-items: center;
    justify-content: center;
@@ -1322,7 +1337,6 @@ p.homesec-desc {
    font-size: 20px;
    position: relative;
    cursor: pointer;
-   margin-bottom: 5px;
 }
 
 .foundserv-btn:before {
@@ -2297,7 +2311,6 @@ h3.howwork__item-title {
    }
 
    h2.homesec-title {
-      margin: 0 0 20px;
       font-size: 28px;
    }
 
@@ -2332,6 +2345,7 @@ h3.howwork__item-title {
 
    .foundserv__inner {
       flex-direction: column;
+      align-items: start;
    }
 
    .foundserv-btn:before {
@@ -2895,6 +2909,12 @@ h3.howwork__item-title {
 
    .try {
       padding-bottom: 38px;
+   }
+
+   .homesec__top-left-first img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
    }
 
    h2.homesec-title {

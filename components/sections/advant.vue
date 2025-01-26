@@ -59,8 +59,8 @@ onMounted(() => {
     dots: true,
     asNavFor: '.advant__slider_2',
     draggable: false,
-    // autoplay: true,
-    // autoplaySpeed: 3500,
+    autoplay: true,
+    autoplaySpeed: 3500,
     responsive: [
       {
         breakpoint: 1470,

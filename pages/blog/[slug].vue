@@ -22,6 +22,7 @@
             v-for="item in data.blocks"
             :key="item"
             class="p"
+            :class="{ '_with-img': item.image }"
           >
             <div>
               <h2 v-if="item.title">{{ item.title }}</h2>

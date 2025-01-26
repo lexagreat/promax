@@ -32,9 +32,9 @@
                   </div>
                 </div>
               </div>
+              <!-- TODO: Потом добавить :disabled="!accountStore.isLogin" -->
               <button
                 class="added-main__product-ctrl-btn"
-                :disabled="!accountStore.isLogin"
                 @click="makeOrder"
               >
                 <span>Перейти к оформлению</span><span class="i-ourserv-view-cases"></span>
@@ -89,9 +89,10 @@ async function success() {
 const price = ref(0)
 
 function makeOrder() {
-  if (!accountStore.isLogin) {
-    router.push('/')
-  }
+  // TODO - потом добавить
+  // if (!accountStore.isLogin) {
+  //   router.push('/')
+  // }
   openCartPopup.value = true
 }
 </script>

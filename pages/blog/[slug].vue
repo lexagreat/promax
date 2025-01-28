@@ -22,7 +22,7 @@
             v-for="item in data.blocks"
             :key="item"
             class="p"
-            :class="{ '_with-img': item.image !== null }"
+            :class="{ '_with-img': item.image !== null, '_with-video': item.video }"
           >
             <div v-if="!item.video.length">
               <h2 v-if="item.title">{{ item.title }}</h2>
@@ -64,21 +64,21 @@ div.p {
 
   &._with-video {
     width: 100%;
+
+    .video {
+      width: 100%;
+
+      & * {
+        width: 100%;
+        height: 438px;
+      }
+    }
   }
 
   img {
     width: 551px;
     height: 398px;
     object-fit: cover;
-  }
-
-  .video {
-    width: 100%;
-
-    iframe {
-      width: 100%;
-      height: 500px;
-    }
   }
 }
 
@@ -89,11 +89,20 @@ div.p {
       height: 100%;
       object-fit: unset;
     }
+
     &._with-img {
       flex-direction: column;
 
       &:nth-child(even) {
         flex-direction: column;
+      }
+    }
+
+    &._with-video {
+      .video {
+        & * {
+          height: 300px;
+        }
       }
     }
   }
@@ -102,6 +111,14 @@ div.p {
 @media (max-width: 1024px) {
   div.p {
     flex-direction: column !important;
+
+    &._with-video {
+      .video {
+        & * {
+          height: unset;
+        }
+      }
+    }
   }
 }
 </style>

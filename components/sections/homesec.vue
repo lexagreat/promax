@@ -25,13 +25,15 @@
               <div
                 class="homesec__slider-item"
                 v-for="item in data.images"
-                :key="item"
+                :key="item.id"
               >
-                <img
-                  loading="lazy"
-                  :src="item"
-                  alt="worker-laying"
-                />
+                <a :href="item.product_link">
+                  <img
+                    loading="lazy"
+                    :src="item.image_link"
+                    alt="worker-laying"
+                  />
+                </a>
               </div>
             </div>
             <div class="homesec__slider-dots"></div>

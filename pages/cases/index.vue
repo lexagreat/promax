@@ -54,7 +54,7 @@
                         v-for="item in tg.items"
                         :key="item.id"
                       >
-                        <a :href="item?.post_link">
+                        <a class="howwork-link" :href="item?.post_link">
                           <img :src="item?.image_link" alt="">
                         </a>
                       </div>
@@ -82,7 +82,7 @@
                         v-for="item in inst.items"
                         :key="item.id"
                       >
-                        <a :href="item?.post_link">
+                        <a class="howwork-link" :href="item?.post_link">
                           <img :src="item?.image_link" alt="">
                         </a>
                       </div>
@@ -111,6 +111,35 @@ let tg = ref(cases[0].tg)
 let inst = ref(cases[0].inst)
 </script>
 <style lang="scss" scoped>
+.howwork-tg, .howwork-inst {
+  .howwork-link {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      border-radius: 5px;
+
+      & img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+    }
+}
+
+.howwork-tg {
+  .howwork-link {
+    width: 234px;
+    height: 327px;
+  }
+}
+
+.howwork-inst {
+  .howwork-link {
+    width: 218px;
+    height: 287px;
+  }
+}
+
 @media (max-width: 768px) {
   .howwork-tg, .howwork-inst {
     .howwork__list {
@@ -119,10 +148,7 @@ let inst = ref(cases[0].inst)
       justify-items: center;
     }
 
-    a {
-      display: flex;
-      justify-content: center;
-      align-items: center;
+    .howwork-link {
       width: 100%;
     }
 

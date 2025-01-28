@@ -395,7 +395,8 @@ onMounted(async () => {
       if (Number.isNaN(id)) {
         return
       }
-      const categoryTitle = categories.value.filter((category) => category.id === id)[0].title
+      const category = categories.value.filter((category) => category.id === id)[0]
+      const subCategoryTitle = category.filter((subCategory) => subCategory.id === id)[0].title
       await setSubcategory(id, categoryTitle)
     }
   } else {

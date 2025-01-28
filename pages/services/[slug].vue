@@ -273,6 +273,11 @@ div.p {
 
     &._with-video {
       width: 100%;
+
+      iframe {
+        width: 100%;
+        height: 500px;
+      }
     }
 
     img {

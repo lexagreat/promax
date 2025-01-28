@@ -15,6 +15,7 @@
               loading="lazy"
               :src="image"
               alt="products-item"
+              class="products-img"
             />
           </div>
         </div>
@@ -185,5 +186,13 @@ if (props.product.detail_chars) {
 .products__item-slider-wrapper {
   position: relative;
   flex-grow: 1;
+}
+
+.products-img {
+  transition: all 0.2s ease;
+}
+
+.products-img:hover {
+  transform: scale(1.2);
 }
 </style>

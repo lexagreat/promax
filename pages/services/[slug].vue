@@ -100,6 +100,7 @@
                       v-for="item in data.blocks"
                       :key="item"
                       class="p"
+                      :class="{ '_with-img': item.image !== null, '_with-video': item.video }"
                     >
                       <div>
                         <h2
@@ -115,6 +116,7 @@
                         :src="item.image"
                         alt=""
                       />
+                      <video v-if="item.video.length" :src="item.video" controls></video>
                     </div>
                   </div>
                 </div>
@@ -221,11 +223,66 @@ function openPopup(serviceID, priceID) {
   line-height: 44px;
 }
 
+div.p {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+
+  // &:nth-child(even) {
+  //   flex-direction: row-reverse;
+  // }
+
+  &._with-img {
+    flex-direction: row;
+
+    &:nth-child(even) {
+      flex-direction: row-reverse;
+    }
+  }
+
+  img {
+    width: 551px;
+    height: 398px;
+    object-fit: cover;
+  }
+
+
+}
+
 @media (max-width: 1470px) {
+  .container {
+    max-width: 100% !important;
+  }
   .singleserv__price-label {
     font-size: 17px;
     text-align: center;
     line-height: 19px;
+  }
+
+  div.p {
+    &._with-img {
+      flex-direction: column;
+
+      &:nth-child(even) {
+        flex-direction: column;
+      }
+    }
+
+    &._with-video {
+      width: 100%;
+    }
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: unset;
+    }
+  }
+}
+
+@media (max-width: 1024px) {
+  div.p {
+    flex-direction: column !important;
   }
 }
 </style>

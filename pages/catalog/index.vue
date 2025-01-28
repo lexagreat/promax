@@ -328,10 +328,10 @@
           <div class="filterout">
             <div class="prodtabs__main products products_ld_3">
               <CardsProduct
-                v-for="(item, index) in products"
-                :key="index"
+                v-for="item in products"
+                :key="item.id"
                 :product="item"
-                :id="'catalogpageitem' + index"
+                :id="'catalogpageitem' + item.id"
               />
             </div>
           </div>
@@ -665,11 +665,14 @@ const getProducts = async (subCat = '') => {
     let res = await useBaseFetch(
       `catalog/products?categoryId=${categoryId.value}&subCategoryId=${subCat}&filter=${radio.value}&price_min=${helpPriceMinValue.value}&price_max=${helpPriceMaxValue.value}&width_min=${helpWidthMinValue.value}&width_max=${helpWidthMaxValue.value}&length_min=${helpLengthMinValue.value}&length_max=${helpLengthMaxValue.value}`
     )
+    console.log('res', res);
     products.value = res
+
   } else {
     let res = await useBaseFetch(
       `/catalog/products?categoryId=${categoryId.value}&subCategoryId=${subCat}&filter=${radio.value}&price_min=${helpPriceMinValue.value}&price_max=${helpPriceMaxValue.value}`
     )
+    console.log('res', res);
     products.value = res
   }
 }

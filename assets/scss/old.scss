@@ -7217,6 +7217,7 @@ input#prof-save._active {
    width: 940px;
    padding-right: 35px;
    margin-right: 110px;
+   font-size: 20px;
 }
 
 .singleserv__price-table-price {
@@ -7355,6 +7356,7 @@ input#prof-save._active {
       padding-right: 15px;
       margin-right: 60px;
       font-size: 21px;
+      flex-grow: 1;
    }
 
    .singleserv__price-foundserv {
@@ -7367,7 +7369,7 @@ input#prof-save._active {
 
    .singleserv__price-table-price {
       width: 90px;
-      font-size: 21px;
+      font-size: 16px;
    }
 
    .singleserv__price-table-item {

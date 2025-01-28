@@ -54,26 +54,8 @@
                         v-for="item in tg.items"
                         :key="item.id"
                       >
-                        <a href="#">
-                          <img src="@/assets/img/cases/tg/1.png" alt="">
-                        </a>
-                      </div>
-                      <div
-                        class="howwork__item"
-                        v-for="item in tg.items"
-                        :key="item.id"
-                      >
-                        <a href="#">
-                          <img src="@/assets/img/cases/tg/1.png" alt="">
-                        </a>
-                      </div>
-                      <div
-                        class="howwork__item"
-                        v-for="item in tg.items"
-                        :key="item.id"
-                      >
-                        <a href="#">
-                          <img src="@/assets/img/cases/tg/1.png" alt="">
+                        <a :href="item?.post_link">
+                          <img :src="item?.image_link" alt="">
                         </a>
                       </div>
                     </div>
@@ -100,26 +82,8 @@
                         v-for="item in inst.items"
                         :key="item.id"
                       >
-                        <a href="#">
-                          <img src="@/assets/img/cases/inst/1.png" alt="">
-                        </a>
-                      </div>
-                      <div
-                        class="howwork__item"
-                        v-for="item in inst.items"
-                        :key="item.id"
-                      >
-                        <a href="#">
-                          <img src="@/assets/img/cases/inst/1.png" alt="">
-                        </a>
-                      </div>
-                      <div
-                        class="howwork__item"
-                        v-for="item in inst.items"
-                        :key="item.id"
-                      >
-                        <a href="#">
-                          <img src="@/assets/img/cases/inst/1.png" alt="">
+                        <a :href="item?.post_link">
+                          <img :src="item?.image_link" alt="">
                         </a>
                       </div>
                     </div>

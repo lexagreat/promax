@@ -27,7 +27,7 @@
             </div>
           </div>
           <NuxtLink
-            to="catalog"
+            to="/catalog"
             class="prodtabs__btn _btn"
             >Перейти в Каталог</NuxtLink
           >

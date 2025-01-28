@@ -103,6 +103,9 @@
                 <li>
                   <NuxtLink to="/">Главная</NuxtLink>
                 </li>
+                <li class="on-mobile">
+                  <NuxtLink to="/catalog">Каталог</NuxtLink>
+                </li>
                 <li class="has-children">
                   <NuxtLink to="/services">Все услуги</NuxtLink>
                   <ul ref="services-list">
@@ -219,6 +222,9 @@ onMounted(async () => {
 })
 </script>
 <style lang="scss" scoped>
+.on-mobile {
+  display: none;
+}
 .header-bar {
   background-color: #373435;
 }
@@ -488,6 +494,10 @@ a.header-btns__item > span:first-child {
 }
 
 @media (max-width: 768px) {
+
+  .on-mobile {
+    display: block;
+  }
   .header-nav {
     width: 135px;
     overflow: hidden;

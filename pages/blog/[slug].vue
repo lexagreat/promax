@@ -22,7 +22,7 @@
             v-for="item in data.blocks"
             :key="item"
             class="p"
-            :class="{ '_with-img': item.image }"
+            :class="{ '_with-img': item.image !== null, '_with-video': item.video }"
           >
             <div>
               <h2 v-if="item.title">{{ item.title }}</h2>
@@ -33,6 +33,7 @@
               :src="item.image"
               alt=""
             />
+            <video v-if="item.video.length" :src="item.video" controls></video>
           </div>
         </div>
       </div>
@@ -52,15 +53,44 @@ div.p {
   flex-direction: column;
   gap: 24px;
 
-  // &:nth-child(even) {
-  //   flex-direction: row-reverse;
-  // }
+  &._with-img {
+    flex-direction: row;
 
-  img {
-    max-width: 100%;
+    &:nth-child(even) {
+      flex-direction: row-reverse;
+    }
   }
 
-  @media (max-width: 1024px) {
+  &._with-video {
+    width: 100%;
+  }
+
+  img {
+    width: 551px;
+    height: 398px;
+    object-fit: cover;
+  }
+}
+
+@media (max-width: 1470px) {
+  div.p {
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: unset;
+    }
+    &._with-img {
+      flex-direction: column;
+
+      &:nth-child(even) {
+        flex-direction: column;
+      }
+    }
+  }
+}
+
+@media (max-width: 1024px) {
+  div.p {
     flex-direction: column !important;
   }
 }

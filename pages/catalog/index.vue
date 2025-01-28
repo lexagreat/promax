@@ -381,23 +381,25 @@ categories.value = await useBaseFetch('/catalog/categories-list/')
 
 onMounted(async () => {
   if (route.query['id']) {
-    let id = Number(route.query['id'])
+    let catId = Number(route.query['id'])
 
-    if (Number.isNaN(id)) {
-      id = 1
+    if (Number.isNaN(catId)) {
+      catId = 1
     }
-    const categoryTitle = categories.value.filter((category) => category.id === id)[0].title
-    await setCategory(id, categoryTitle)
+    const categoryTitle = categories.value.filter((category) => category.id === catId)[0].title
+    await setCategory(catId, categoryTitle)
 
     if (route.query['sub_id']) {
-      let id = Number(route.query['sub_id'])
+      let subCatId = Number(route.query['sub_id'])
 
-      if (Number.isNaN(id)) {
+      if (Number.isNaN(subCatId)) {
         return
       }
-      const category = categories.value.filter((category) => category.id === id)[0]
-      const subCategoryTitle = category.filter((subCategory) => subCategory.id === id)[0].title
-      await setSubcategory(id, categoryTitle)
+      const category = categories.value.filter((category) => {
+        return category.id === catId
+      })[0]
+      const subCategoryTitle = category['sub_categories'].filter((subCategory) => subCategory.id === subCatId)[0].title
+      await setSubcategory(subCatId, categoryTitle)
     }
   } else {
     const categoryTitle = categories.value[0].title
@@ -410,8 +412,6 @@ onMounted(async () => {
     updateHelpWidth()
     updateHelpLength()
   }
-
-  await getData('')
 })
 
 const priceMin = ref(0)
@@ -676,14 +676,12 @@ const getProducts = async (subCat = '') => {
     let res = await useBaseFetch(
       `catalog/products?categoryId=${categoryId.value}&subCategoryId=${subCat}&filter=${radio.value}&price_min=${helpPriceMinValue.value}&price_max=${helpPriceMaxValue.value}&width_min=${helpWidthMinValue.value}&width_max=${helpWidthMaxValue.value}&length_min=${helpLengthMinValue.value}&length_max=${helpLengthMaxValue.value}`
     )
-    console.log('res', res);
     products.value = res
 
   } else {
     let res = await useBaseFetch(
       `/catalog/products?categoryId=${categoryId.value}&subCategoryId=${subCat}&filter=${radio.value}&price_min=${helpPriceMinValue.value}&price_max=${helpPriceMaxValue.value}`
     )
-    console.log('res', res);
     products.value = res
   }
 }

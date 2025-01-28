@@ -381,13 +381,23 @@ categories.value = await useBaseFetch('/catalog/categories-list/')
 
 onMounted(async () => {
   if (route.query['id']) {
-    let id = Number(route.query.id)
+    let id = Number(route.query['id'])
 
     if (Number.isNaN(id)) {
       id = 1
     }
     const categoryTitle = categories.value.filter((category) => category.id === id)[0].title
     await setCategory(id, categoryTitle)
+
+    if (route.query['sub_id']) {
+      let id = Number(route.query['sub_id'])
+
+      if (Number.isNaN(id)) {
+        return
+      }
+      const categoryTitle = categories.value.filter((category) => category.id === id)[0].title
+      await setSubcategory(id, categoryTitle)
+    }
   } else {
     const categoryTitle = categories.value[0].title
     await setCategory(1, categoryTitle)

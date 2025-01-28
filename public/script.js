@@ -17,6 +17,19 @@ $(document).ready(function () {
             $(this).find("ul").first().stop(true, true).slideUp("fast");
          }
       );
+   } else {
+      $(".header-nav li").on("click", function() {
+         console.log('this', this);
+         if (!this.classList.contains('has-children')) {
+            $("nav.header-nav").toggleClass("_active");
+            $(".header-nav_mob_layer").toggleClass("_active");
+         }
+      })
+
+      $(".header-nav li.has-children a").on("click", function() {
+         $("nav.header-nav").toggleClass("_active");
+         $(".header-nav_mob_layer").toggleClass("_active");
+      })
    }
 
    $(".header-nav_arrow").on("click", function () {

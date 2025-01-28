@@ -22,18 +22,18 @@
             v-for="item in data.blocks"
             :key="item"
             class="p"
-            :class="{ '_with-img': item.image !== null, '_with-video': item.video }"
+            :class="{ '_with-img': item.image !== null }"
           >
-            <div>
+            <div v-if="!item.video.length">
               <h2 v-if="item.title">{{ item.title }}</h2>
               <p v-if="item.text">{{ item.text }}</p>
             </div>
             <img
-              v-if="item.image"
+              v-if="item.image && !item.video.length"
               :src="item.image"
               alt=""
             />
-            <video v-if="item.video.length" :src="item.video" controls></video>
+            <div class="video" v-if="item.video.length" v-html="item.video"></div>
           </div>
         </div>
       </div>

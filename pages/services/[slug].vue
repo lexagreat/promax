@@ -102,7 +102,7 @@
                       class="p"
                       :class="{ '_with-img': item.image !== null, '_with-video': item.video }"
                     >
-                      <div>
+                      <div v-if="!item.video.length">
                         <h2
                           class="singleart__inner-title"
                           v-if="item.title"
@@ -112,11 +112,11 @@
                         <p class="singleart__inner-text">{{ item.text }}</p>
                       </div>
                       <img
-                        v-if="item.image"
+                        v-if="item.image && !item.video.length"
                         :src="item.image"
                         alt=""
                       />
-                      <video v-if="item.video.length" :src="item.video" controls></video>
+                      <div class="video" v-if="item.video.length" v-html="item.video"></div>
                     </div>
                   </div>
                 </div>

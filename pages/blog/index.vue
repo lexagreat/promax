@@ -6,6 +6,7 @@
         <div class="blogb__main">
           <div class="container">
             <div class="blogb__list">
+
               <div
                 class="blogb__item"
                 v-for="item in blog"

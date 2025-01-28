@@ -55,6 +55,7 @@ const props = defineProps({
 </script>
 <style lang="scss" scoped>
 .slick-slide img {
+  transition: 0.5s;
   @media (max-width: 1470px) {
     max-height: 269px;
     max-width: 100%;
@@ -64,5 +65,9 @@ const props = defineProps({
   @media (max-width: 768px) {
     max-height: 160px;
   }
+}
+
+.slick-slide img:hover {
+  transform: scale(1.2);
 }
 </style>

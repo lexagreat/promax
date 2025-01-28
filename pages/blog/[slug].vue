@@ -55,6 +55,7 @@ div.p {
 
   &._with-img {
     flex-direction: row;
+    justify-content: space-between;
 
     &:nth-child(even) {
       flex-direction: row-reverse;
@@ -69,6 +70,10 @@ div.p {
     width: 551px;
     height: 398px;
     object-fit: cover;
+  }
+
+  .video {
+    width: 100%;
   }
 }
 

@@ -234,6 +234,7 @@ div.p {
 
   &._with-img {
     flex-direction: row;
+    justify-content: space-between;
 
     &:nth-child(even) {
       flex-direction: row-reverse;
@@ -246,7 +247,9 @@ div.p {
     object-fit: cover;
   }
 
-
+  .video {
+    width: 100%;
+  }
 }
 
 @media (max-width: 1470px) {

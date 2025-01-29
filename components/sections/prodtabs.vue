@@ -34,10 +34,10 @@
         </div>
         <div class="prodtabs__main products products_ld_4">
           <CardsProduct
-            v-for="(item, index) in products"
+            v-for="item in products"
             :product="item"
-            :key="index"
-            :id="'homepageitem' + index"
+            :key="item.id"
+            :id="'homepageitem' + item.id"
           />
         </div>
       </div>
@@ -53,6 +53,7 @@ async function setTab(slug) {
   url.value = slug
 
   let res = await useBaseFetch(`${base}${url.value}`)
+  console.log('res', res);
   products.value = res.products
 }
 await setTab('trend/')

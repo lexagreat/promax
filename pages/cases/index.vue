@@ -116,9 +116,11 @@ let inst = ref(cases[0].inst)
       display: flex;
       justify-content: center;
       align-items: center;
-      border-radius: 5px;
+      border-radius: 10px;
+      overflow: hidden;
 
       & img {
+        border-radius: 10px;
         width: 100%;
         height: 100%;
         object-fit: cover;
